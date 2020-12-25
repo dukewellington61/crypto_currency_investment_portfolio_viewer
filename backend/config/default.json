@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://user123:user123@cluster0.d4iyu.mongodb.net/crypto_investment_tracker?retryWrites=true&w=majority",
+  "jwtSecret": "mysecrettoken"
+}

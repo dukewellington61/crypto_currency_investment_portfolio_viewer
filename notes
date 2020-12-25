@@ -1,0 +1,88 @@
+18.12.
+
+todays accomplishment:
+
+last value in charts is latest crypto data
+total roi is beeing calculated correctly
+
+however:
+after midnight for a few hours (apparently) the data arrays as returned from the api that are beeing used to display development over time of
+current_value, balance and roi don't have the same length 
+the one for Ethereum is one element shorter than the others 
+so when calculating the last value in the arrays of afore mentioned attributes the value for ETH is not yet available and therefore the last total value is too low
+
+2:14 am the above mentioned phenomena has stopped and everything looks ok
+
+19.12.
+
+problem:
+
+api call with getMarketChartsCrypto() is fired everytime duration (day, week , month) changes. This is unecessary and the root of all my troubles. 
+It is enough if the data is pulled in once and then used to calculate the time lines. 
+
+In overview if user click on total balance -> data for the whole duration is beeing pulled in
+If user goes back to overview and clicks total Current Value Data for the whole duration is beeing pulled in again. --> unecessary!!!
+
+If user clicks on day -> data for one day is beeing pulled in
+If user clicks on month -> data for one month is beeing pulled in
+If user clicks on day again, data for one day is beeing pulled in again. --> unecessary!!!
+
+version one:
+pull in all the necessary data on first render Overview.js 
+store each time line in a different useState in Overview.js
+send as props to TotalChartDiagram.js
+user props conditionaly, depending on what is to be displayed
+problem: architecture of app doesn't allow for props from Overview.js to TotalCharts.js
+
+version two:
+on click total Purchased for / Current Value / Balance / ROI pull in data for all_total and store it in useState all_total in overview
+on click total Purchased for / Current Value / Balance / ROI check if useState all_total in overview has data ---> if so use this data else pull in data from api
+
+on click day / week / month pull in data for day / week / month and store it in useState day / week / month in Overview.js
+on click day / week / month check if useState day / week / month in overview has data ---> if so use this data else pull in data from api
+
+on click all take data from all_total state
+
+problem: architecture of app doesn't allow for props from Overview.js to TotalCharts.js
+solution: restructure app --> Overview.js --> TotalChart.js --> TotalChartDiagramm.js
+on click total Purchased for / Current Value / Balance / ROI set useState so either overview table or diagramm is rendered
+said useState has 'total_initial_value', 'total_current_value' etc. so switch in TotalChartDiagramm.js knows which data array is to be used for diagram
+
+that means a lot of extra code in Overview.js --> in order not to clutter up too much move some of the functions to aux.js
+
+check out in how far useContext hook can help: useContext only helps avoid passing props through many components in a tree, that's all. So it doesn't help.
+
+problems:
+
+coingecko api limited amount of calls
+
+why so many network requests?
+
+console.log. --> why never on start app and browser reload?
+
+24.12.
+The marketCharts state has to be flexible. It has to take in attributes that have data arrays for all the use cases. Not just total all, day, month etc but also 
+ethereum, all, day month, bitcoin week, all etc.
+So I need to find a way to depending on where the user clicks useState gets an array with corresponding data and if it has this data already, 
+that data is beein fed to the corresponding chart.js 
+
+marketCharts.total_all
+marketCHarts.total_day
+etc.
+marketCharts.ethereum_day
+...
+..
+..
+marketCharts.algorand_month
+
+
+
+25.12.
+@TotalChart.js -> function call upDateMarketChartState() gets parameter duration and currency array
+currency array has either all currencies or just the one in question
+
+@TotalChart.js need access to function getCurrenciesNames(user) @auxiliary/auxiliaryCryptoData 
+
+upDateMarketChartState() turns parameters into cryptoChartsData useState object attributes (in @Landing.js) --> something like setMarketChart({...marketChart, marketChart['duration_currency'] = res})
+
+before upDateMarketChartState() does the above mentioned, it checks wheter the array in question already exists in useState and sets currentCryptoChartsData() to that array
