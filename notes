@@ -83,6 +83,30 @@ currency array has either all currencies or just the one in question
 
 @TotalChart.js need access to function getCurrenciesNames(user) @auxiliary/auxiliaryCryptoData 
 
-upDateMarketChartState() turns parameters into cryptoChartsData useState object attributes (in @Landing.js) --> something like setMarketChart({...marketChart, marketChart['duration_currency'] = res})
+upDateMarketChartState() turns parameters into cryptoChartsData useState object attributes (in @Landing.js) 
+--> something like setMarketChart({...marketChart, marketChart['duration_currency'] = res})
 
 before upDateMarketChartState() does the above mentioned, it checks wheter the array in question already exists in useState and sets currentCryptoChartsData() to that array
+
+ideally:
+
+no marketCharts are beeing loaded on start app
+on click total all marketCharts for all crypto currencies gets loaded
+
+alternative
+
+@Overview.js 
+on click total as well as individual currency getMarketChartsCrypto() get data for all currencys 
+onClick={() => handleClick("total_roi") send origin + currency
+
+origin + currency is beeing send down to @TotalChartDiagramm.js where it's either the full currency names array or an array with just one currency to do all the rest
+
+the above mentioned works but still leaves room for improvement
+
+At the moment if us clicks on individual currency data for all currencies is loaded
+Optimal solution is if only data for this particular currency is loaded
+As user continues browsing through the various currencies data in cache is beeing completet
+
+problems: 
+amount
+duration currency charts mostly too long 

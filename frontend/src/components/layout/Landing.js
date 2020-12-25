@@ -19,9 +19,10 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
     }
   };
 
-  const [origin, setOrigin] = useState();
+  const [originAndCurrency, setOriginAndCurency] = useState([]);
 
-  const updateOriginState = (val) => setOrigin(val);
+  const updateOriginAndCurrencyState = (origin, currency) =>
+    setOriginAndCurency([origin, currency]);
 
   const [marketChartTotal, setMarketChartTotal] = useState({});
   const [marketChartDay, setMarketChartDay] = useState({});
@@ -123,7 +124,7 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
           logedin={logedin}
           toggleView={toggleView}
           renderOverview={renderOverview}
-          updateOriginState={updateOriginState}
+          updateOriginAndCurrencyState={updateOriginAndCurrencyState}
         />
       )}
       {renderTotalChart && (
@@ -133,7 +134,7 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
           logedin={logedin}
           triggerAlert={triggerAlert}
           toggleView={toggleView}
-          origin={origin}
+          originAndCurrency={originAndCurrency}
           loaded={loaded}
           // setDurationState={setDurationState}
           upDateMarketChartState={upDateMarketChartState}

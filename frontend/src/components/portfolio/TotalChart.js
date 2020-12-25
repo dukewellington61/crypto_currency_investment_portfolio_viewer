@@ -6,7 +6,7 @@ function TotalChart({
   user,
   currentMarketChart,
   toggleView,
-  origin,
+  originAndCurrency,
   loaded,
   duration,
   upDateMarketChartState,
@@ -54,7 +54,7 @@ function TotalChart({
           currentMarketChart={currentMarketChart}
           positions={user.positions}
           fiat={user.positions[0].fiat_currency}
-          origin={origin}
+          originAndCurrency={originAndCurrency}
           duration={duration}
         />
       </div>

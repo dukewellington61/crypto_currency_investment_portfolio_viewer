@@ -6,7 +6,7 @@ function TotalChartDiagramm({
   positions,
   currentMarketChart,
   fiat,
-  origin,
+  originAndCurrency,
   duration,
 }) {
   const [nameArray, setNameArray] = useState("");
@@ -16,6 +16,8 @@ function TotalChartDiagramm({
   const [resultArray, setResultArray] = useState([]);
 
   const [timeStampArray, setTimeStampArray] = useState([]);
+
+  const [origin, currency] = originAndCurrency;
 
   useEffect(() => {
     switch (origin) {
@@ -44,7 +46,11 @@ function TotalChartDiagramm({
 
     const timeStamps = [];
 
-    const currencyArr = Object.keys(currentMarketChart);
+    let currencyArr = [];
+
+    currency === "total"
+      ? (currencyArr = Object.keys(currentMarketChart))
+      : currencyArr.push(currency);
 
     const totalValueInvestment = (obj) => {
       currenciesTotalObjectsArray.push(obj);

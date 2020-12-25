@@ -11,7 +11,7 @@ const Overview = ({
   logedin,
   toggleView,
   renderOverview,
-  updateOriginState,
+  updateOriginAndCurrencyState,
 }) => {
   const [currencyNamesAndValues, setCurrencyNamesAndValues] = useState([]);
 
@@ -52,18 +52,18 @@ const Overview = ({
   const getBalance = (currency) =>
     getCurrentValue(user, cryptoCurrencies, currency) - getTotal(currency);
 
-  const setCurrency = (currency) => {
-    if (sessionStorage.getItem("crypto_currency")) {
-      sessionStorage.removeItem("crypto_currency");
-      sessionStorage.setItem("crypto_currency", currency);
-    } else {
-      sessionStorage.setItem("crypto_currency", currency);
-    }
-  };
+  // const setCurrency = (currency) => {
+  //   if (sessionStorage.getItem("crypto_currency")) {
+  //     sessionStorage.removeItem("crypto_currency");
+  //     sessionStorage.setItem("crypto_currency", currency);
+  //   } else {
+  //     sessionStorage.setItem("crypto_currency", currency);
+  //   }
+  // };
 
-  const handleClick = (val) => {
+  const handleClick = (origin, currency) => {
     toggleView();
-    updateOriginState(val);
+    updateOriginAndCurrencyState(origin, currency);
   };
 
   return (
@@ -94,20 +94,18 @@ const Overview = ({
                   }}>
                   <th scope="row">{el[0]}</th>
                 </Link>
-                <td onClick={handleClick}>
-                  {getAmount(user, el[0]).toFixed(3)}
-                </td>
-                <td onClick={handleClick}>
+                <td>{getAmount(user, el[0]).toFixed(3)}</td>
+                <td onClick={() => handleClick("total_initial_value", el[0])}>
                   {getTotal(el[0]).toFixed(2)}&euro;
                 </td>
-                <td onClick={handleClick}>
+                <td onClick={() => handleClick("total_current_value", el[0])}>
                   {getCurrentValue(user, cryptoCurrencies, el[0]).toFixed(2)}
                   &euro;
                 </td>
-                <td onClick={handleClick}>
+                <td onClick={() => handleClick("total_balance", el[0])}>
                   {getBalance(el[0]).toFixed(2)}&euro;
                 </td>
-                <td onClick={handleClick}>
+                <td onClick={() => handleClick("total_roi", el[0])}>
                   {(
                     (getCurrentValue(user, cryptoCurrencies, el[0]) * 100) /
                       getTotal(el[0]) -
@@ -121,16 +119,16 @@ const Overview = ({
         <tr>
           <th scope="row"></th>
           <td></td>
-          <td onClick={() => handleClick("total_initial_value")}>
+          <td onClick={() => handleClick("total_initial_value", "total")}>
             {totalPurchase.toFixed(2)}&euro;
           </td>
-          <td onClick={() => handleClick("total_current_value")}>
+          <td onClick={() => handleClick("total_current_value", "total")}>
             {currentValueTotal.toFixed(2)}&euro;
           </td>
-          <td onClick={() => handleClick("total_balance")}>
+          <td onClick={() => handleClick("total_balance", "total")}>
             {(currentValueTotal - totalPurchase).toFixed(2)}&euro;
           </td>
-          <td onClick={() => handleClick("total_roi")}>
+          <td onClick={() => handleClick("total_roi", "total")}>
             {((currentValueTotal * 100) / totalPurchase - 100).toFixed(0)}%
           </td>
         </tr>
