@@ -101,12 +101,46 @@ onClick={() => handleClick("total_roi") send origin + currency
 
 origin + currency is beeing send down to @TotalChartDiagramm.js where it's either the full currency names array or an array with just one currency to do all the rest
 
-the above mentioned works but still leaves room for improvement
-
-At the moment if us clicks on individual currency data for all currencies is loaded
-Optimal solution is if only data for this particular currency is loaded
-As user continues browsing through the various currencies data in cache is beeing completet
-
 problems: 
 amount
 duration currency charts mostly too long 
+
+
+the above mentioned works but still leaves room for improvement
+
+At the moment if user clicks on individual currency data for all currencies is loaded
+Optimal solution is if only data for this particular currency is loaded
+As user continues browsing through the various currencies data in cache is beeing completet
+Or completion of currency data straight away if user click total
+This necessitates a conditional which checks if the various useStates already hold the attribute in question and if not then trigger a corresponding api request and update state
+with the returned data
+the problem with this is that the arrays for the various currencies could be retrieved at very different points in time --> this potentially negatively affects precission
+to tackle this problem a conditional could make sure that if the difference in time between the first and the last call is more than 10 mins (or so) state object gets fresh data
+
+flow
+
+single currency -> check if already in useState
+
+if yes: setCurrentMarketChart(marketChart...[currency])
+if no: loadChartData()
+
+
+all currency -> check if already complete useState
+
+if yes: setCurrentMarketChart(marketChart...)
+if no: loadChartData()
+
+const loadChartData():
+
+check which currencies are still missing in useState
+
+make according api requests
+
+
+after careful deliberation I came to the conclusion, that the following flow works best:
+
+no matter where I click, all data is beeing loaded for that particular duration. that means that a maximum of 4 * amount of crypto currencies api requests is beeing conducted with
+every iteration of my app
+
+
+

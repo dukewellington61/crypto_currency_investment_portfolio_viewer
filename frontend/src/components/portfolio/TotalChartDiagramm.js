@@ -21,19 +21,19 @@ function TotalChartDiagramm({
 
   useEffect(() => {
     switch (origin) {
-      case "total_initial_value":
+      case "initial_value":
         setNameArray("initialValueArray");
         setLabelStr(`Price in ${fiat}`);
         break;
-      case "total_current_value":
+      case "current_value":
         setNameArray("currentValueArray");
         setLabelStr(`Price in ${fiat}`);
         break;
-      case "total_balance":
+      case "balance":
         setNameArray("balanceArray");
         setLabelStr(`Price in ${fiat}`);
         break;
-      case "total_roi":
+      case "roi":
         setNameArray("roiArray");
         setLabelStr(`ROI in %`);
         break;
@@ -48,10 +48,12 @@ function TotalChartDiagramm({
 
     let currencyArr = [];
 
-    currency === "total"
+    currency === "all_currencies"
       ? (currencyArr = Object.keys(currentMarketChart))
       : currencyArr.push(currency);
 
+    // the following 2 functions push object(s) with initialValueArray, currentValueArray, balanceArray, roiArray and timeStampArray in currenciesTotalObjectsArray
+    // for each crypto_currency or for the one currency in question
     const totalValueInvestment = (obj) => {
       currenciesTotalObjectsArray.push(obj);
     };
@@ -66,6 +68,7 @@ function TotalChartDiagramm({
       )
     );
 
+    // retrieves timeStamps from array of currencyobjects
     currenciesTotalObjectsArray.forEach((obj) => {
       obj.timeStampArray.forEach((el, index) => (timeStamps[index] = el));
     });

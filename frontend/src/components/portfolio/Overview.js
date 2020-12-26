@@ -95,17 +95,17 @@ const Overview = ({
                   <th scope="row">{el[0]}</th>
                 </Link>
                 <td>{getAmount(user, el[0]).toFixed(3)}</td>
-                <td onClick={() => handleClick("total_initial_value", el[0])}>
+                <td onClick={() => handleClick("initial_value", el[0])}>
                   {getTotal(el[0]).toFixed(2)}&euro;
                 </td>
-                <td onClick={() => handleClick("total_current_value", el[0])}>
+                <td onClick={() => handleClick("current_value", el[0])}>
                   {getCurrentValue(user, cryptoCurrencies, el[0]).toFixed(2)}
                   &euro;
                 </td>
-                <td onClick={() => handleClick("total_balance", el[0])}>
+                <td onClick={() => handleClick("balance", el[0])}>
                   {getBalance(el[0]).toFixed(2)}&euro;
                 </td>
-                <td onClick={() => handleClick("total_roi", el[0])}>
+                <td onClick={() => handleClick("roi", el[0])}>
                   {(
                     (getCurrentValue(user, cryptoCurrencies, el[0]) * 100) /
                       getTotal(el[0]) -
@@ -119,16 +119,16 @@ const Overview = ({
         <tr>
           <th scope="row"></th>
           <td></td>
-          <td onClick={() => handleClick("total_initial_value", "total")}>
+          <td onClick={() => handleClick("initial_value", "all_currencies")}>
             {totalPurchase.toFixed(2)}&euro;
           </td>
-          <td onClick={() => handleClick("total_current_value", "total")}>
+          <td onClick={() => handleClick("current_value", "all_currencies")}>
             {currentValueTotal.toFixed(2)}&euro;
           </td>
-          <td onClick={() => handleClick("total_balance", "total")}>
+          <td onClick={() => handleClick("balance", "all_currencies")}>
             {(currentValueTotal - totalPurchase).toFixed(2)}&euro;
           </td>
-          <td onClick={() => handleClick("total_roi", "total")}>
+          <td onClick={() => handleClick("roi", "all_currencies")}>
             {((currentValueTotal * 100) / totalPurchase - 100).toFixed(0)}%
           </td>
         </tr>
