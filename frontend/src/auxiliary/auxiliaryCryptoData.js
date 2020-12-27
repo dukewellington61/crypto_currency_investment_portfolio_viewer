@@ -33,7 +33,7 @@ export const getCurrentValue = (user, cryptoCurrencies, currencyName) => {
   const currentPrice = getCurrentPrice(cryptoCurrencies, currencyName);
   const amount = getAmount(user, currencyName);
   const getCurrentValue = currentPrice * amount;
-  // console.log(getCurrentValue);
+
   return getCurrentValue;
 };
 
@@ -100,8 +100,9 @@ const getAmountAndDate = (positions, currencyName) => {
   return sort;
 };
 
-// returns object which has various arrays (initialValueArray, currentValueArray etc..)
-// those arrays have all the same length which is equivalent with length of duration from first purchase untill present time
+// returns object (one for each currency) which has various arrays (initialValueArray, currentValueArray etc..)
+// those arrays that are beeing used to display the whole duration from first purchase until present time have all the same length even if a currency had been purchased later
+// if that is the case, an equivalent amount of positions at the beginning of those arrays are undefined
 export const cumulativeValueInvestment = (positions, marketChart, currency) => {
   let resultObject = {};
   let initialValueArr = [];
@@ -110,18 +111,24 @@ export const cumulativeValueInvestment = (positions, marketChart, currency) => {
   let roiArr = [];
   let timeStampArr = [];
 
-  getAmountAndDate(positions, currency).forEach((array1) => {
-    marketChart.forEach((array2, index) => {
-      if (array1[0] <= array2[0]) {
-        currentValueArr[index] = array2[1] * array1[1];
-        timeStampArr[index] = getTimeStamps(marketChart, index, array2);
-        initialValueArr[index] = array1[2];
-        balanceArr[index] = currentValueArr[index] - initialValueArr[index];
-        roiArr[index] =
-          (currentValueArr[index] * 100) / initialValueArr[index] - 100;
-      }
+  // 1st array: getAmountAndDate() returns array with amount, price and date of purchase for each position of a crypro currency
+  // 2nd array: marketChart is array of objects -> each object has initialValueArray, currentValueArray, balanceArray etc. ..
+  if (marketChart) {
+    getAmountAndDate(positions, currency).forEach((array1) => {
+      marketChart.forEach((array2, index) => {
+        // array1: [date(unix)_of_purchase, amount, initial_value]
+        // array2: [date(unix), price_crypto, timeStamp]
+        if (array1[0] <= array2[0]) {
+          currentValueArr[index] = array2[1] * array1[1];
+          timeStampArr[index] = getTimeStamps(marketChart, index, array2);
+          initialValueArr[index] = array1[2];
+          balanceArr[index] = currentValueArr[index] - initialValueArr[index];
+          roiArr[index] =
+            (currentValueArr[index] * 100) / initialValueArr[index] - 100;
+        }
+      });
     });
-  });
+  }
 
   resultObject.initialValueArray = initialValueArr;
   resultObject.currentValueArray = currentValueArr;

@@ -52,8 +52,8 @@ function TotalChartDiagramm({
       ? (currencyArr = Object.keys(currentMarketChart))
       : currencyArr.push(currency);
 
-    // the following 2 functions push object(s) with initialValueArray, currentValueArray, balanceArray, roiArray and timeStampArray in currenciesTotalObjectsArray
-    // for each crypto_currency or for the one currency in question
+    // the following 2 functions push object(s) with initialValueArray, currentValueArray, balanceArray, roiArray and timeStampArray for every currency
+    // in currenciesTotalObjectsArray
     const totalValueInvestment = (obj) => {
       currenciesTotalObjectsArray.push(obj);
     };
@@ -68,12 +68,13 @@ function TotalChartDiagramm({
       )
     );
 
-    // retrieves timeStamps from array of currencyobjects
+    // retrieves timeStamps from array of objects with initialValueArray, currentValueArray, balanceArray, roiArray and timeStampArray for every currency
+    // those objects are beeing created in cumulativeValueInvestment() @auxiliaryCryptoData.js
+    // some of these arrays contain empty slots (for details see comments in cumulativeValueInvestment() in @auxiliaryCryptoData.js)
+    // those have to be removed, else the line diagrams display a lot of null values at the beginning
+    // hence filter is employed
     currenciesTotalObjectsArray.forEach((obj) => {
-      console.log(currenciesTotalObjectsArray);
-      var filtered = obj.timeStampArray.filter(function (el) {
-        return el !== undefined;
-      });
+      const filtered = obj.timeStampArray.filter((el) => el !== undefined);
       filtered.forEach((el, index) => (timeStamps[index] = el));
     });
 
@@ -84,6 +85,7 @@ function TotalChartDiagramm({
     if (nameArray) {
       const initValResArray = new Array(timeStamps.length).fill(0);
       const currValResArray = new Array(timeStamps.length).fill(0);
+
       currenciesTotalObjectsArray.forEach((obj) => {
         if (nameArray === "roiArray") {
           obj.initialValueArray.forEach(
@@ -98,13 +100,11 @@ function TotalChartDiagramm({
                 (currValResArray[index] * 100) / initValResArray[index] - 100)
           );
         } else {
-          // this removes undefined elements from arrays
           if (currency === "all_currencies") {
             obj[nameArray].forEach((el, index) => (resArray[index] += el));
           } else {
-            var filtered = obj[nameArray].filter(function (el) {
-              return el !== undefined;
-            });
+            // this removes undefined elements from arrays (why are there undefined elements in some arrays? see explanation above for empty slots in timeStampArray)
+            const filtered = obj[nameArray].filter((el) => el !== undefined);
             filtered.forEach((el, index) => (resArray[index] += el));
           }
         }

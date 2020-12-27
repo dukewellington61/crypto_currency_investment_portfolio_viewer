@@ -52,15 +52,6 @@ const Overview = ({
   const getBalance = (currency) =>
     getCurrentValue(user, cryptoCurrencies, currency) - getTotal(currency);
 
-  // const setCurrency = (currency) => {
-  //   if (sessionStorage.getItem("crypto_currency")) {
-  //     sessionStorage.removeItem("crypto_currency");
-  //     sessionStorage.setItem("crypto_currency", currency);
-  //   } else {
-  //     sessionStorage.setItem("crypto_currency", currency);
-  //   }
-  // };
-
   const handleClick = (origin, currency) => {
     toggleView();
     updateOriginAndCurrencyState(origin, currency);

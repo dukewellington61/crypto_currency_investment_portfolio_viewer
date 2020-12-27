@@ -87,18 +87,13 @@ export const getMarketChartsCrypto = async (
   try {
     const dataSequence = await axios.get(proxyurl + urlString);
 
-    // replaces the last price in the array with the most recent price so the last data point diagrams are always up to date
-    dataSequence.data.prices[
-      dataSequence.data.prices.length - 1
-    ][1] = current_price;
-
     const dataSequenceTransformed = addDateToArr(dataSequence.data.prices);
 
     let returnValue = "";
 
     switch (duration) {
       case "day":
-        returnValue = dataSequenceTransformed.slice(0, 260);
+        returnValue = dataSequenceTransformed.slice(0, 270);
         break;
       case "week":
         returnValue = dataSequenceTransformed.slice(0, 165);
@@ -114,6 +109,9 @@ export const getMarketChartsCrypto = async (
         break;
       default:
     }
+
+    // replaces the last price in the array with the most recent price so the last data point diagrams are always up to date
+    returnValue[returnValue.length - 1][1] = current_price;
 
     return returnValue;
   } catch (error) {

@@ -79,6 +79,7 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
           currentPrice,
           duration
         );
+
         if (res instanceof Error) {
           setLoaded(true);
           res.response
