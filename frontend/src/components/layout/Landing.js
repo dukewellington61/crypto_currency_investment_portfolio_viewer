@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import { getMarketChartsCrypto } from "../../actions/currencies";
 import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
 import Overview from "../portfolio/Overview";
@@ -69,10 +69,14 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
       // if the number of attributes matches the number of currencies marketCharts and loaded state are updated
       // if an error is returned by api the state loaded is set to true (so the empty diagram is beeing displayed) and an error message appears
       currencyNamesArr.forEach(async (currencyName) => {
+        let currentPrice = 0;
+        cryptoCurrencies.data.forEach((obj) => {
+          if (obj.id === currencyName) currentPrice = obj.current_price;
+        });
         const res = await getMarketChartsCrypto(
           user,
           currencyName,
-          marketChartTotal.current_price,
+          currentPrice,
           duration
         );
         if (res instanceof Error) {

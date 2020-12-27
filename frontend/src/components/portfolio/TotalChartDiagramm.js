@@ -70,7 +70,11 @@ function TotalChartDiagramm({
 
     // retrieves timeStamps from array of currencyobjects
     currenciesTotalObjectsArray.forEach((obj) => {
-      obj.timeStampArray.forEach((el, index) => (timeStamps[index] = el));
+      console.log(currenciesTotalObjectsArray);
+      var filtered = obj.timeStampArray.filter(function (el) {
+        return el !== undefined;
+      });
+      filtered.forEach((el, index) => (timeStamps[index] = el));
     });
 
     // the following code sums up initial_value, current_value, balance of every individual currency so that the totals of these attributes can be displayed in a chart
@@ -94,7 +98,15 @@ function TotalChartDiagramm({
                 (currValResArray[index] * 100) / initValResArray[index] - 100)
           );
         } else {
-          obj[nameArray].forEach((el, index) => (resArray[index] += el));
+          // this removes undefined elements from arrays
+          if (currency === "all_currencies") {
+            obj[nameArray].forEach((el, index) => (resArray[index] += el));
+          } else {
+            var filtered = obj[nameArray].filter(function (el) {
+              return el !== undefined;
+            });
+            filtered.forEach((el, index) => (resArray[index] += el));
+          }
         }
       });
     }

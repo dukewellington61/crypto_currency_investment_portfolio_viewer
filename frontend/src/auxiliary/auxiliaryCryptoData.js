@@ -101,8 +101,7 @@ const getAmountAndDate = (positions, currencyName) => {
 };
 
 // returns object which has various arrays (initialValueArray, currentValueArray etc..)
-// is beeing called from @components/portfolio/TotalChartDiagramm.js for individual currency charts and CurrencyTotalChart.js
-// for charts which have combined values of all the currencies a user has
+// those arrays have all the same length which is equivalent with length of duration from first purchase untill present time
 export const cumulativeValueInvestment = (positions, marketChart, currency) => {
   let resultObject = {};
   let initialValueArr = [];

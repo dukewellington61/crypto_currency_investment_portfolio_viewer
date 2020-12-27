@@ -75,6 +75,7 @@ export const getMarketChartsCrypto = async (
       );
       from = new Date(res[0].date_of_purchase).getTime() / 1000;
       break;
+    default:
   }
 
   const to = new Date().getTime() / 1000;
@@ -86,8 +87,7 @@ export const getMarketChartsCrypto = async (
   try {
     const dataSequence = await axios.get(proxyurl + urlString);
 
-    // replaces the last price in the array with the most recent price so the last data point in @components/layout/CurrencyTotalChart.js and TotalChart.js
-    // are always up to date
+    // replaces the last price in the array with the most recent price so the last data point diagrams are always up to date
     dataSequence.data.prices[
       dataSequence.data.prices.length - 1
     ][1] = current_price;
@@ -112,6 +112,7 @@ export const getMarketChartsCrypto = async (
       case "all_total":
         returnValue = dataSequenceTransformed;
         break;
+      default:
     }
 
     return returnValue;
