@@ -92,4 +92,6 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
   );
 }
 
+//kackimann
+
 export default Landing;
