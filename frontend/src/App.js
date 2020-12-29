@@ -39,15 +39,16 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    async function updateState() {
-      if (logedin) {
-        const currencyNames = getCurrenciesNames(user);
-        const crypto = await getLatestCryptoPrice(currencyNames);
-        setCryptoCurrencies(crypto);
-      }
-    }
-    updateState();
+    updateCryptoCurrenciesState();
   }, [logedin]);
+
+  const updateCryptoCurrenciesState = async () => {
+    if (logedin) {
+      const currencyNames = getCurrenciesNames(user);
+      const crypto = await getLatestCryptoPrice(currencyNames);
+      setCryptoCurrencies(crypto);
+    }
+  };
 
   const makePosition = async (formData) => {
     const position = await createPosition(formData);
@@ -55,6 +56,8 @@ const App = () => {
       triggerAlert(position.response.data.errors.msg, "danger");
     } else {
       triggerAlert("Position added", "success");
+      setUser({ ...user.positions.unshift(position.data) });
+      updateCryptoCurrenciesState();
     }
   };
 
@@ -108,35 +111,39 @@ const App = () => {
         <Navbar logout={logout} logedin={logedin} />
         <Alert alert={alert} removeAlert={removeAlert} />
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Landing
-                user={user}
-                cryptoCurrencies={cryptoCurrencies}
-                logedin={logedin}
-                triggerAlert={triggerAlert}
-              />
-            )}
-          />
+          {logedin && (
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Landing
+                  user={user}
+                  cryptoCurrencies={cryptoCurrencies}
+                  logedin={logedin}
+                  triggerAlert={triggerAlert}
+                />
+              )}
+            />
+          )}
           <Route exact path="/position" render={() => <Position />} />
           <Route
             exact
             path="/position_chart"
             render={() => <PositionChart />}
           />
-          <Route
-            exact
-            path="/currency_total_chart"
-            render={() => (
-              <CurrencyTotalChart
-                user={user}
-                cryptoCurrencies={cryptoCurrencies}
-                logedin={logedin}
-              />
-            )}
-          />
+          {logedin && (
+            <Route
+              exact
+              path="/currency_total_chart"
+              render={() => (
+                <CurrencyTotalChart
+                  user={user}
+                  cryptoCurrencies={cryptoCurrencies}
+                  logedin={logedin}
+                />
+              )}
+            />
+          )}
 
           <Route
             exact
@@ -155,7 +162,8 @@ const App = () => {
               render={() => (
                 <PositionInput
                   makePosition={makePosition}
-                  loadUser={loadUser}
+                  loadUserObj={loadUserObj}
+                  triggerAlert={triggerAlert}
                 />
               )}
             />

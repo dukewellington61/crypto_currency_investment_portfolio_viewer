@@ -13,6 +13,7 @@ const Overview = ({
   renderOverview,
   updateOriginAndCurrencyState,
 }) => {
+  console.log(user);
   const [currencyNamesAndValues, setCurrencyNamesAndValues] = useState([]);
 
   const [currentValueTotal, setCurrentValueTotal] = useState(0);
@@ -82,7 +83,8 @@ const Overview = ({
                       currency: el[0],
                       user: user,
                     },
-                  }}>
+                  }}
+                >
                   <th scope="row">{el[0]}</th>
                 </Link>
                 <td>{getAmount(user, el[0]).toFixed(3)}</td>
