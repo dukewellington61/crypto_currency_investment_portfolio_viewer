@@ -21,11 +21,9 @@ const UserSchema = new mongoose.Schema({
       },
       price: {
         type: Number,
-        required: true,
       },
       fiat_currency: {
         type: String,
-        required: true,
       },
       date_of_purchase: {
         type: Date,

@@ -13,7 +13,6 @@ const Overview = ({
   renderOverview,
   updateOriginAndCurrencyState,
 }) => {
-  console.log(user);
   const [currencyNamesAndValues, setCurrencyNamesAndValues] = useState([]);
 
   const [currentValueTotal, setCurrentValueTotal] = useState(0);
@@ -21,17 +20,19 @@ const Overview = ({
   const [totalPurchase, setTotalPurchase] = useState(0);
 
   useEffect(() => {
-    const namesAndValuesArr = getNamesAndValues(user, cryptoCurrencies);
+    if (logedin) {
+      const namesAndValuesArr = getNamesAndValues(user, cryptoCurrencies);
 
-    setCurrencyNamesAndValues(namesAndValuesArr);
+      setCurrencyNamesAndValues(namesAndValuesArr);
 
-    const totalsArray = namesAndValuesArr.map((el) =>
-      getCurrentValue(user, cryptoCurrencies, el[0])
-    );
+      const totalsArray = namesAndValuesArr.map((el) =>
+        getCurrentValue(user, cryptoCurrencies, el[0])
+      );
 
-    setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
+      setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
-    setTotalPurchase(getTotalPurchase());
+      setTotalPurchase(getTotalPurchase());
+    }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
 
   const getTotal = (currency) => {
@@ -46,7 +47,7 @@ const Overview = ({
 
   const getTotalPurchase = () => {
     let sum = 0;
-    if (logedin) user.positions.forEach((position) => (sum += position.price));
+    if (user) user.positions.forEach((position) => (sum += position.price));
     return sum;
   };
 

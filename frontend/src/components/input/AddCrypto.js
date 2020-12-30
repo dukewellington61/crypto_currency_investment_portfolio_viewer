@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getLatestCryptoPrice } from "../../actions/currencies";
 
-const PositionInput = ({ makePosition, loadUserObj, triggerAlert }) => {
+const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
   const [formData, setFormData] = useState({
     crypto_currency: "",
     amount: "",
@@ -21,9 +21,6 @@ const PositionInput = ({ makePosition, loadUserObj, triggerAlert }) => {
     formData.fiat_currency = e.target.querySelector("select").value;
 
     const returnValue = await getLatestCryptoPrice([crypto_currency]);
-
-    console.log("returnValue");
-    console.log(returnValue);
 
     if (returnValue.data.length > 0) {
       await makePosition(formData);
@@ -45,8 +42,8 @@ const PositionInput = ({ makePosition, loadUserObj, triggerAlert }) => {
 
   return (
     <div className="form_container">
-      <h3 className="large text-primary">Crypto Position</h3>
-      <p className="lead"> Create new Crypto Position</p>
+      <h3 className="large text-primary">Add Crypto</h3>
+      <p className="lead">Add cryptocurrency to your portfolio</p>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
@@ -101,14 +98,10 @@ const PositionInput = ({ makePosition, loadUserObj, triggerAlert }) => {
             required
           />
         </div>
-        <input
-          type="submit"
-          className="btn btn-primary"
-          value="Submit Position"
-        />
+        <input type="submit" className="btn btn-primary" value="Add" />
       </form>
     </div>
   );
 };
 
-export default PositionInput;
+export default AddCrypto;

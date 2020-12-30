@@ -14,7 +14,8 @@ import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 
-import PositionInput from "./components/input/PositionInput";
+import AddCrypto from "./components/input/AddCrypto";
+import DeductCrypto from "./components/input/DeductCrypto";
 
 import Position from "./components/portfolio/Position";
 import PositionChart from "./components/portfolio/PositionChart";
@@ -52,10 +53,14 @@ const App = () => {
 
   const makePosition = async (formData) => {
     const position = await createPosition(formData);
+    console.log("position");
+    console.log(position);
     if (position instanceof Error) {
       triggerAlert(position.response.data.errors.msg, "danger");
     } else {
-      triggerAlert("Position added", "success");
+      position.data.amount < 0
+        ? triggerAlert("Amount deducted", "success")
+        : triggerAlert("Position added", "success");
       setUser({ ...user.positions.unshift(position.data) });
       updateCryptoCurrenciesState();
     }
@@ -74,7 +79,8 @@ const App = () => {
     const userObj = await loadUser();
     if (userObj instanceof Error) {
       triggerAlert(userObj.response.data.errors.msg, "danger");
-    } else {
+      return;
+    } else if (userObj) {
       setUser(userObj);
       setLogedin(true);
     }
@@ -158,12 +164,27 @@ const App = () => {
           {logedin && (
             <Route
               exact
-              path="/input"
+              path="/add_crypto"
               render={() => (
-                <PositionInput
+                <AddCrypto
                   makePosition={makePosition}
                   loadUserObj={loadUserObj}
                   triggerAlert={triggerAlert}
+                />
+              )}
+            />
+          )}
+
+          {logedin && (
+            <Route
+              exact
+              path="/deduct_crypto"
+              render={() => (
+                <DeductCrypto
+                  makePosition={makePosition}
+                  loadUserObj={loadUserObj}
+                  triggerAlert={triggerAlert}
+                  user={user}
                 />
               )}
             />

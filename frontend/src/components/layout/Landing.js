@@ -141,7 +141,7 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
           toggleView={toggleView}
           originAndCurrency={originAndCurrency}
           loaded={loaded}
-          // setDurationState={setDurationState}
+          logedin={logedin}
           upDateMarketChartState={upDateMarketChartState}
         />
       )}

@@ -10,9 +10,10 @@ function TotalChart({
   loaded,
   duration,
   upDateMarketChartState,
+  logedin,
 }) {
   useEffect(() => {
-    upDateMarketChartState("all_total");
+    if (logedin) upDateMarketChartState("all_total");
   }, [user]);
 
   return !loaded ? (
@@ -26,25 +27,29 @@ function TotalChart({
         <div
           id={duration === "day" && "duration"}
           className="durations"
-          onClick={() => upDateMarketChartState("day")}>
+          onClick={() => upDateMarketChartState("day")}
+        >
           day
         </div>
         <div
           id={duration === "week" && "duration"}
           className="durations"
-          onClick={() => upDateMarketChartState("week")}>
+          onClick={() => upDateMarketChartState("week")}
+        >
           week
         </div>
         <div
           id={duration === "month" && "duration"}
           className="durations"
-          onClick={() => upDateMarketChartState("month")}>
+          onClick={() => upDateMarketChartState("month")}
+        >
           month
         </div>
         <div
           id={duration === "all_total" && "duration"}
           className="durations"
-          onClick={() => upDateMarketChartState("all_total")}>
+          onClick={() => upDateMarketChartState("all_total")}
+        >
           all
         </div>
       </div>

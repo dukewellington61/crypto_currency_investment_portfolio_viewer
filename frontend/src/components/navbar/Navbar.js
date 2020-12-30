@@ -18,8 +18,14 @@ const Navbar = ({ logout, logedin }) => {
 
       <div id="nav_item_container">
         {logedin && (
-          <Link className="nav_items" to="/input">
-            positions
+          <Link className="nav_items" to="/add_crypto">
+            <div id="add_crypto">+</div>
+          </Link>
+        )}
+
+        {logedin && (
+          <Link className="nav_items" to="/deduct_crypto">
+            <div id="deduct_crypto">−</div>
           </Link>
         )}
 

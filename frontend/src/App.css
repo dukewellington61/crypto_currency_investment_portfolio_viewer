@@ -66,6 +66,18 @@
   color: white;
 }
 
+#add_crypto {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: green;
+}
+
+#deduct_crypto {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: red;
+}
+
 /* @components/navbar/AccountIcon.js */
 #menu {
   display: none;

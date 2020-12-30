@@ -1,6 +1,6 @@
 export const getCurrenciesNames = (user) => {
   let currencyArr = [];
-  if (user.positions) {
+  if (user) {
     user.positions.map((position) =>
       currencyArr.push(position.crypto_currency)
     );
@@ -38,9 +38,16 @@ export const getCurrentValue = (user, cryptoCurrencies, currencyName) => {
 };
 
 export const getCurrentPrice = (cryptoCurrencies, currencyName) => {
-  if (cryptoCurrencies.data && typeof currencyName === "string")
-    return cryptoCurrencies.data.find((el) => el.id === currencyName)
-      .current_price;
+  if (cryptoCurrencies.data && typeof currencyName === "string") {
+    const currentPrice = cryptoCurrencies.data.find(
+      (el) => el.id === currencyName
+    );
+
+    console.log("currentPrice");
+    console.log(currentPrice);
+
+    if (currentPrice) return currentPrice.current_price;
+  }
 };
 
 export const getCurrencyPositions = (user, currencyName) => {
