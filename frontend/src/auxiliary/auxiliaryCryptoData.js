@@ -164,3 +164,13 @@ const getTimeStamps = (marketChart, index, array2) => {
     return " ";
   }
 };
+
+export const getInitialValue = (user, currency) => {
+  let sum = 0;
+  user.positions.map((position) => {
+    if (position.crypto_currency === currency) {
+      sum += position.price;
+    }
+  });
+  return sum;
+};

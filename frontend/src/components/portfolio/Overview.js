@@ -4,6 +4,7 @@ import { getNamesAndValues } from "../../auxiliary/auxiliaryCryptoData";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentPrice } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentValue } from "../../auxiliary/auxiliaryCryptoData";
+import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 
 const Overview = ({
   user,
@@ -31,32 +32,44 @@ const Overview = ({
 
       setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
-      setTotalPurchase(getTotalPurchase());
+      setTotalPurchase(getInitialValuePurchase());
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
 
-  const getTotal = (currency) => {
-    let sum = 0;
-    user.positions.map((position) => {
-      if (position.crypto_currency === currency) {
-        sum += position.price;
-      }
-    });
-    return sum;
-  };
-
-  const getTotalPurchase = () => {
+  const getInitialValuePurchase = () => {
     let sum = 0;
     if (user) user.positions.forEach((position) => (sum += position.price));
     return sum;
   };
 
   const getBalance = (currency) =>
-    getCurrentValue(user, cryptoCurrencies, currency) - getTotal(currency);
+    getCurrentValue(user, cryptoCurrencies, currency) -
+    getInitialValue(user, currency);
 
   const handleClick = (origin, currency) => {
     toggleView();
     updateOriginAndCurrencyState(origin, currency);
+  };
+
+  const get24hourChange = (currencyName) => {
+    let returnValue = 0;
+    // let sum = 0;
+    if (cryptoCurrencies.data) {
+      cryptoCurrencies.data.forEach((el) => {
+        if (el.id === currencyName) {
+          returnValue = el.price_change_percentage_24h;
+          // sum +=
+          //   (get24hourChange(currencyName) *
+          //     getCurrentValue(user, cryptoCurrencies, currencyName)) /
+          //   100;
+        }
+      });
+    }
+
+    let returnObj = {};
+    returnObj.by_currency = returnValue;
+    // returnObj.total = sum;
+    return returnObj;
   };
 
   return (
@@ -66,9 +79,9 @@ const Overview = ({
           <tr>
             <th scope="col">Crypto</th>
             <th scope="col">Amount</th>
-            <th scope="col">Purchased for</th>
+            <th scope="col">Initial Value</th>
             <th scope="col">Current Value</th>
-            <th scope="col">Balance</th>
+            <th scope="col">Profit</th>
             <th scope="col">ROI</th>
           </tr>
         </thead>
@@ -90,11 +103,31 @@ const Overview = ({
                 </Link>
                 <td>{getAmount(user, el[0]).toFixed(3)}</td>
                 <td onClick={() => handleClick("initial_value", el[0])}>
-                  {getTotal(el[0]).toFixed(2)}&euro;
+                  {getInitialValue(user, el[0]).toFixed(2)}&euro;
                 </td>
                 <td onClick={() => handleClick("current_value", el[0])}>
                   {getCurrentValue(user, cryptoCurrencies, el[0]).toFixed(2)}
                   &euro;
+                  <br />
+                  <p
+                    style={{
+                      color:
+                        (get24hourChange(el[0]).by_currency *
+                          getCurrentValue(user, cryptoCurrencies, el[0])) /
+                          100 >
+                        0
+                          ? "green"
+                          : "red",
+                    }}
+                  >
+                    24h:{" "}
+                    {(
+                      (get24hourChange(el[0]).by_currency *
+                        getCurrentValue(user, cryptoCurrencies, el[0])) /
+                      100
+                    ).toFixed(2)}
+                    &euro;
+                  </p>
                 </td>
                 <td onClick={() => handleClick("balance", el[0])}>
                   {getBalance(el[0]).toFixed(2)}&euro;
@@ -102,7 +135,7 @@ const Overview = ({
                 <td onClick={() => handleClick("roi", el[0])}>
                   {(
                     (getCurrentValue(user, cryptoCurrencies, el[0]) * 100) /
-                      getTotal(el[0]) -
+                      getInitialValue(user, el[0]) -
                     100
                   ).toFixed(0)}
                   %
@@ -118,6 +151,14 @@ const Overview = ({
           </td>
           <td onClick={() => handleClick("current_value", "all_currencies")}>
             {currentValueTotal.toFixed(2)}&euro;
+            {/* <p
+              style={{
+                color: get24hourChange(el[0]).total > 0 ? "green" : "red",
+              }}
+            >
+              24h: {get24hourChange(el[0]).total.toFixed(2)}
+              &euro;
+            </p> */}
           </td>
           <td onClick={() => handleClick("balance", "all_currencies")}>
             {(currentValueTotal - totalPurchase).toFixed(2)}&euro;
