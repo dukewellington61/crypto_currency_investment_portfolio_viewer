@@ -17,10 +17,8 @@ import Register from "./components/auth/Register";
 import AddCrypto from "./components/input/AddCrypto";
 import DeductCrypto from "./components/input/DeductCrypto";
 
-import Position from "./components/portfolio/Position";
-import PositionChart from "./components/portfolio/PositionChart";
-
-import CurrencyTotalChart from "./components/portfolio/CurrencyTotalChart";
+import Position from "./components/positions/Position";
+import PositionChart from "./components/positions/PositionChart";
 
 import Alert from "./components/layout/Alert";
 
@@ -137,19 +135,6 @@ const App = () => {
             path="/position_chart"
             render={() => <PositionChart />}
           />
-          {logedin && (
-            <Route
-              exact
-              path="/currency_total_chart"
-              render={() => (
-                <CurrencyTotalChart
-                  user={user}
-                  cryptoCurrencies={cryptoCurrencies}
-                  logedin={logedin}
-                />
-              )}
-            />
-          )}
 
           <Route
             exact

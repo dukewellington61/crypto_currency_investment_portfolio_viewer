@@ -244,3 +244,9 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+/*@components/overview/TwentyFourHourChange.js */
+.twenty_four_hour_container {
+  font-size: 0.75em;
+  font-weight: bold;
+}

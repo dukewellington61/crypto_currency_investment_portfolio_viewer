@@ -43,9 +43,6 @@ export const getCurrentPrice = (cryptoCurrencies, currencyName) => {
       (el) => el.id === currencyName
     );
 
-    console.log("currentPrice");
-    console.log(currentPrice);
-
     if (currentPrice) return currentPrice.current_price;
   }
 };

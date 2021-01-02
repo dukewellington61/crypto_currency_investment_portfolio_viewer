@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
-import { getMarketChartsCrypto } from "../../actions/currencies";
+import { getMarketChartsCrypto2 } from "../../actions/currencies";
 import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
-import Overview from "../portfolio/Overview";
-import TotalChart from "../portfolio/TotalChart";
+import Overview from "../overview/Overview";
+import TotalChart from "../charts/TotalChart";
 
 function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
   const [renderOverview, setRenderOverview] = useState(true);
@@ -73,7 +73,7 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
         cryptoCurrencies.data.forEach((obj) => {
           if (obj.id === currencyName) currentPrice = obj.current_price;
         });
-        const res = await getMarketChartsCrypto(
+        const res = await getMarketChartsCrypto2(
           user,
           currencyName,
           currentPrice,
@@ -126,6 +126,7 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
         <Overview
           user={user}
           cryptoCurrencies={cryptoCurrencies}
+          marketChartTotal={marketChartTotal}
           logedin={logedin}
           toggleView={toggleView}
           renderOverview={renderOverview}

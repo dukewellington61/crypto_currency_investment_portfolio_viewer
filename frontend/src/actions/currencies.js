@@ -46,6 +46,7 @@ export const getMarketChartsCrypto = async (
   duration
 ) => {
   console.log("getMarketChartsCrypto() @currencies.js");
+
   let from = null;
   let date = null;
 
@@ -147,5 +148,82 @@ const addDateToArr = (arr) =>
     const month = date.toLocaleString("default", { month: "long" });
     const year = date.getFullYear();
     const dateString = `${day}. ${month} ${year}`;
+    // console.log(dateString);
     return [...arr[index], dateString];
   });
+
+export const getMarketChartsCrypto2 = async (
+  user,
+  currency,
+  current_price,
+  duration
+) => {
+  console.log("getMarketChartsCrypto2() @currencies.js");
+
+  let numberOfDays = 0;
+
+  switch (duration) {
+    case "day":
+      numberOfDays = 1;
+      break;
+    case "week":
+      numberOfDays = 7;
+      break;
+    case "month":
+      numberOfDays = 30;
+      break;
+    case "all_currency":
+      numberOfDays =
+        (new Date() - new Date(await getFromDate(user, currency))) /
+        (24 * 60 * 60 * 1000);
+      break;
+    case "all_total":
+      const res = user.positions.sort(
+        (a, b) =>
+          Date.parse(a.date_of_purchase) - Date.parse(b.date_of_purchase)
+      );
+      numberOfDays =
+        (new Date() - new Date(res[0].date_of_purchase)) /
+        (24 * 60 * 60 * 1000);
+      break;
+    default:
+  }
+
+  const urlString = `https://api.coingecko.com/api/v3/coins/${currency}/market_chart?vs_currency=eur&days=${numberOfDays}`;
+
+  const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
+  try {
+    const dataSequence = await axios.get(proxyurl + urlString);
+
+    const dataSequenceTransformed = addDateToArr(dataSequence.data.prices);
+
+    let returnValue = "";
+
+    switch (duration) {
+      case "day":
+        returnValue = dataSequenceTransformed.slice(0, 270);
+        break;
+      case "week":
+        returnValue = dataSequenceTransformed.slice(0, 165);
+        break;
+      case "month":
+        returnValue = dataSequenceTransformed.slice(0, 720);
+        break;
+      case "all_currency":
+        returnValue = dataSequenceTransformed;
+        break;
+      case "all_total":
+        returnValue = dataSequenceTransformed;
+        break;
+      default:
+    }
+
+    // replaces the last price in the array with the most recent price so the last data point diagrams are always up to date
+    returnValue[returnValue.length - 1][1] = current_price;
+
+    return returnValue;
+  } catch (error) {
+    return error;
+  }
+};

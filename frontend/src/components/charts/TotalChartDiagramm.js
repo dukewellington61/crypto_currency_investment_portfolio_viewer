@@ -9,6 +9,8 @@ function TotalChartDiagramm({
   originAndCurrency,
   duration,
 }) {
+  // console.log(currentMarketChart);
+
   const [nameArray, setNameArray] = useState("");
 
   const [labelStr, setLabelStr] = useState("");
@@ -78,6 +80,8 @@ function TotalChartDiagramm({
       filtered.forEach((el, index) => (timeStamps[index] = el));
     });
 
+    console.log(currency);
+
     // the following code sums up initial_value, current_value, balance of every individual currency so that the totals of these attributes can be displayed in a chart
     // it also calculates the development of roi over time
     const resArray = new Array(timeStamps.length).fill(0);
@@ -110,6 +114,8 @@ function TotalChartDiagramm({
         }
       });
     }
+
+    // console.log(resArray);
 
     setResultArray(resArray);
 
