@@ -1,5 +1,7 @@
 import React from "react";
-import Twenty4hChangeCurrencies from "./Twenty4hChangeCurrencies";
+import Twenty4hChangeInvestmentByCurrencies from "./Twenty4hChangeInvestmentByCurrencies";
+import Twenty4hChangeByCurrency from "./Twenty4hChangeByCurrency";
+
 import { Link } from "react-router-dom";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentPrice } from "../../auxiliary/auxiliaryCryptoData";
@@ -34,7 +36,13 @@ const OverviewCurrencies = ({
                   },
                 }}
               >
-                <th scope="row">{el[0]}</th>
+                <th scope="row">
+                  {el[0]}{" "}
+                  <Twenty4hChangeByCurrency
+                    cryptoCurrencies={cryptoCurrencies}
+                    currencyName={el[0]}
+                  />
+                </th>
               </Link>
               <td>{getAmount(user, el[0]).toFixed(3)}</td>
               <td onClick={() => handleClick("initial_value", el[0])}>
@@ -43,8 +51,7 @@ const OverviewCurrencies = ({
               <td onClick={() => handleClick("current_value", el[0])}>
                 {getCurrentValue(user, cryptoCurrencies, el[0]).toFixed(2)}
                 &euro;
-                <br />
-                <Twenty4hChangeCurrencies
+                <Twenty4hChangeInvestmentByCurrencies
                   user={user}
                   cryptoCurrencies={cryptoCurrencies}
                   getAmount={getAmount}

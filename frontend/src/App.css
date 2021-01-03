@@ -250,3 +250,9 @@
   font-size: 0.75em;
   font-weight: bold;
 }
+
+/*@components/overview/Twenty4hChangeByCurrency.js */
+.crypto_24h_change {
+  text-decoration: none !important;
+  color: black;
+}

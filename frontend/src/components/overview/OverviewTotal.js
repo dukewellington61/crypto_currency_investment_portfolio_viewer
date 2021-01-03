@@ -1,5 +1,5 @@
 import React from "react";
-import Twenty4hChangeTotal from "./Twenty4hChangeTotal";
+import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
 
 const OverviewTotal = ({
   marketChartTotal,
@@ -17,7 +17,7 @@ const OverviewTotal = ({
       </td>
       <td onClick={() => handleClick("current_value", "all_currencies")}>
         {currentValueTotal.toFixed(2)}&euro;
-        <Twenty4hChangeTotal
+        <Twenty4hChangeInvestmentTotal
           marketChartTotal={marketChartTotal}
           get24hourChangeTotal={get24hourChangeTotal}
         />

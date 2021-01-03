@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import Twenty4hChange from "./Twenty4hChange";
 import { Line } from "react-chartjs-2";
 import { cumulativeValueInvestment } from "../../auxiliary/auxiliaryCryptoData";
 
@@ -80,8 +81,6 @@ function TotalChartDiagramm({
       filtered.forEach((el, index) => (timeStamps[index] = el));
     });
 
-    console.log(currency);
-
     // the following code sums up initial_value, current_value, balance of every individual currency so that the totals of these attributes can be displayed in a chart
     // it also calculates the development of roi over time
     const resArray = new Array(timeStamps.length).fill(0);
@@ -123,34 +122,37 @@ function TotalChartDiagramm({
   }, [nameArray, currentMarketChart, duration]);
 
   return (
-    <div>
-      <Line
-        data={{
-          labels: timeStampArray,
-          datasets: [
-            {
-              label: labelStr,
-              data: resultArray,
-            },
-          ],
-        }}
-        // width={500}
-        height={500}
-        options={{
-          maintainAspectRatio: false,
-          scales: {
-            yAxes: [
+    <Fragment>
+      <Twenty4hChange dataArray={resultArray} />
+      <div>
+        <Line
+          data={{
+            labels: timeStampArray,
+            datasets: [
               {
-                scaleLabel: {
-                  display: true,
-                  labelString: labelStr,
-                },
+                label: labelStr,
+                data: resultArray,
               },
             ],
-          },
-        }}
-      />
-    </div>
+          }}
+          // width={500}
+          height={500}
+          options={{
+            maintainAspectRatio: false,
+            scales: {
+              yAxes: [
+                {
+                  scaleLabel: {
+                    display: true,
+                    labelString: labelStr,
+                  },
+                },
+              ],
+            },
+          }}
+        />
+      </div>
+    </Fragment>
   );
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Twenty4hChangeCurrencies = ({
+const Twenty4hChangeInvestmentByCurrencies = ({
   user,
   cryptoCurrencies,
   getAmount,
@@ -71,4 +71,4 @@ const Twenty4hChangeCurrencies = ({
   );
 };
 
-export default Twenty4hChangeCurrencies;
+export default Twenty4hChangeInvestmentByCurrencies;

@@ -1,6 +1,9 @@
 import React from "react";
 
-const Twenty4hChangeTotal = ({ marketChartTotal, get24hourChangeTotal }) => {
+const Twenty4hChangeInvestmentTotal = ({
+  marketChartTotal,
+  get24hourChangeTotal,
+}) => {
   const get24hourMax = () => {
     console.log(marketChartTotal);
   };
@@ -19,4 +22,4 @@ const Twenty4hChangeTotal = ({ marketChartTotal, get24hourChangeTotal }) => {
   );
 };
 
-export default Twenty4hChangeTotal;
+export default Twenty4hChangeInvestmentTotal;
