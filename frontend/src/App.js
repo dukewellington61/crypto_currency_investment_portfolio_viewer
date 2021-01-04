@@ -44,15 +44,22 @@ const App = () => {
   const updateCryptoCurrenciesState = async () => {
     if (logedin) {
       const currencyNames = getCurrenciesNames(user);
-      const crypto = await getLatestCryptoPrice(currencyNames);
-      setCryptoCurrencies(crypto);
+
+      setInterval(() => {
+        update();
+      }, 150000);
+
+      const update = async () => {
+        const crypto = await getLatestCryptoPrice(currencyNames);
+        setCryptoCurrencies(crypto);
+      };
+
+      update();
     }
   };
 
   const makePosition = async (formData) => {
     const position = await createPosition(formData);
-    console.log("position");
-    console.log(position);
     if (position instanceof Error) {
       triggerAlert(position.response.data.errors.msg, "danger");
     } else {

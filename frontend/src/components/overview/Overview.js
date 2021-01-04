@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import OverviewCurrencies from "./OverviewCurrencies";
 import OverviewTotal from "./OverviewTotal";
 import { getNamesAndValues } from "../../auxiliary/auxiliaryCryptoData";
@@ -20,6 +20,8 @@ const Overview = ({
 
   const [totalPurchase, setTotalPurchase] = useState(0);
 
+  const prevCurrentValueTotal = useRef();
+
   useEffect(() => {
     if (logedin) {
       const namesAndValuesArr = getNamesAndValues(user, cryptoCurrencies);
@@ -33,8 +35,14 @@ const Overview = ({
       setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
       setTotalPurchase(getInitialValuePurchase());
+
+      prevCurrentValueTotal.current = currentValueTotal;
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
+
+  useEffect(() => {
+    prevCurrentValueTotal.current = currentValueTotal;
+  }, [currentValueTotal]);
 
   const getInitialValuePurchase = () => {
     let sum = 0;
@@ -99,6 +107,7 @@ const Overview = ({
           marketChartTotal={marketChartTotal}
           totalPurchase={totalPurchase}
           currentValueTotal={currentValueTotal}
+          prevCurrentValueTotal={prevCurrentValueTotal}
           get24hourChangeTotal={get24hourChangeTotal}
           handleClick={handleClick}
         />

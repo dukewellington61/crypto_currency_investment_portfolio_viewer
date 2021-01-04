@@ -5,6 +5,7 @@ const OverviewTotal = ({
   marketChartTotal,
   totalPurchase,
   currentValueTotal,
+  prevCurrentValueTotal,
   get24hourChangeTotal,
   handleClick,
 }) => {
@@ -16,7 +17,26 @@ const OverviewTotal = ({
         {totalPurchase.toFixed(2)}&euro;
       </td>
       <td onClick={() => handleClick("current_value", "all_currencies")}>
-        {currentValueTotal.toFixed(2)}&euro;
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div>{currentValueTotal.toFixed(2)}&euro;</div>{" "}
+          <div
+            style={{
+              fontSize: "0.75rem",
+              color:
+                currentValueTotal - prevCurrentValueTotal.current >= 0
+                  ? "green"
+                  : "red",
+            }}
+          >
+            {(currentValueTotal - prevCurrentValueTotal.current ===
+            currentValueTotal
+              ? 0
+              : currentValueTotal - prevCurrentValueTotal.current
+            ).toFixed(2)}
+            &euro;
+          </div>
+        </div>
+
         <Twenty4hChangeInvestmentTotal
           marketChartTotal={marketChartTotal}
           get24hourChangeTotal={get24hourChangeTotal}

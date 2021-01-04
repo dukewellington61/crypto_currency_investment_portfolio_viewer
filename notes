@@ -143,4 +143,7 @@ no matter where I click, all data is beeing loaded for that particular duration.
 every iteration of my app
 
 
+Jan 3
+In overview/current value I want to display time passed and change since last refresh
 
+or maybe I can find a way to display constant changes based on live streamed data

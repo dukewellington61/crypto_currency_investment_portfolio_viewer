@@ -191,10 +191,10 @@ export const getMarketChartsCrypto2 = async (
 
   const urlString = `https://api.coingecko.com/api/v3/coins/${currency}/market_chart?vs_currency=eur&days=${numberOfDays}`;
 
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  // const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
   try {
-    const dataSequence = await axios.get(proxyurl + urlString);
+    const dataSequence = await axios.get(urlString);
 
     const dataSequenceTransformed = addDateToArr(dataSequence.data.prices);
 
