@@ -20,8 +20,6 @@ const Overview = ({
 
   const [totalPurchase, setTotalPurchase] = useState(0);
 
-  const prevCurrentValueTotal = useRef();
-
   useEffect(() => {
     if (logedin) {
       const namesAndValuesArr = getNamesAndValues(user, cryptoCurrencies);
@@ -35,10 +33,11 @@ const Overview = ({
       setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
       setTotalPurchase(getInitialValuePurchase());
-
-      prevCurrentValueTotal.current = currentValueTotal;
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
+
+  // useRef enables acces to previous currentValueTotal state
+  const prevCurrentValueTotal = useRef(0);
 
   useEffect(() => {
     prevCurrentValueTotal.current = currentValueTotal;

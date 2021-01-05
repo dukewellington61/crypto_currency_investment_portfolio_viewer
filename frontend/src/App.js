@@ -47,7 +47,7 @@ const App = () => {
 
       setInterval(() => {
         update();
-      }, 150000);
+      }, 120000);
 
       const update = async () => {
         const crypto = await getLatestCryptoPrice(currencyNames);

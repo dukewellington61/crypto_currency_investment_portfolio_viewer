@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
 
 const OverviewTotal = ({
@@ -9,6 +9,21 @@ const OverviewTotal = ({
   get24hourChangeTotal,
   handleClick,
 }) => {
+  // both hooks are neccessary to persist change currentValueTotal so it survives re mounting of this component
+  const [currentValueTotalChange, setCurrentValueTotalChange] = useState(
+    sessionStorage.getItem("change")
+  );
+
+  useEffect(() => {
+    const change = (currentValueTotal - prevCurrentValueTotal.current).toFixed(
+      2
+    );
+    if (!isNaN(change) && prevCurrentValueTotal.current !== 0) {
+      sessionStorage.setItem("change", change);
+      setCurrentValueTotalChange(change);
+    }
+  }, [currentValueTotal]);
+
   return (
     <tr>
       <th scope="row"></th>
@@ -22,17 +37,12 @@ const OverviewTotal = ({
           <div
             style={{
               fontSize: "0.75rem",
-              color:
-                currentValueTotal - prevCurrentValueTotal.current >= 0
-                  ? "green"
-                  : "red",
+              color: currentValueTotalChange >= 0 ? "green" : "red",
             }}
           >
-            {(currentValueTotal - prevCurrentValueTotal.current ===
-            currentValueTotal
-              ? 0
-              : currentValueTotal - prevCurrentValueTotal.current
-            ).toFixed(2)}
+            {currentValueTotalChange && currentValueTotalChange !== 0
+              ? currentValueTotalChange
+              : 0}
             &euro;
           </div>
         </div>
