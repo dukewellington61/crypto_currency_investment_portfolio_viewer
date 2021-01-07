@@ -126,7 +126,6 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
         <Overview
           user={user}
           cryptoCurrencies={cryptoCurrencies}
-          marketChartTotal={marketChartTotal}
           logedin={logedin}
           toggleView={toggleView}
           renderOverview={renderOverview}

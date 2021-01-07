@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
 
 const OverviewTotal = ({
-  marketChartTotal,
   totalPurchase,
   currentValueTotal,
   prevCurrentValueTotal,
@@ -48,7 +47,6 @@ const OverviewTotal = ({
         </div>
 
         <Twenty4hChangeInvestmentTotal
-          marketChartTotal={marketChartTotal}
           get24hourChangeTotal={get24hourChangeTotal}
         />
       </td>

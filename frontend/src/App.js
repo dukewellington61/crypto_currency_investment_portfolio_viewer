@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { createPosition } from "./actions/positions";
 import { getCurrenciesNames } from "./auxiliary/auxiliaryCryptoData";
-import { getLatestCryptoPrice } from "./actions/currencies";
+import { getLatestCryptoData } from "./actions/currencies";
 import { loadUser } from "./auxiliary/auxiliaryUserData";
 import { signin } from "./auxiliary/auxiliaryUserData";
 import { signout } from "./auxiliary/auxiliaryUserData";
@@ -50,13 +50,40 @@ const App = () => {
       }, 120000);
 
       const update = async () => {
-        const crypto = await getLatestCryptoPrice(currencyNames);
-        setCryptoCurrencies(crypto);
+        const crypto = await getLatestCryptoData(currencyNames);
+        if (crypto instanceof Error) {
+          triggerAlert("Something went wrong", "danger");
+        } else {
+          setCryptoCurrencies(crypto);
+        }
       };
 
       update();
     }
   };
+
+  // const getDataStream = () => {
+  //   if (Object.keys(cryptoCurrencies).length > 0) {
+  //     cryptoCurrencies.data.forEach((obj) => {
+  //       const binanceSocket = new WebSocket(
+  //         `wss://stream.binance.com:9443/ws/${obj.symbol}usdt@trade`
+  //       );
+  //       binanceSocket.onmessage = function (e) {
+  //         const messageObj = JSON.parse(e.data);
+  //         cryptoCurrencies.data.forEach((obj, index) => {
+  //           if (messageObj.s.includes(obj.symbol.toUpperCase())) {
+  //             setCryptoCurrencies({
+  //               ...(cryptoCurrencies,
+  //               (cryptoCurrencies.data[index].current_price = parseFloat(
+  //                 messageObj.p
+  //               ))),
+  //             });
+  //           }
+  //         });
+  //       };
+  //     });
+  //   }
+  // };
 
   const makePosition = async (formData) => {
     const position = await createPosition(formData);

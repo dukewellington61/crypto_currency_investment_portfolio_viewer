@@ -8,7 +8,6 @@ import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 const Overview = ({
   user,
   cryptoCurrencies,
-  marketChartTotal,
   logedin,
   toggleView,
   renderOverview,
@@ -36,7 +35,7 @@ const Overview = ({
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
 
-  // useRef enables acces to previous currentValueTotal state
+  // useRef enables access to previous currentValueTotal state
   const prevCurrentValueTotal = useRef(0);
 
   useEffect(() => {
@@ -103,7 +102,6 @@ const Overview = ({
           logedin={logedin}
         />
         <OverviewTotal
-          marketChartTotal={marketChartTotal}
           totalPurchase={totalPurchase}
           currentValueTotal={currentValueTotal}
           prevCurrentValueTotal={prevCurrentValueTotal}

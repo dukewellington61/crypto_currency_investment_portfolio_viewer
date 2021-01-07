@@ -1,9 +1,6 @@
 import React from "react";
 
-const Twenty4hChangeInvestmentTotal = ({
-  marketChartTotal,
-  get24hourChangeTotal,
-}) => {
+const Twenty4hChangeInvestmentTotal = ({ get24hourChangeTotal }) => {
   const get24hourMax = () => {};
   return (
     <div className="twenty_four_hour_container">

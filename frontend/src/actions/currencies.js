@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getLatestCryptoPrice = async (currencyNamesArr) => {
+export const getLatestCryptoData = async (currencyNamesArr) => {
   console.log("getLatestCryptoPrice() @currencies.js");
   const currencyNamesString = await getNameString(currencyNamesArr);
 
@@ -202,7 +202,7 @@ export const getMarketChartsCrypto2 = async (
 
     switch (duration) {
       case "day":
-        returnValue = dataSequenceTransformed.slice(0, 270);
+        returnValue = dataSequenceTransformed.slice(0, 250);
         break;
       case "week":
         returnValue = dataSequenceTransformed.slice(0, 165);

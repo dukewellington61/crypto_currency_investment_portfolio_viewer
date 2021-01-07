@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getLatestCryptoPrice } from "../../actions/currencies";
+import { getLatestCryptoData } from "../../actions/currencies";
 
 const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
   const [formData, setFormData] = useState({
@@ -20,7 +20,7 @@ const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
     // in order to send a value (EUR or USD) it had to be actively selected everytime the user wants to enter a new position
     formData.fiat_currency = e.target.querySelector("select").value;
 
-    const returnValue = await getLatestCryptoPrice([crypto_currency]);
+    const returnValue = await getLatestCryptoData([crypto_currency]);
 
     if (returnValue.data.length > 0) {
       await makePosition(formData);
