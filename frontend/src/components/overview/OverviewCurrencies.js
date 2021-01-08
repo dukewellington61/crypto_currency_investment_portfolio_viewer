@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Twenty4hChangeInvestmentByCurrencies from "./Twenty4hChangeInvestmentByCurrencies";
 import Twenty4hChangeByCurrency from "./Twenty4hChangeByCurrency";
 
@@ -9,13 +9,24 @@ import { getCurrentPrice } from "../../auxiliary/auxiliaryCryptoData";
 const OverviewCurrencies = ({
   user,
   cryptoCurrencies,
-  currencyNamesAndValues,
+  currencyNamesAndCurrentValues,
+  prevCurrentValues,
   getInitialValue,
   get24hourChangeByCurrency,
   getCurrentValue,
   handleClick,
   logedin,
 }) => {
+  console.log(prevCurrentValues);
+  // const prevCurrentValueTotal = useRef({});
+
+  // useEffect(() => {
+  //   currencyNamesAndCurrentValues.forEach((el) => {
+  //     const currVal = getCurrentValue(user, cryptoCurrencies, el[0]);
+  //     // prevCurrentValueTotal.current[el[0]] = currVal;
+  //   });
+  // }, [getCurrentValue]);
+
   const getBalance = (currency) =>
     getCurrentValue(user, cryptoCurrencies, currency) -
     getInitialValue(user, currency);
@@ -23,7 +34,7 @@ const OverviewCurrencies = ({
   return (
     <tbody>
       {logedin &&
-        currencyNamesAndValues.map((el) => {
+        currencyNamesAndCurrentValues.map((el) => {
           return (
             <tr>
               <Link
@@ -48,9 +59,14 @@ const OverviewCurrencies = ({
               <td onClick={() => handleClick("initial_value", el[0])}>
                 {getInitialValue(user, el[0]).toFixed(2)}&euro;
               </td>
+              {/* current value */}
               <td onClick={() => handleClick("current_value", el[0])}>
-                {getCurrentValue(user, cryptoCurrencies, el[0]).toFixed(2)}
+                {el[1].toFixed(2)}
                 &euro;
+                <div>
+                  change:{" "}
+                  {(el[1] - prevCurrentValues.current[el[0]]).toFixed(2)}
+                </div>
                 <Twenty4hChangeInvestmentByCurrencies
                   user={user}
                   cryptoCurrencies={cryptoCurrencies}

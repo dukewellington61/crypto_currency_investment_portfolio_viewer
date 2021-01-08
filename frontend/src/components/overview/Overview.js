@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import OverviewCurrencies from "./OverviewCurrencies";
 import OverviewTotal from "./OverviewTotal";
-import { getNamesAndValues } from "../../auxiliary/auxiliaryCryptoData";
+import { getNamesAndCurrentValues } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentValue } from "../../auxiliary/auxiliaryCryptoData";
+// import { getCurrentValue2 } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 
 const Overview = ({
@@ -13,21 +14,31 @@ const Overview = ({
   renderOverview,
   updateOriginAndCurrencyState,
 }) => {
-  const [currencyNamesAndValues, setCurrencyNamesAndValues] = useState([]);
+  const [
+    currencyNamesAndCurrentValues,
+    setCurrencyNamesAndCurrentValues,
+  ] = useState([]);
 
   const [currentValueTotal, setCurrentValueTotal] = useState(0);
 
   const [totalPurchase, setTotalPurchase] = useState(0);
 
+  const prevCurrentValues = useRef({});
+
   useEffect(() => {
     if (logedin) {
-      const namesAndValuesArr = getNamesAndValues(user, cryptoCurrencies);
-
-      setCurrencyNamesAndValues(namesAndValuesArr);
-
-      const totalsArray = namesAndValuesArr.map((el) =>
-        getCurrentValue(user, cryptoCurrencies, el[0])
+      const namesAndCurrentValuesArr = getNamesAndCurrentValues(
+        user,
+        cryptoCurrencies
       );
+
+      setCurrencyNamesAndCurrentValues(namesAndCurrentValuesArr);
+
+      const totalsArray = namesAndCurrentValuesArr.map((el) => {
+        const currVal = getCurrentValue(user, cryptoCurrencies, el[0]);
+        // prevCurrentValues.current[el[0]] = currVal;
+        return currVal;
+      });
 
       setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
@@ -40,6 +51,11 @@ const Overview = ({
 
   useEffect(() => {
     prevCurrentValueTotal.current = currentValueTotal;
+
+    currencyNamesAndCurrentValues.map((el) => {
+      const currVal = getCurrentValue(user, cryptoCurrencies, el[0]);
+      prevCurrentValues.current[el[0]] = currVal;
+    });
   }, [currentValueTotal]);
 
   const getInitialValuePurchase = () => {
@@ -63,7 +79,7 @@ const Overview = ({
 
   const get24hourChangeTotal = () => {
     let sum = 0;
-    currencyNamesAndValues.forEach((arr) => {
+    currencyNamesAndCurrentValues.forEach((arr) => {
       sum +=
         (get24hourChangeByCurrency(arr[0]) *
           getCurrentValue(user, cryptoCurrencies, arr[0])) /
@@ -94,7 +110,8 @@ const Overview = ({
         <OverviewCurrencies
           user={user}
           cryptoCurrencies={cryptoCurrencies}
-          currencyNamesAndValues={currencyNamesAndValues}
+          currencyNamesAndCurrentValues={currencyNamesAndCurrentValues}
+          prevCurrentValues={prevCurrentValues}
           getInitialValue={getInitialValue}
           get24hourChangeByCurrency={get24hourChangeByCurrency}
           getCurrentValue={getCurrentValue}
