@@ -3,7 +3,6 @@ import OverviewCurrencies from "./OverviewCurrencies";
 import OverviewTotal from "./OverviewTotal";
 import { getNamesAndCurrentValues } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentValue } from "../../auxiliary/auxiliaryCryptoData";
-// import { getCurrentValue2 } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 
 const Overview = ({
@@ -23,8 +22,6 @@ const Overview = ({
 
   const [totalPurchase, setTotalPurchase] = useState(0);
 
-  const prevCurrentValues = useRef({});
-
   useEffect(() => {
     if (logedin) {
       const namesAndCurrentValuesArr = getNamesAndCurrentValues(
@@ -34,11 +31,9 @@ const Overview = ({
 
       setCurrencyNamesAndCurrentValues(namesAndCurrentValuesArr);
 
-      const totalsArray = namesAndCurrentValuesArr.map((el) => {
-        const currVal = getCurrentValue(user, cryptoCurrencies, el[0]);
-        // prevCurrentValues.current[el[0]] = currVal;
-        return currVal;
-      });
+      const totalsArray = namesAndCurrentValuesArr.map((el) =>
+        getCurrentValue(user, cryptoCurrencies, el[0])
+      );
 
       setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
@@ -46,8 +41,10 @@ const Overview = ({
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
 
-  // useRef enables access to previous currentValueTotal state
+  // useRef preserve previous currentValue over re-render
   const prevCurrentValueTotal = useRef(0);
+
+  const prevCurrentValues = useRef({});
 
   useEffect(() => {
     prevCurrentValueTotal.current = currentValueTotal;
@@ -105,6 +102,7 @@ const Overview = ({
             <th scope="col">Current Value</th>
             <th scope="col">Profit</th>
             <th scope="col">ROI</th>
+            <th scope="col">Last 7 Days</th>
           </tr>
         </thead>
         <OverviewCurrencies

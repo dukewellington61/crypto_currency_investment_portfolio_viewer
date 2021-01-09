@@ -4,7 +4,8 @@ export const getLatestCryptoData = async (currencyNamesArr) => {
   console.log("getLatestCryptoPrice() @currencies.js");
   const currencyNamesString = await getNameString(currencyNamesArr);
 
-  const urlString = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${currencyNamesString}b&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
+  // /coins/markets - List all supported coins price, market cap, volume, and market related data
+  const urlString = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${currencyNamesString}b&order=market_cap_desc&per_page=100&page=1&sparkline=true`;
 
   try {
     const res = await axios.get(urlString);

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Twenty4hChangeInvestmentByCurrencies from "./Twenty4hChangeInvestmentByCurrencies";
 import Twenty4hChangeByCurrency from "./Twenty4hChangeByCurrency";
-
+import SparkLine from "../charts/SparkLine";
 import { Link } from "react-router-dom";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentPrice } from "../../auxiliary/auxiliaryCryptoData";
@@ -17,75 +17,139 @@ const OverviewCurrencies = ({
   handleClick,
   logedin,
 }) => {
-  console.log(prevCurrentValues);
-  // const prevCurrentValueTotal = useRef({});
+  // both hooks are neccessary to persist change currentValues so they survive re mounting of this component
+  const [currentValuesChange, setCurrentValuesChange] = useState(
+    sessionStorage.getItem("changeObj")
+  );
 
-  // useEffect(() => {
-  //   currencyNamesAndCurrentValues.forEach((el) => {
-  //     const currVal = getCurrentValue(user, cryptoCurrencies, el[0]);
-  //     // prevCurrentValueTotal.current[el[0]] = currVal;
-  //   });
-  // }, [getCurrentValue]);
+  useEffect(() => {
+    const changeObj = {};
+    currencyNamesAndCurrentValues.forEach(([currencyName, currentValue]) => {
+      const change = currentValue - prevCurrentValues.current[currencyName];
+      changeObj[currencyName] = change;
+    });
+
+    // makes sure that session storage and state are only updated if it is not a re mount
+    if (
+      !sessionStorage.getItem("changeObj") ||
+      !isNaN(Object.values(changeObj)[0])
+    ) {
+      sessionStorage.setItem("changeObj", JSON.stringify(changeObj));
+      setCurrentValuesChange(JSON.stringify(changeObj));
+    }
+  }, [currencyNamesAndCurrentValues]);
 
   const getBalance = (currency) =>
     getCurrentValue(user, cryptoCurrencies, currency) -
     getInitialValue(user, currency);
 
+  const [sparkLineData, setSparkLineData] = useState({});
+
+  useEffect(() => {
+    const sparkLinesDataObj = {};
+    currencyNamesAndCurrentValues.forEach(([currencyName, currencyValue]) => {
+      cryptoCurrencies.data.forEach((obj) => {
+        if (obj.id === currencyName) {
+          sparkLinesDataObj[currencyName] = obj.sparkline_in_7d.price;
+        }
+      });
+    });
+    setSparkLineData(sparkLinesDataObj);
+  }, [cryptoCurrencies]);
+
   return (
     <tbody>
       {logedin &&
-        currencyNamesAndCurrentValues.map((el) => {
+        currencyNamesAndCurrentValues.map(([currencyName, currentValue]) => {
           return (
             <tr>
+              {/* crypto */}
               <Link
                 to={{
                   pathname: "/position",
-                  current_price: getCurrentPrice(cryptoCurrencies, el[0]),
+                  current_price: getCurrentPrice(
+                    cryptoCurrencies,
+                    currencyName
+                  ),
                   state: {
-                    currency: el[0],
+                    currency: currencyName,
                     user: user,
                   },
                 }}
               >
                 <th scope="row">
-                  {el[0]}{" "}
+                  {currencyName}{" "}
                   <Twenty4hChangeByCurrency
                     cryptoCurrencies={cryptoCurrencies}
-                    currencyName={el[0]}
+                    currencyName={currencyName}
                   />
                 </th>
               </Link>
-              <td>{getAmount(user, el[0]).toFixed(3)}</td>
-              <td onClick={() => handleClick("initial_value", el[0])}>
-                {getInitialValue(user, el[0]).toFixed(2)}&euro;
+
+              {/* amount */}
+              <td>{getAmount(user, currencyName).toFixed(3)}</td>
+
+              {/* initial value */}
+              <td onClick={() => handleClick("initial_value", currencyName)}>
+                {getInitialValue(user, currencyName).toFixed(2)}&euro;
               </td>
+
               {/* current value */}
-              <td onClick={() => handleClick("current_value", el[0])}>
-                {el[1].toFixed(2)}
-                &euro;
-                <div>
-                  change:{" "}
-                  {(el[1] - prevCurrentValues.current[el[0]]).toFixed(2)}
+              <td onClick={() => handleClick("current_value", currencyName)}>
+                <div className="change_container">
+                  {" "}
+                  {currentValue.toFixed(2)}
+                  &euro;
+                  <div
+                    className="change_value"
+                    style={{
+                      color:
+                        JSON.parse(currentValuesChange)[currencyName] >= 0
+                          ? "green"
+                          : "red",
+                    }}
+                  >
+                    {Object.keys(JSON.parse(currentValuesChange)).length > 0 &&
+                    JSON.parse(currentValuesChange)[currencyName] !== null &&
+                    JSON.parse(currentValuesChange)[currencyName] !== 0
+                      ? JSON.parse(currentValuesChange)[currencyName].toFixed(2)
+                      : Number(0).toFixed(2)}
+                    &euro;
+                  </div>
                 </div>
+
                 <Twenty4hChangeInvestmentByCurrencies
                   user={user}
                   cryptoCurrencies={cryptoCurrencies}
                   getAmount={getAmount}
                   get24hourChangeByCurrency={get24hourChangeByCurrency}
                   getCurrentValue={getCurrentValue}
-                  currencyName={el[0]}
+                  currencyName={currencyName}
                 />
               </td>
-              <td onClick={() => handleClick("balance", el[0])}>
-                {getBalance(el[0]).toFixed(2)}&euro;
+
+              {/* profit */}
+              <td onClick={() => handleClick("balance", currencyName)}>
+                {getBalance(currencyName).toFixed(2)}&euro;
               </td>
-              <td onClick={() => handleClick("roi", el[0])}>
+
+              {/* roi */}
+              <td onClick={() => handleClick("roi", currencyName)}>
                 {(
-                  (getCurrentValue(user, cryptoCurrencies, el[0]) * 100) /
-                    getInitialValue(user, el[0]) -
+                  (getCurrentValue(user, cryptoCurrencies, currencyName) *
+                    100) /
+                    getInitialValue(user, currencyName) -
                   100
                 ).toFixed(0)}
                 %
+              </td>
+
+              {/* sparkline */}
+              <td>
+                <SparkLine
+                  sparkLineData={sparkLineData[currencyName]}
+                  amount={getAmount(user, currencyName)}
+                />
               </td>
             </tr>
           );

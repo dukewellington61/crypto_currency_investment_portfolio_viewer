@@ -17,6 +17,7 @@ const OverviewTotal = ({
     const change = (currentValueTotal - prevCurrentValueTotal.current).toFixed(
       2
     );
+    // makes sure that session storage and state are only updated if it is not a re mount
     if (!isNaN(change) && prevCurrentValueTotal.current !== 0) {
       sessionStorage.setItem("change", change);
       setCurrentValueTotalChange(change);
@@ -31,11 +32,11 @@ const OverviewTotal = ({
         {totalPurchase.toFixed(2)}&euro;
       </td>
       <td onClick={() => handleClick("current_value", "all_currencies")}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div className="change_container">
           <div>{currentValueTotal.toFixed(2)}&euro;</div>{" "}
           <div
+            className="change_value"
             style={{
-              fontSize: "0.75rem",
               color: currentValueTotalChange >= 0 ? "green" : "red",
             }}
           >
@@ -50,6 +51,7 @@ const OverviewTotal = ({
           get24hourChangeTotal={get24hourChangeTotal}
         />
       </td>
+
       <td onClick={() => handleClick("balance", "all_currencies")}>
         {(currentValueTotal - totalPurchase).toFixed(2)}&euro;
       </td>

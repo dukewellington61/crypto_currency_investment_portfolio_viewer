@@ -245,14 +245,25 @@
   cursor: pointer;
 }
 
-/*@components/overview/TwentyFourHourChange.js */
+/* @components/overview/TwentyFourHourChange.js */
 .twenty_four_hour_container {
   font-size: 0.75em;
   font-weight: bold;
 }
 
-/*@components/overview/Twenty4hChangeByCurrency.js */
+/* @components/overview/Twenty4hChangeByCurrency.js */
 .crypto_24h_change {
   text-decoration: none !important;
   color: black;
+}
+
+/* @components/overview/OverviewCurrencies.js & OverviewTotal */
+.change_container {
+  display: flex;
+  justify-content: start;
+}
+
+.change_value {
+  font-size: 0.75rem;
+  padding-left: 0.5rem;
 }
