@@ -31,8 +31,9 @@ const Overview = ({
 
       setCurrencyNamesAndCurrentValues(namesAndCurrentValuesArr);
 
-      const totalsArray = namesAndCurrentValuesArr.map((el) =>
-        getCurrentValue(user, cryptoCurrencies, el[0])
+      const totalsArray = namesAndCurrentValuesArr.map(
+        ([currencyName, currencyValue]) =>
+          getCurrentValue(user, cryptoCurrencies, currencyName)
       );
 
       setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
@@ -117,6 +118,8 @@ const Overview = ({
           logedin={logedin}
         />
         <OverviewTotal
+          user={user}
+          cryptoCurrencies={cryptoCurrencies}
           totalPurchase={totalPurchase}
           currentValueTotal={currentValueTotal}
           prevCurrentValueTotal={prevCurrentValueTotal}

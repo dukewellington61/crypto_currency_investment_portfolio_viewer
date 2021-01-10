@@ -113,11 +113,7 @@ function TotalChartDiagramm({
         }
       });
     }
-
-    // console.log(resArray);
-
     setResultArray(resArray);
-
     setTimeStampArray(timeStamps);
   }, [nameArray, currentMarketChart, duration]);
 

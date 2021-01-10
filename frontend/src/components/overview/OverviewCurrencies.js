@@ -43,20 +43,6 @@ const OverviewCurrencies = ({
     getCurrentValue(user, cryptoCurrencies, currency) -
     getInitialValue(user, currency);
 
-  const [sparkLineData, setSparkLineData] = useState({});
-
-  useEffect(() => {
-    const sparkLinesDataObj = {};
-    currencyNamesAndCurrentValues.forEach(([currencyName, currencyValue]) => {
-      cryptoCurrencies.data.forEach((obj) => {
-        if (obj.id === currencyName) {
-          sparkLinesDataObj[currencyName] = obj.sparkline_in_7d.price;
-        }
-      });
-    });
-    setSparkLineData(sparkLinesDataObj);
-  }, [cryptoCurrencies]);
-
   return (
     <tbody>
       {logedin &&
@@ -135,20 +121,31 @@ const OverviewCurrencies = ({
 
               {/* roi */}
               <td onClick={() => handleClick("roi", currencyName)}>
-                {(
-                  (getCurrentValue(user, cryptoCurrencies, currencyName) *
-                    100) /
-                    getInitialValue(user, currencyName) -
-                  100
-                ).toFixed(0)}
-                %
+                <div className="x_container">
+                  <div>
+                    {(
+                      (getCurrentValue(user, cryptoCurrencies, currencyName) *
+                        100) /
+                        getInitialValue(user, currencyName) -
+                      100
+                    ).toFixed(0)}
+                    %
+                  </div>
+                  <div className="x_value">
+                    (
+                    {(
+                      currentValue / getInitialValue(user, currencyName)
+                    ).toFixed(1)}
+                    x)
+                  </div>
+                </div>
               </td>
 
               {/* sparkline */}
               <td>
                 <SparkLine
-                  sparkLineData={sparkLineData[currencyName]}
-                  amount={getAmount(user, currencyName)}
+                  cryptoCurrencies={cryptoCurrencies}
+                  currencyName={currencyName}
                 />
               </td>
             </tr>

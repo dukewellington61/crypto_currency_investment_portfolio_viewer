@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import SparkLine from "../charts/SparkLine";
 import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
 
 const OverviewTotal = ({
+  user,
+  cryptoCurrencies,
   totalPurchase,
   currentValueTotal,
   prevCurrentValueTotal,
@@ -25,15 +28,20 @@ const OverviewTotal = ({
   }, [currentValueTotal]);
 
   return (
-    <tr>
+    <tr id="overview_total">
       <th scope="row"></th>
+
       <td></td>
+
+      {/* initial value */}
       <td onClick={() => handleClick("initial_value", "all_currencies")}>
         {totalPurchase.toFixed(2)}&euro;
       </td>
+
+      {/* current value */}
       <td onClick={() => handleClick("current_value", "all_currencies")}>
         <div className="change_container">
-          <div>{currentValueTotal.toFixed(2)}&euro;</div>{" "}
+          <div>{currentValueTotal.toFixed(2)}&euro;</div>
           <div
             className="change_value"
             style={{
@@ -52,11 +60,27 @@ const OverviewTotal = ({
         />
       </td>
 
+      {/* profit */}
       <td onClick={() => handleClick("balance", "all_currencies")}>
         {(currentValueTotal - totalPurchase).toFixed(2)}&euro;
       </td>
+
+      {/* roi */}
       <td onClick={() => handleClick("roi", "all_currencies")}>
-        {((currentValueTotal * 100) / totalPurchase - 100).toFixed(0)}%
+        <div className="x_container">
+          <div>
+            {((currentValueTotal * 100) / totalPurchase - 100).toFixed(0)}%
+          </div>
+          <div className="x_value">
+            ({(currentValueTotal / totalPurchase).toFixed(1)}
+            x)
+          </div>
+        </div>
+      </td>
+
+      {/* sparkline */}
+      <td>
+        <SparkLine user={user} cryptoCurrencies={cryptoCurrencies} />
       </td>
     </tr>
   );

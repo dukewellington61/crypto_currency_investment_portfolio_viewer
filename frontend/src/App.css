@@ -267,3 +267,20 @@
   font-size: 0.75rem;
   padding-left: 0.5rem;
 }
+
+.x_container {
+  display: flex;
+  justify-content: start;
+}
+
+.x_value {
+  font-size: 0.75rem;
+  padding-left: 0.5rem;
+}
+
+/* @components/overview/OverviewTotal.js */
+#overview_total {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: black;
+}

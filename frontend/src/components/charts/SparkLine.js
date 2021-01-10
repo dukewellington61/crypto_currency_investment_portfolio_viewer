@@ -1,16 +1,54 @@
-import React from "react";
-import { Line } from "react-chartjs-2";
+import React, { useState, useEffect } from "react";
+import SparkLineCharts from "./SparkLineCharts";
+import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 
-const SparkLine = ({ sparkLineData, amount }) => {
-  let Xaxis = [];
-  if (sparkLineData) {
-    Xaxis = new Array(sparkLineData.length).fill("");
-  }
-  const sparkLineCurrentValue = () => {
-    if (sparkLineData) {
-      const resultArr = sparkLineData.map((value) => value * amount);
-      return resultArr;
+const SparkLine = ({ user, cryptoCurrencies, currencyName }) => {
+  const [sparkLineData, setSparkLineData] = useState([]);
+
+  useEffect(() => {
+    getSparkLineData();
+  }, [cryptoCurrencies]);
+
+  const getSparkLineData = () => {
+    if (Object.keys(cryptoCurrencies).length > 0) {
+      let sparkLineCurrentValuesTotal = new Array(
+        cryptoCurrencies.data[0].sparkline_in_7d.price.length - 1
+      ).fill(0);
+      if (Object.keys(cryptoCurrencies).length > 0) {
+        cryptoCurrencies.data.forEach((obj) => {
+          // individual currency
+          if (currencyName) {
+            if (obj.id === currencyName) {
+              const sparkLineCurrentValues = obj.sparkline_in_7d.price;
+              setSparkLineData(sparkLineCurrentValues);
+            }
+            // total
+          } else {
+            obj.sparkline_in_7d.price.forEach((price, index) => {
+              sparkLineCurrentValuesTotal[index] +=
+                price * getAmount(user, obj.id);
+            });
+            //not all 7d currency price arrays have the same length --> this results in the last value of the 7d currency total price is too low
+            // to avoid this the last value in array is set to the value before last in the array
+            sparkLineCurrentValuesTotal[
+              sparkLineCurrentValuesTotal.length - 1
+            ] =
+              sparkLineCurrentValuesTotal[
+                sparkLineCurrentValuesTotal.length - 2
+              ];
+            setSparkLineData(sparkLineCurrentValuesTotal);
+          }
+        });
+      }
     }
+  };
+
+  const getX_axisArray = () => {
+    let Xaxis = [];
+    if (sparkLineData) {
+      Xaxis = new Array(sparkLineData.length).fill("");
+    }
+    return Xaxis;
   };
 
   const checkLineColor = () => {
@@ -23,45 +61,10 @@ const SparkLine = ({ sparkLineData, amount }) => {
 
   return (
     <div style={{ width: "10rem" }}>
-      {" "}
-      <Line
-        data={{
-          labels: Xaxis,
-          datasets: [
-            {
-              label: "",
-              data: sparkLineCurrentValue(),
-              borderColor: checkLineColor(),
-            },
-          ],
-        }}
-        // width={100}
-        height={100}
-        options={{
-          elements: {
-            point: {
-              radius: 0,
-            },
-          },
-          responsive: true,
-          legend: {
-            display: false,
-          },
-          maintainAspectRatio: false,
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  display: false,
-                },
-                scaleLabel: {
-                  display: false,
-                  labelString: "",
-                },
-              },
-            ],
-          },
-        }}
+      <SparkLineCharts
+        sparkLineData={sparkLineData}
+        getX_axisArray={getX_axisArray}
+        checkLineColor={checkLineColor}
       />
     </div>
   );

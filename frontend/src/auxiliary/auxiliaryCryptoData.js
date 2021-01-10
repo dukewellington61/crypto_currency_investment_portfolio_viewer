@@ -29,48 +29,6 @@ export const getNamesAndCurrentValues = (user, cryptoCurrencies) => {
   return res;
 };
 
-// let prevValuesObj = {};
-
-// export const getCurrentValue2 = (user, cryptoCurrencies, currencyName) => {
-//   const currentPrice = getCurrentPrice(cryptoCurrencies, currencyName);
-//   const amount = getAmount(user, currencyName);
-//   const currentValue = currentPrice * amount;
-//   let returnObj = {};
-//   let copy_returnObj = {};
-
-//   if (!prevValuesObj[currencyName]) prevValuesObj[currencyName] = [];
-
-//   if (currentValue !== prevValuesObj[currencyName][0]) {
-//     prevValuesObj[currencyName].push(parseFloat(currentValue.toFixed(2)));
-//   }
-
-//   if (prevValuesObj[currencyName].length >= 2) {
-//     prevValuesObj[currencyName].length = 2;
-
-//     returnObj.prevCurrentValue = parseInt(prevValuesObj[currencyName][0]);
-
-//     returnObj.prevCurrentValue = returnObj.prevCurrentValue.toFixed(2);
-
-//     copy_returnObj = JSON.parse(JSON.stringify(returnObj));
-
-//     prevValuesObj[currencyName][0] = prevValuesObj[currencyName][1];
-//     prevValuesObj[currencyName].pop();
-//   }
-
-//   copy_returnObj.currentValue = currentValue;
-
-//   const res = copy_returnObj.currentValue - copy_returnObj.prevCurrentValue;
-
-//   // console.log(prevValuesObj);
-
-//   // if (!isNaN(res)) {
-//   //   console.log(res);
-//   //   return res;
-//   // }
-
-//   return prevValuesObj;
-// };
-
 export const getCurrentValue = (user, cryptoCurrencies, currencyName) => {
   const currentPrice = getCurrentPrice(cryptoCurrencies, currencyName);
   const amount = getAmount(user, currencyName);
@@ -78,29 +36,6 @@ export const getCurrentValue = (user, cryptoCurrencies, currencyName) => {
 
   return currentValue;
 };
-
-// let prevValuesObj = {};
-
-// export const getCurrentValue2 = (user, cryptoCurrencies, currencyName) => {
-//   const currentPrice = getCurrentPrice(cryptoCurrencies, currencyName);
-//   const amount = getAmount(user, currencyName);
-//   const currentValue = currentPrice * amount;
-//   let returnObj = {};
-
-//   if (!prevValuesObj[currencyName]) prevValuesObj[currencyName] = 0;
-
-//   // if (currentValue !== prevValuesObj[currencyName])
-//   returnObj.prevCurrentValue = prevValuesObj[currencyName];
-
-//   const copy_returnObj = JSON.parse(JSON.stringify(returnObj));
-
-//   copy_returnObj.currentValue = currentValue;
-
-//   prevValuesObj[currencyName] = currentValue;
-
-//   console.log(copy_returnObj);
-//   return copy_returnObj;
-// };
 
 export const getCurrentPrice = (cryptoCurrencies, currencyName) => {
   if (cryptoCurrencies.data && typeof currencyName === "string") {
