@@ -203,13 +203,13 @@ export const getMarketChartsCrypto2 = async (
 
     switch (duration) {
       case "day":
-        returnValue = dataSequenceTransformed.slice(0, 250);
+        returnValue = dataSequenceTransformed;
         break;
       case "week":
-        returnValue = dataSequenceTransformed.slice(0, 165);
+        returnValue = dataSequenceTransformed;
         break;
       case "month":
-        returnValue = dataSequenceTransformed.slice(0, 720);
+        returnValue = dataSequenceTransformed;
         break;
       case "all_currency":
         returnValue = dataSequenceTransformed;

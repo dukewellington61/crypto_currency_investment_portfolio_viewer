@@ -28,7 +28,7 @@ const SparkLine = ({ user, cryptoCurrencies, currencyName }) => {
               sparkLineCurrentValuesTotal[index] +=
                 price * getAmount(user, obj.id);
             });
-            //not all 7d currency price arrays have the same length --> this results in the last value of the 7d currency total price is too low
+            // not all 7d currency price arrays have the same length --> this results in the last value of the 7d currency total price is too low
             // to avoid this the last value in array is set to the value before last in the array
             sparkLineCurrentValuesTotal[
               sparkLineCurrentValuesTotal.length - 1

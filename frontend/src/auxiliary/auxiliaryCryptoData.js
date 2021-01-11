@@ -107,7 +107,12 @@ const getAmountAndDate = (positions, currencyName) => {
 // returns object (one for each currency) which has various arrays (initialValueArray, currentValueArray etc..)
 // those arrays that are beeing used to display the whole duration from first purchase until present time have all the same length even if a currency had been purchased later
 // if that is the case, an equivalent amount of positions at the beginning of those arrays are undefined
-export const cumulativeValueInvestment = (positions, marketChart, currency) => {
+export const cumulativeValueInvestment = (
+  positions,
+  marketChart,
+  currencyArr,
+  currency
+) => {
   let resultObject = {};
   let initialValueArr = [];
   let currentValueArr = [];
@@ -118,20 +123,24 @@ export const cumulativeValueInvestment = (positions, marketChart, currency) => {
   // 1st array: getAmountAndDate() returns array with amount, price and date of purchase for each position of a crypro currency
   // 2nd array: marketChart is array of objects -> each object has initialValueArray, currentValueArray, balanceArray etc. ..
   if (marketChart) {
-    getAmountAndDate(positions, currency).forEach((array1) => {
-      marketChart.forEach((array2, index) => {
-        // array1: [date(unix)_of_purchase, amount, initial_value]
-        // array2: [date(unix), price_crypto, timeStamp]
-        if (array1[0] <= array2[0]) {
-          currentValueArr[index] = array2[1] * array1[1];
-          timeStampArr[index] = getTimeStamps(marketChart, index, array2);
-          initialValueArr[index] = array1[2];
-          balanceArr[index] = currentValueArr[index] - initialValueArr[index];
-          roiArr[index] =
-            (currentValueArr[index] * 100) / initialValueArr[index] - 100;
-        }
-      });
-    });
+    getAmountAndDate(positions, currency).forEach(
+      ([date_of_purchase, amount, initial_value]) => {
+        marketChart.forEach(([date, price_crypto, timeStamp], index) => {
+          if (date_of_purchase <= date) {
+            currentValueArr[index] = price_crypto * amount;
+            timeStampArr[index] = getTimeStamps(marketChart, index, [
+              date,
+              price_crypto,
+              timeStamp,
+            ]);
+            initialValueArr[index] = initial_value;
+            balanceArr[index] = currentValueArr[index] - initialValueArr[index];
+            roiArr[index] =
+              (currentValueArr[index] * 100) / initialValueArr[index] - 100;
+          }
+        });
+      }
+    );
   }
 
   resultObject.initialValueArray = initialValueArr;

@@ -147,3 +147,10 @@ Jan 3
 In overview/current value I want to display time passed and change since last refresh
 
 or maybe I can find a way to display constant changes based on live streamed data
+
+
+Jan 10th
+find a way to automatically reduce length of array for total day
+all arrays can't be longer than the shortest array
+
+check length of any array and shorten the rest of the arrays accordingly

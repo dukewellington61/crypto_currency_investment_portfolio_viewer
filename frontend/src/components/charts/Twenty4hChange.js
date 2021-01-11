@@ -6,7 +6,9 @@ const Twenty4hChange = ({ dataArray }) => {
   const [twentyFourHoursMin, setTwentyFourHoursMin] = useState(0);
 
   useEffect(() => {
-    setChange(dataArray[dataArray.length - 1] - dataArray[0]);
+    // array has NaN in the end which have to be removed because else change = NaN
+    const arr = dataArray.filter((el) => !isNaN(el));
+    setChange(dataArray[arr.length - 1] - arr[0]);
     setTwentyFourHoursMax(get24hMax());
     setTwentyFourHoursMin(get24hMin());
   }, [dataArray]);
