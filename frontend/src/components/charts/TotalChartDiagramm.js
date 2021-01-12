@@ -10,8 +10,6 @@ function TotalChartDiagramm({
   originAndCurrency,
   duration,
 }) {
-  // console.log(currentMarketChart);
-
   const [nameArray, setNameArray] = useState("");
 
   const [labelStr, setLabelStr] = useState("");
@@ -72,21 +70,23 @@ function TotalChartDiagramm({
       )
     );
 
+    // not all currency price arrays as returned by the api have the same length --> this results in the last values of the calculated total price array being too low
     // this makes sure that all the indivual currency arrays from which totals are beeing calculated have the same length
     // (which corresponds with the length of the shortest array)
-    let currenciesTotalObjectsSameLengthArray = [];
-
     let lengthArr = [];
 
-    currenciesTotalObjectsArray.forEach((obj) => {
-      lengthArr.push(obj.initialValueArray.length);
-      if (lengthArr.length === currencyArr.length) {
-        const minLength = Math.min(...lengthArr);
-        for (const [key, value] of Object.entries(obj)) {
-          value.length = minLength;
-          currenciesTotalObjectsSameLengthArray.push(obj);
-        }
-        lengthArr = [];
+    // puts length of each array in object in array
+    currenciesTotalObjectsArray.forEach(
+      (obj, index) => (lengthArr[index] = obj.initialValueArray.length)
+    );
+
+    // gets the shortest array length
+    const minLength = Math.min(...lengthArr);
+
+    // sets length of arrays in object to the shortest length
+    currenciesTotalObjectsArray.map((obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        value.length = minLength;
       }
     });
 
@@ -95,7 +95,7 @@ function TotalChartDiagramm({
     // some of these arrays contain empty slots (for details see comments in cumulativeValueInvestment() in @auxiliaryCryptoData.js)
     // those have to be removed, else the line diagrams display a lot of null values at the beginning
     // hence filter is employed
-    currenciesTotalObjectsSameLengthArray.forEach((obj) => {
+    currenciesTotalObjectsArray.forEach((obj) => {
       const filtered = obj.timeStampArray.filter((el) => el !== undefined);
       filtered.forEach((el, index) => (timeStamps[index] = el));
     });

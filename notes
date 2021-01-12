@@ -154,3 +154,10 @@ find a way to automatically reduce length of array for total day
 all arrays can't be longer than the shortest array
 
 check length of any array and shorten the rest of the arrays accordingly
+
+Jan 12th
+on user input currency automatically calculate usd value (or eur depending on what user chooses) and add to deliberation
+
+or maybe put the burden on user
+
+change: either set to 0 on select currency in nav or calculate value in the other currency

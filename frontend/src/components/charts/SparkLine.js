@@ -10,35 +10,49 @@ const SparkLine = ({ user, cryptoCurrencies, currencyName }) => {
   }, [cryptoCurrencies]);
 
   const getSparkLineData = () => {
+    // not all 7d price arrays as returned by the api have the same length --> this results in the last values of the calculated total price array being too low
+    // this makes sure that all the indivual currency arrays from which totals are beeing calculated have the same length
+    // (which corresponds with the length of the shortest array)
+
+    let lengthArr = [];
+
     if (Object.keys(cryptoCurrencies).length > 0) {
-      let sparkLineCurrentValuesTotal = new Array(
-        cryptoCurrencies.data[0].sparkline_in_7d.price.length - 1
-      ).fill(0);
+      // gets lenghts of 7d price array
+      cryptoCurrencies.data.forEach((obj, index) => {
+        lengthArr[index] = obj.sparkline_in_7d.price.length;
+      });
+
+      // get length of shortest 7d price array
+      const minLength = Math.min(...lengthArr);
+
+      // get length of longest 7d price array
+      const maxLength = Math.max(...lengthArr);
+
+      // sets array sparkLineCurrentValues to length of longest 7d price array
+      let sparkLineCurrentValues = new Array(maxLength).fill(0);
+
       if (Object.keys(cryptoCurrencies).length > 0) {
         cryptoCurrencies.data.forEach((obj) => {
           // individual currency
           if (currencyName) {
             if (obj.id === currencyName) {
-              const sparkLineCurrentValues = obj.sparkline_in_7d.price;
-              setSparkLineData(sparkLineCurrentValues);
+              obj.sparkline_in_7d.price.forEach((price, index) => {
+                sparkLineCurrentValues[index] +=
+                  price * getAmount(user, obj.id);
+              });
             }
             // total
           } else {
             obj.sparkline_in_7d.price.forEach((price, index) => {
-              sparkLineCurrentValuesTotal[index] +=
-                price * getAmount(user, obj.id);
+              sparkLineCurrentValues[index] += price * getAmount(user, obj.id);
             });
-            // not all 7d currency price arrays have the same length --> this results in the last value of the 7d currency total price is too low
-            // to avoid this the last value in array is set to the value before last in the array
-            sparkLineCurrentValuesTotal[
-              sparkLineCurrentValuesTotal.length - 1
-            ] =
-              sparkLineCurrentValuesTotal[
-                sparkLineCurrentValuesTotal.length - 2
-              ];
-            setSparkLineData(sparkLineCurrentValuesTotal);
           }
         });
+
+        // sets result array of sparkline value to the length of the shortes 7d price array
+        sparkLineCurrentValues.length = minLength;
+
+        setSparkLineData(sparkLineCurrentValues);
       }
     }
   };

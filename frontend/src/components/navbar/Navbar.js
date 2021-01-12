@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import AccountIcon from "./AccountIcon";
+import Fiat from "./Fiat";
 
-const Navbar = ({ logout, logedin }) => {
+const Navbar = ({ logout, logedin, setFiatCurrency }) => {
   return (
     <nav id="navbar">
       <div id="brand_container">
@@ -32,6 +33,10 @@ const Navbar = ({ logout, logedin }) => {
         <Link className="nav_items" to="#">
           <AccountIcon logout={logout} logedin={logedin} />
         </Link>
+
+        <div>
+          <Fiat setFiatCurrency={setFiatCurrency} />
+        </div>
       </div>
     </nav>
   );

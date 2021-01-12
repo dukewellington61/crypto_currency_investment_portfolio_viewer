@@ -9,9 +9,10 @@ const Overview = ({
   user,
   cryptoCurrencies,
   logedin,
-  toggleView,
   renderOverview,
+  fiat,
   updateOriginAndCurrencyState,
+  toggleView,
 }) => {
   const [
     currencyNamesAndCurrentValues,
@@ -111,11 +112,12 @@ const Overview = ({
           cryptoCurrencies={cryptoCurrencies}
           currencyNamesAndCurrentValues={currencyNamesAndCurrentValues}
           prevCurrentValues={prevCurrentValues}
+          logedin={logedin}
+          fiat={fiat}
           getInitialValue={getInitialValue}
           get24hourChangeByCurrency={get24hourChangeByCurrency}
           getCurrentValue={getCurrentValue}
           handleClick={handleClick}
-          logedin={logedin}
         />
         <OverviewTotal
           user={user}

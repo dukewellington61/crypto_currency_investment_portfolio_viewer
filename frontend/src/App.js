@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { createPosition } from "./actions/positions";
@@ -33,6 +33,8 @@ const App = () => {
 
   const [cryptoCurrencies, setCryptoCurrencies] = useState({});
 
+  const fiat = useRef("eur");
+
   useEffect(() => {
     loadUserObj();
   }, []);
@@ -50,7 +52,7 @@ const App = () => {
       }, 120000);
 
       const update = async () => {
-        const crypto = await getLatestCryptoData(currencyNames);
+        const crypto = await getLatestCryptoData(currencyNames, fiat.current);
         if (crypto instanceof Error) {
           triggerAlert("Something went wrong", "danger");
         } else {
@@ -62,28 +64,11 @@ const App = () => {
     }
   };
 
-  // const getDataStream = () => {
-  //   if (Object.keys(cryptoCurrencies).length > 0) {
-  //     cryptoCurrencies.data.forEach((obj) => {
-  //       const binanceSocket = new WebSocket(
-  //         `wss://stream.binance.com:9443/ws/${obj.symbol}usdt@trade`
-  //       );
-  //       binanceSocket.onmessage = function (e) {
-  //         const messageObj = JSON.parse(e.data);
-  //         cryptoCurrencies.data.forEach((obj, index) => {
-  //           if (messageObj.s.includes(obj.symbol.toUpperCase())) {
-  //             setCryptoCurrencies({
-  //               ...(cryptoCurrencies,
-  //               (cryptoCurrencies.data[index].current_price = parseFloat(
-  //                 messageObj.p
-  //               ))),
-  //             });
-  //           }
-  //         });
-  //       };
-  //     });
-  //   }
-  // };
+  const setFiatCurrency = (e) => {
+    fiat.current = e.target.value.toLowerCase();
+    updateCryptoCurrenciesState();
+    console.log("setFiatCurrency");
+  };
 
   const makePosition = async (formData) => {
     const position = await createPosition(formData);
@@ -146,7 +131,11 @@ const App = () => {
   return (
     <Router>
       <Fragment>
-        <Navbar logout={logout} logedin={logedin} />
+        <Navbar
+          logout={logout}
+          logedin={logedin}
+          setFiatCurrency={setFiatCurrency}
+        />
         <Alert alert={alert} removeAlert={removeAlert} />
         <Switch>
           {logedin && (
@@ -158,6 +147,7 @@ const App = () => {
                   user={user}
                   cryptoCurrencies={cryptoCurrencies}
                   logedin={logedin}
+                  fiat={fiat}
                   triggerAlert={triggerAlert}
                 />
               )}

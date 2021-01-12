@@ -11,11 +11,12 @@ const OverviewCurrencies = ({
   cryptoCurrencies,
   currencyNamesAndCurrentValues,
   prevCurrentValues,
+  logedin,
+  fiat,
   getInitialValue,
   get24hourChangeByCurrency,
   getCurrentValue,
   handleClick,
-  logedin,
 }) => {
   // both hooks are neccessary to persist change currentValues so they survive re mounting of this component
   const [currentValuesChange, setCurrentValuesChange] = useState(
@@ -144,6 +145,7 @@ const OverviewCurrencies = ({
               {/* sparkline */}
               <td>
                 <SparkLine
+                  user={user}
                   cryptoCurrencies={cryptoCurrencies}
                   currencyName={currencyName}
                 />

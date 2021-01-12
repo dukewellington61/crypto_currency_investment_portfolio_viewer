@@ -4,7 +4,7 @@ import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
 import Overview from "../overview/Overview";
 import TotalChart from "../charts/TotalChart";
 
-function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
+function Landing({ user, cryptoCurrencies, logedin, fiat, triggerAlert }) {
   const [renderOverview, setRenderOverview] = useState(true);
   const [renderTotalChart, setRenderTotalChart] = useState(false);
 
@@ -127,9 +127,10 @@ function Landing({ user, cryptoCurrencies, logedin, triggerAlert }) {
           user={user}
           cryptoCurrencies={cryptoCurrencies}
           logedin={logedin}
-          toggleView={toggleView}
           renderOverview={renderOverview}
+          fiat={fiat}
           updateOriginAndCurrencyState={updateOriginAndCurrencyState}
+          toggleView={toggleView}
         />
       )}
       {renderTotalChart && (
