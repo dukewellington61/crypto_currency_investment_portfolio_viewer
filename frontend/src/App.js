@@ -33,7 +33,7 @@ const App = () => {
 
   const [cryptoCurrencies, setCryptoCurrencies] = useState({});
 
-  const fiat = useRef("eur");
+  const fiat = useRef("EUR");
 
   useEffect(() => {
     loadUserObj();
@@ -67,7 +67,6 @@ const App = () => {
   const setFiatCurrency = (e) => {
     fiat.current = e.target.value.toLowerCase();
     updateCryptoCurrenciesState();
-    console.log("setFiatCurrency");
   };
 
   const makePosition = async (formData) => {

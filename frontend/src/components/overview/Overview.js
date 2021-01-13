@@ -59,7 +59,10 @@ const Overview = ({
 
   const getInitialValuePurchase = () => {
     let sum = 0;
-    if (user) user.positions.forEach((position) => (sum += position.price));
+    if (user)
+      user.positions.forEach((position) => {
+        sum += position[`price_${fiat.current}`];
+      });
     return sum;
   };
 

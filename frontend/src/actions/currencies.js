@@ -230,3 +230,19 @@ export const getMarketChartsCrypto2 = async (
     return error;
   }
 };
+
+export const getFiatExchangeRates = async (date) => {
+  // console.log("date");
+  // console.log(date);
+  // 2010-01-12
+  const urlString = `https://api.exchangeratesapi.io/${date}`;
+
+  const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
+  try {
+    const res = await axios.get(proxyurl + urlString);
+    return res;
+  } catch (err) {
+    return err;
+  }
+};

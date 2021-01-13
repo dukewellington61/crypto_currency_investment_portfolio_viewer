@@ -79,9 +79,9 @@ const OverviewTotal = ({
       </td>
 
       {/* sparkline */}
-      <td>
+      {/* <td>
         <SparkLine user={user} cryptoCurrencies={cryptoCurrencies} />
-      </td>
+      </td> */}
     </tr>
   );
 };

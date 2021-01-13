@@ -156,8 +156,47 @@ all arrays can't be longer than the shortest array
 check length of any array and shorten the rest of the arrays accordingly
 
 Jan 12th
-on user input currency automatically calculate usd value (or eur depending on what user chooses) and add to deliberation
-
-or maybe put the burden on user
+on user input currency automatically calculate usd value (or eur depending on what user chooses) and add to db
 
 change: either set to 0 on select currency in nav or calculate value in the other currency
+
+
+ const res = {
+      rates: {
+        CAD: 1.4959,
+        HKD: 11.2301,
+        LVL: 0.7093,
+        PHP: 66.106,
+        DKK: 7.4405,
+        HUF: 268.18,
+        CZK: 26.258,
+        AUD: 1.5668,
+        RON: 4.1405,
+        SEK: 10.2215,
+        IDR: 13281.14,
+        INR: 66.21,
+        BRL: 2.5309,
+        RUB: 42.6974,
+        LTL: 3.4528,
+        JPY: 132.41,
+        THB: 47.839,
+        CHF: 1.4743,
+        SGD: 2.0133,
+        PLN: 4.0838,
+        BGN: 1.9558,
+        TRY: 2.1084,
+        CNY: 9.8863,
+        NOK: 8.1825,
+        NZD: 1.9573,
+        ZAR: 10.8264,
+        USD: 1.4481,
+        MXN: 18.4995,
+        EEK: 15.6466,
+        GBP: 0.8972,
+        KRW: 1627.4,
+        MYR: 4.8424,
+        HRK: 7.2753,
+      },
+      base: "EUR",
+      date: "2010-01-12",
+    };

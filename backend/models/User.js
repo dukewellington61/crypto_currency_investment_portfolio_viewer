@@ -19,7 +19,13 @@ const UserSchema = new mongoose.Schema({
         type: String,
         requires: true,
       },
-      price: {
+      price_EUR: {
+        type: Number,
+      },
+      price_USD: {
+        type: Number,
+      },
+      price_GBP: {
         type: Number,
       },
       fiat_currency: {

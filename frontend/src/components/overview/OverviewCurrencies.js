@@ -18,6 +18,8 @@ const OverviewCurrencies = ({
   getCurrentValue,
   handleClick,
 }) => {
+  console.log("fiat");
+  console.log(fiat.current);
   // both hooks are neccessary to persist change currentValues so they survive re mounting of this component
   const [currentValuesChange, setCurrentValuesChange] = useState(
     sessionStorage.getItem("changeObj")
@@ -42,7 +44,7 @@ const OverviewCurrencies = ({
 
   const getBalance = (currency) =>
     getCurrentValue(user, cryptoCurrencies, currency) -
-    getInitialValue(user, currency);
+    getInitialValue(user, currency, fiat);
 
   return (
     <tbody>
@@ -78,7 +80,7 @@ const OverviewCurrencies = ({
 
               {/* initial value */}
               <td onClick={() => handleClick("initial_value", currencyName)}>
-                {getInitialValue(user, currencyName).toFixed(2)}&euro;
+                {getInitialValue(user, currencyName, fiat).toFixed(2)}&euro;
               </td>
 
               {/* current value */}
@@ -127,7 +129,7 @@ const OverviewCurrencies = ({
                     {(
                       (getCurrentValue(user, cryptoCurrencies, currencyName) *
                         100) /
-                        getInitialValue(user, currencyName) -
+                        getInitialValue(user, currencyName, fiat) -
                       100
                     ).toFixed(0)}
                     %
@@ -135,7 +137,7 @@ const OverviewCurrencies = ({
                   <div className="x_value">
                     (
                     {(
-                      currentValue / getInitialValue(user, currencyName)
+                      currentValue / getInitialValue(user, currencyName, fiat)
                     ).toFixed(1)}
                     x)
                   </div>

@@ -20,8 +20,9 @@ router.post("/", auth, async (req, res) => {
     const position = {
       crypto_currency: req.body.crypto_currency,
       amount: req.body.amount,
-      price: req.body.price,
-      fiat_currency: req.body.fiat_currency,
+      price_EUR: req.body.price_EUR,
+      price_USD: req.body.price_USD,
+      price_GBP: req.body.price_GBP,
       date_of_purchase: req.body.date_of_purchase,
     };
 

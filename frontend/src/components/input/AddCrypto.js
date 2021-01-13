@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { getLatestCryptoData } from "../../actions/currencies";
+import { getFiatExchangeRates } from "../../actions/currencies";
 
 const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,8 @@ const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
     // in order to send a value (EUR or USD) it had to be actively selected everytime the user wants to enter a new position
     formData.fiat_currency = e.target.querySelector("select").value;
 
+    convertFiat();
+
     const returnValue = await getLatestCryptoData([crypto_currency]);
 
     if (returnValue.data.length > 0) {
@@ -37,6 +40,41 @@ const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
         `Sorry, either we don't have ${crypto_currency} in our list or you've got the spelling wrong.`,
         "danger"
       );
+    }
+  };
+
+  const convertFiat = async () => {
+    const exchangeObj = await getFiatExchangeRates(date_of_purchase);
+
+    // console.log("exchangeObj");
+    // console.log(exchangeObj);
+
+    if (exchangeObj instanceof Error) {
+      triggerAlert(exchangeObj.message, "danger");
+      return;
+    } else if (exchangeObj) {
+      switch (formData.fiat_currency) {
+        case "EUR":
+          formData.price_EUR = price;
+          formData.price_USD = price * exchangeObj.data.rates.USD;
+          formData.price_GBP = price * exchangeObj.data.rates.GBP;
+          break;
+        case "USD":
+          formData.price_USD = price;
+          const exchangeRateUSD_EUR = 1 / exchangeObj.data.rates.USD;
+          const exchangeRateUSD_GBP = 1 / exchangeObj.data.rates.GBP;
+          formData.price_EUR = price * exchangeRateUSD_EUR;
+          formData.price_GBP = price * exchangeRateUSD_GBP;
+          break;
+        case "GBP":
+          formData.price_GBP = price;
+          const exchangeRateGBP_EUR = 1 / exchangeObj.data.rates.EUR;
+          const exchangeRateGBP_USD = 1 / exchangeObj.data.rates.USD;
+          formData.price_EUR = price * exchangeRateGBP_EUR;
+          formData.price_USD = price * exchangeRateGBP_USD;
+          break;
+        default:
+      }
     }
   };
 
