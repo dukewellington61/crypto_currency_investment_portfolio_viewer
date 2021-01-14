@@ -65,7 +65,7 @@ const App = () => {
   };
 
   const setFiatCurrency = (e) => {
-    fiat.current = e.target.value.toLowerCase();
+    fiat.current = e.target.value;
     updateCryptoCurrenciesState();
   };
 

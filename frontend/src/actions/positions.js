@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const createPosition = async (formData) => {
+  console.log("formData");
+  console.log(formData);
   const config = {
     headers: {
       "Content-Type": "application/json",

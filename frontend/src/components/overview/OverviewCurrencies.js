@@ -99,6 +99,7 @@ const OverviewCurrencies = ({
                     }}
                   >
                     {Object.keys(JSON.parse(currentValuesChange)).length > 0 &&
+                    JSON.parse(currentValuesChange)[currencyName] &&
                     JSON.parse(currentValuesChange)[currencyName] !== null &&
                     JSON.parse(currentValuesChange)[currencyName] !== 0
                       ? JSON.parse(currentValuesChange)[currencyName].toFixed(2)

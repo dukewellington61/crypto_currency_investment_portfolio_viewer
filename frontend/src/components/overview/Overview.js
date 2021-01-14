@@ -51,9 +51,9 @@ const Overview = ({
   useEffect(() => {
     prevCurrentValueTotal.current = currentValueTotal;
 
-    currencyNamesAndCurrentValues.map((el) => {
-      const currVal = getCurrentValue(user, cryptoCurrencies, el[0]);
-      prevCurrentValues.current[el[0]] = currVal;
+    currencyNamesAndCurrentValues.map(([currencyName, currencyValue]) => {
+      const currVal = getCurrentValue(user, cryptoCurrencies, currencyName);
+      prevCurrentValues.current[currencyName] = currVal;
     });
   }, [currentValueTotal]);
 
@@ -128,6 +128,7 @@ const Overview = ({
           totalPurchase={totalPurchase}
           currentValueTotal={currentValueTotal}
           prevCurrentValueTotal={prevCurrentValueTotal}
+          fiat={fiat}
           get24hourChangeTotal={get24hourChangeTotal}
           handleClick={handleClick}
         />

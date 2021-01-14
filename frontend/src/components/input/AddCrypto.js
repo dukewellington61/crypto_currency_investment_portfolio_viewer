@@ -15,23 +15,31 @@ const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  let submitObj = {};
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
     // dropdown menu doesn't send default value (EUR) because onChange fires only on user input
     // in order to send a value (EUR or USD) it had to be actively selected everytime the user wants to enter a new position
     formData.fiat_currency = e.target.querySelector("select").value;
 
-    convertFiat();
+    // formData object has properties which are neccessary to determin data that is to be persisted in db
+    // some of the formData attributes themselfes are to be stored in db as well
+    // they are set to a object which ends up beeing send to the backend for db persistance
+    submitObj.crypto_currency = formData.crypto_currency;
+    submitObj.amount = parseFloat(formData.amount);
+    await convertFiat();
+    submitObj.date_of_purchase = formData.date_of_purchase;
 
     const returnValue = await getLatestCryptoData([crypto_currency]);
 
     if (returnValue.data.length > 0) {
-      await makePosition(formData);
+      await makePosition(submitObj);
       setFormData({
         crypto_currency: "",
         amount: "",
         price: "",
-        fiat_currency: "",
         date_of_purchase: "",
       });
       loadUserObj();
@@ -46,34 +54,33 @@ const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
   const convertFiat = async () => {
     const exchangeObj = await getFiatExchangeRates(date_of_purchase);
 
-    // console.log("exchangeObj");
-    // console.log(exchangeObj);
-
     if (exchangeObj instanceof Error) {
       triggerAlert(exchangeObj.message, "danger");
       return;
     } else if (exchangeObj) {
       switch (formData.fiat_currency) {
         case "EUR":
-          formData.price_EUR = price;
-          formData.price_USD = price * exchangeObj.data.rates.USD;
-          formData.price_GBP = price * exchangeObj.data.rates.GBP;
+          submitObj.price_EUR = parseFloat(price);
+          submitObj.price_USD = price * exchangeObj.data.rates.USD;
+          submitObj.price_GBP = price * exchangeObj.data.rates.GBP;
           break;
+
         case "USD":
-          formData.price_USD = price;
+          submitObj.price_USD = price;
           const exchangeRateUSD_EUR = 1 / exchangeObj.data.rates.USD;
           const exchangeRateUSD_GBP = 1 / exchangeObj.data.rates.GBP;
-          formData.price_EUR = price * exchangeRateUSD_EUR;
-          formData.price_GBP = price * exchangeRateUSD_GBP;
+          submitObj.price_EUR = price * exchangeRateUSD_EUR;
+          submitObj.price_GBP = price * exchangeRateUSD_GBP;
           break;
         case "GBP":
-          formData.price_GBP = price;
+          submitObj.price_GBP = price;
           const exchangeRateGBP_EUR = 1 / exchangeObj.data.rates.EUR;
           const exchangeRateGBP_USD = 1 / exchangeObj.data.rates.USD;
-          formData.price_EUR = price * exchangeRateGBP_EUR;
-          formData.price_USD = price * exchangeRateGBP_USD;
+          submitObj.price_EUR = price * exchangeRateGBP_EUR;
+          submitObj.price_USD = price * exchangeRateGBP_USD;
           break;
         default:
+          return submitObj;
       }
     }
   };

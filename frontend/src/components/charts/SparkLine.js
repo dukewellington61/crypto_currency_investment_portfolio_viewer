@@ -13,10 +13,17 @@ const SparkLine = ({ user, cryptoCurrencies, currencyName }) => {
     // not all 7d price arrays as returned by the api have the same length --> this results in the last values of the calculated total price array being too low
     // this makes sure that all the indivual currency arrays from which totals are beeing calculated have the same length
     // (which corresponds with the length of the shortest array)
+    // console.log("user");
+    // console.log(user);
+    // console.log("cryptoCurrencies");
+    // console.log(cryptoCurrencies);
 
-    let lengthArr = [];
+    if (
+      Object.keys(cryptoCurrencies).length > 0 &&
+      cryptoCurrencies.data.length > 0
+    ) {
+      let lengthArr = [];
 
-    if (Object.keys(cryptoCurrencies).length > 0) {
       // gets lenghts of 7d price array
       cryptoCurrencies.data.forEach((obj, index) => {
         lengthArr[index] = obj.sparkline_in_7d.price.length;

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SparkLine from "../charts/SparkLine";
 import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
+import { getFiatExchangeRates } from "../../actions/currencies";
 
 const OverviewTotal = ({
   user,
@@ -8,6 +9,7 @@ const OverviewTotal = ({
   totalPurchase,
   currentValueTotal,
   prevCurrentValueTotal,
+  fiat,
   get24hourChangeTotal,
   handleClick,
 }) => {
@@ -16,15 +18,53 @@ const OverviewTotal = ({
     sessionStorage.getItem("change")
   );
 
+  // const prevFiat = useRef("");
+
+  // useEffect(() => {
+  //   console.log("useEffect");
+  //   prevFiat.current = fiat.current;
+  // }, [fiat.current]);
+
   useEffect(() => {
-    const change = (currentValueTotal - prevCurrentValueTotal.current).toFixed(
-      2
-    );
-    // makes sure that session storage and state are only updated if it is not a re mount
-    if (!isNaN(change) && prevCurrentValueTotal.current !== 0) {
-      sessionStorage.setItem("change", change);
-      setCurrentValueTotalChange(change);
-    }
+    const calcChange = async () => {
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      var yyyy = today.getFullYear();
+
+      const date = yyyy + "-" + mm + "-" + dd;
+      const exchangeObj = await getFiatExchangeRates(date);
+
+      // switch (fiat.current) {
+      //   case "EUR":
+      //     break;
+      //   case "USD":
+      //     prevCurrentValueTotal.current *= exchangeObj.data.rates.USD;
+
+      //     break;
+      //   case "GBP":
+      //     prevCurrentValueTotal.current *= 1 / exchangeObj.data.rates.GBR;
+      //     break;
+      //   default:
+      //     return;
+      // }
+
+      console.log("currentValueTotal");
+      console.log(currentValueTotal);
+      console.log("prevCurrentValueTotal.current");
+      console.log(prevCurrentValueTotal.current);
+
+      const change = (
+        currentValueTotal - prevCurrentValueTotal.current
+      ).toFixed(2);
+
+      // makes sure that session storage and state are only updated if it is not a re mount
+      if (!isNaN(change) && prevCurrentValueTotal.current !== 0) {
+        sessionStorage.setItem("change", change);
+        setCurrentValueTotalChange(change);
+      }
+    };
+    calcChange();
   }, [currentValueTotal]);
 
   return (

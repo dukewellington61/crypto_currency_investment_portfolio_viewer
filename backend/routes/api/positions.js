@@ -15,6 +15,9 @@ router.post("/", auth, async (req, res) => {
       return res.status(401).json({ msg: "User not found" });
     }
 
+    console.log("req.body");
+    console.log(req.body);
+
     // Denormalization
     // stores positions objects in users collection
     const position = {
