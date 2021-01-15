@@ -5,9 +5,12 @@ import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
 const OverviewTotal = ({
   user,
   cryptoCurrencies,
+  exchangeRates,
   totalPurchase,
   currentValueTotal,
   prevCurrentValueTotal,
+  fiat,
+  prevFiat,
   get24hourChangeTotal,
   handleClick,
 }) => {
@@ -17,15 +20,46 @@ const OverviewTotal = ({
   );
 
   useEffect(() => {
-    const change = (currentValueTotal - prevCurrentValueTotal.current).toFixed(
-      2
-    );
-    // makes sure that session storage and state are only updated if it is not a re mount
-    if (!isNaN(change) && prevCurrentValueTotal.current !== 0) {
-      sessionStorage.setItem("change", change);
-      setCurrentValueTotalChange(change);
+    // makes sure that change current total is not re - calculated when user switches fiat
+    if (fiat.current === prevFiat.current) {
+      const change = (
+        currentValueTotal - prevCurrentValueTotal.current
+      ).toFixed(2);
+      // makes sure that session storage and state are only updated if it is not a re mount
+      if (!isNaN(change) && prevCurrentValueTotal.current !== 0) {
+        sessionStorage.setItem("change", change);
+        setCurrentValueTotalChange(change);
+      }
     }
   }, [currentValueTotal]);
+
+  useEffect(() => {
+    calcChange();
+  }, [fiat.current]);
+
+  // converts change current total into the selected fiat
+  const calcChange = async () => {
+    // switch from EUR to USD
+    if (fiat.current === "USD" && prevFiat.current === "EUR") {
+      if (exchangeRates.data) {
+        setCurrentValueTotalChange(
+          (currentValueTotalChange * exchangeRates.data.rates.USD).toFixed(2)
+        );
+      }
+    }
+
+    // switch from USD to EUR
+    if (fiat.current === "EUR" && prevFiat.current === "USD") {
+      if (exchangeRates.data) {
+        setCurrentValueTotalChange(
+          (
+            currentValueTotalChange *
+            (1 / exchangeRates.data.rates.USD)
+          ).toFixed(2)
+        );
+      }
+    }
+  };
 
   return (
     <tr id="overview_total">

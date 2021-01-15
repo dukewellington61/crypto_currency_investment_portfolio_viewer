@@ -172,7 +172,6 @@ const getTimeStamps = (marketChart, index, array2) => {
 };
 
 export const getInitialValue = (user, currency, fiat) => {
-  console.log(fiat);
   let sum = 0;
   user.positions.map((position) => {
     if (position.crypto_currency === currency) {

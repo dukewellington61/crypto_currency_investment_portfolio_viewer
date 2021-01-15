@@ -8,6 +8,7 @@ import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 const Overview = ({
   user,
   cryptoCurrencies,
+  exchangeRates,
   logedin,
   renderOverview,
   fiat,
@@ -43,19 +44,33 @@ const Overview = ({
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
 
-  // useRef preserve previous currentValue over re-render
+  // these next lines of code preserve the previous currentValue over re-render
   const prevCurrentValueTotal = useRef(0);
 
   const prevCurrentValues = useRef({});
 
   useEffect(() => {
     prevCurrentValueTotal.current = currentValueTotal;
-
     currencyNamesAndCurrentValues.map(([currencyName, currencyValue]) => {
       const currVal = getCurrentValue(user, cryptoCurrencies, currencyName);
       prevCurrentValues.current[currencyName] = currVal;
     });
   }, [currentValueTotal]);
+
+  // these next lines of code preserve the previous state of fiat (i.e. the fiat user had selected before current
+  const [fiatCurr, setFiatCurr] = useState("");
+
+  const prevFiat = useRef({});
+
+  useEffect(() => {
+    setFiatCurr(fiat.current);
+  }, [currentValueTotal]);
+
+  useEffect(() => {
+    prevFiat.current = fiatCurr;
+  }, [fiatCurr]);
+
+  //
 
   const getInitialValuePurchase = () => {
     let sum = 0;
@@ -113,10 +128,12 @@ const Overview = ({
         <OverviewCurrencies
           user={user}
           cryptoCurrencies={cryptoCurrencies}
+          exchangeRates={exchangeRates}
           currencyNamesAndCurrentValues={currencyNamesAndCurrentValues}
           prevCurrentValues={prevCurrentValues}
           logedin={logedin}
           fiat={fiat}
+          prevFiat={prevFiat}
           getInitialValue={getInitialValue}
           get24hourChangeByCurrency={get24hourChangeByCurrency}
           getCurrentValue={getCurrentValue}
@@ -125,10 +142,12 @@ const Overview = ({
         <OverviewTotal
           user={user}
           cryptoCurrencies={cryptoCurrencies}
+          exchangeRates={exchangeRates}
           totalPurchase={totalPurchase}
           currentValueTotal={currentValueTotal}
           prevCurrentValueTotal={prevCurrentValueTotal}
           fiat={fiat}
+          prevFiat={prevFiat}
           get24hourChangeTotal={get24hourChangeTotal}
           handleClick={handleClick}
         />

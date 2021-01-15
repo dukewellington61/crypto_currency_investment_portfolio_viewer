@@ -8,6 +8,8 @@ import { loadUser } from "./auxiliary/auxiliaryUserData";
 import { signin } from "./auxiliary/auxiliaryUserData";
 import { signout } from "./auxiliary/auxiliaryUserData";
 import { signup } from "./auxiliary/auxiliaryUserData";
+import { getFiatExchangeRates } from "./actions/currencies";
+import { getCurrentDate } from "./auxiliary/auxiliaryDateData";
 
 import Navbar from "./components/navbar/Navbar";
 import Landing from "./components/layout/Landing";
@@ -33,6 +35,8 @@ const App = () => {
 
   const [cryptoCurrencies, setCryptoCurrencies] = useState({});
 
+  const [exchangeRates, setExchangeRate] = useState({});
+
   const fiat = useRef("EUR");
 
   useEffect(() => {
@@ -41,6 +45,7 @@ const App = () => {
 
   useEffect(() => {
     updateCryptoCurrenciesState();
+    updateExchangeRateState();
   }, [logedin]);
 
   const updateCryptoCurrenciesState = async () => {
@@ -62,6 +67,13 @@ const App = () => {
 
       update();
     }
+  };
+
+  const updateExchangeRateState = async () => {
+    const date = getCurrentDate();
+
+    const exchangeObj = await getFiatExchangeRates(date);
+    setExchangeRate(exchangeObj);
   };
 
   const setFiatCurrency = (e) => {
@@ -145,6 +157,7 @@ const App = () => {
                 <Landing
                   user={user}
                   cryptoCurrencies={cryptoCurrencies}
+                  exchangeRates={exchangeRates}
                   logedin={logedin}
                   fiat={fiat}
                   triggerAlert={triggerAlert}

@@ -169,3 +169,6 @@ if fiat changes change changes in accordance with the exchange rates
  usd 37500	37625	  125
 
  
+ enable prevFiat and use conditional in 1st useEffect so it executes code only if it not a fiat change
+
+ if its a fiat change only 2nd useEffect is to execute its code

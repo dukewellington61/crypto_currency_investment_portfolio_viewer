@@ -9,23 +9,25 @@ import { getCurrentPrice } from "../../auxiliary/auxiliaryCryptoData";
 const OverviewCurrencies = ({
   user,
   cryptoCurrencies,
+  exchangeRates,
   currencyNamesAndCurrentValues,
   prevCurrentValues,
   logedin,
   fiat,
+  prevFiat,
   getInitialValue,
   get24hourChangeByCurrency,
   getCurrentValue,
   handleClick,
 }) => {
-  console.log("fiat");
-  console.log(fiat.current);
+  // console.log(fiat.current);
   // both hooks are neccessary to persist change currentValues so they survive re mounting of this component
   const [currentValuesChange, setCurrentValuesChange] = useState(
     sessionStorage.getItem("changeObj")
   );
 
   useEffect(() => {
+    // if (fiat.current === prevFiat.current) {
     const changeObj = {};
     currencyNamesAndCurrentValues.forEach(([currencyName, currentValue]) => {
       const change = currentValue - prevCurrentValues.current[currencyName];
@@ -40,7 +42,44 @@ const OverviewCurrencies = ({
       sessionStorage.setItem("changeObj", JSON.stringify(changeObj));
       setCurrentValuesChange(JSON.stringify(changeObj));
     }
+    // }
   }, [currencyNamesAndCurrentValues]);
+
+  useEffect(() => {
+    // calcChange();
+  }, [fiat.current]);
+
+  // converts change current total into the selected fiat
+  const calcChange = async () => {
+    // switch from EUR to USD
+    if (fiat.current === "USD" && prevFiat.current === "EUR") {
+      if (exchangeRates.data) {
+        const changeObj = {};
+        currencyNamesAndCurrentValues.forEach(
+          ([currencyName, currentValue]) => {
+            changeObj[currencyName] =
+              currentValuesChange[currencyName] * exchangeRates.data.rates.USD;
+          }
+        );
+        setCurrentValuesChange(changeObj);
+      }
+    }
+
+    // switch from USD to EUR
+    if (fiat.current === "EUR" && prevFiat.current === "USD") {
+      if (exchangeRates.data) {
+        const changeObj = {};
+        currencyNamesAndCurrentValues.forEach(
+          ([currencyName, currentValue]) => {
+            changeObj[currencyName] =
+              currentValuesChange[currencyName] *
+              (1 / exchangeRates.data.rates.USD);
+          }
+        );
+        setCurrentValuesChange(changeObj);
+      }
+    }
+  };
 
   const getBalance = (currency) =>
     getCurrentValue(user, cryptoCurrencies, currency) -
