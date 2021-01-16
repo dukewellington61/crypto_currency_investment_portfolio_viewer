@@ -12,7 +12,6 @@ const Overview = ({
   logedin,
   renderOverview,
   fiat,
-  fiatSymbol,
   updateOriginAndCurrencyState,
   toggleView,
 }) => {
@@ -22,6 +21,8 @@ const Overview = ({
   ] = useState([]);
 
   const [currentValueTotal, setCurrentValueTotal] = useState(0);
+
+  const [currentValues, setCurrentValues] = useState({});
 
   const [totalPurchase, setTotalPurchase] = useState(0);
 
@@ -42,6 +43,14 @@ const Overview = ({
       setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
       setTotalPurchase(getInitialValuePurchase());
+
+      const currObj = {};
+      currencyNamesAndCurrentValues.map(([currencyName, currencyValue]) => {
+        const currVal = getCurrentValue(user, cryptoCurrencies, currencyName);
+        currObj[currencyName] = currVal;
+        // setCurrentValues({ ...(currentValues[currencyName] = currVal) });
+      });
+      setCurrentValues(currObjy);
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
 
@@ -51,11 +60,12 @@ const Overview = ({
   const prevCurrentValues = useRef({});
 
   useEffect(() => {
-    prevCurrentValueTotal.current = currentValueTotal;
-    currencyNamesAndCurrentValues.map(([currencyName, currencyValue]) => {
-      const currVal = getCurrentValue(user, cryptoCurrencies, currencyName);
-      prevCurrentValues.current[currencyName] = currVal;
-    });
+    // prevCurrentValueTotal.current = currentValueTotal;
+    // currencyNamesAndCurrentValues.map(([currencyName, currencyValue]) => {
+    //   const currVal = getCurrentValue(user, cryptoCurrencies, currencyName);
+    //   prevCurrentValues.current[currencyName] = currVal;
+    // });
+    prevCurrentValues.current = currentValues;
   }, [currentValueTotal]);
 
   // these next lines of code preserve the previous state of fiat (i.e. the fiat user had selected before current
@@ -65,7 +75,7 @@ const Overview = ({
 
   useEffect(() => {
     setFiatCurr(fiat.current);
-  }, [fiat.current]);
+  }, [currentValueTotal]);
 
   useEffect(() => {
     prevFiat.current = fiatCurr;
@@ -135,7 +145,6 @@ const Overview = ({
           logedin={logedin}
           fiat={fiat}
           prevFiat={prevFiat}
-          fiatSymbol={fiatSymbol}
           getInitialValue={getInitialValue}
           get24hourChangeByCurrency={get24hourChangeByCurrency}
           getCurrentValue={getCurrentValue}
@@ -150,7 +159,6 @@ const Overview = ({
           prevCurrentValueTotal={prevCurrentValueTotal}
           fiat={fiat}
           prevFiat={prevFiat}
-          fiatSymbol={fiatSymbol}
           get24hourChangeTotal={get24hourChangeTotal}
           handleClick={handleClick}
         />

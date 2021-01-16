@@ -39,6 +39,8 @@ const App = () => {
 
   const fiat = useRef("EUR");
 
+  const fiatSymbol = useRef("€");
+
   useEffect(() => {
     loadUserObj();
   }, []);
@@ -59,7 +61,8 @@ const App = () => {
       const update = async () => {
         const crypto = await getLatestCryptoData(currencyNames, fiat.current);
         if (crypto instanceof Error) {
-          triggerAlert("Something went wrong", "danger");
+          // triggerAlert("Something went wrong", "danger");
+          triggerAlert(crypto.message, "danger");
         } else {
           setCryptoCurrencies(crypto);
         }
@@ -73,11 +76,27 @@ const App = () => {
     const date = getCurrentDate();
 
     const exchangeObj = await getFiatExchangeRates(date);
-    setExchangeRate(exchangeObj);
+
+    if (exchangeObj instanceof Error) {
+      triggerAlert(exchangeObj.message, "danger");
+    } else {
+      setExchangeRate(exchangeObj);
+    }
   };
 
   const setFiatCurrency = (e) => {
     fiat.current = e.target.value;
+
+    switch (e.target.value) {
+      case "EUR":
+        fiatSymbol.current = "€";
+        break;
+      case "USD":
+        fiatSymbol.current = "$";
+        break;
+      default:
+    }
+
     updateCryptoCurrenciesState();
   };
 
@@ -160,6 +179,7 @@ const App = () => {
                   exchangeRates={exchangeRates}
                   logedin={logedin}
                   fiat={fiat}
+                  fiatSymbol={fiatSymbol}
                   triggerAlert={triggerAlert}
                 />
               )}

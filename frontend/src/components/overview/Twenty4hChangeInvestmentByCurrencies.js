@@ -7,6 +7,7 @@ const Twenty4hChangeInvestmentByCurrencies = ({
   get24hourChangeByCurrency,
   getCurrentValue,
   currencyName,
+  fiatSymbol,
 }) => {
   const get24hourMax = () => {
     let returnValue = 0;
@@ -50,22 +51,21 @@ const Twenty4hChangeInvestmentByCurrencies = ({
           (get24hourChangeByCurrency(currencyName) *
             getCurrentValue(user, cryptoCurrencies, currencyName)) /
           100
-        ).toFixed(2)}
-        &euro;
+        ).toFixed(2)}{" "}
+        {fiatSymbol.current}
       </div>
       <div>
         24h max:{" "}
         {(get24hourMax(currencyName) * getAmount(user, currencyName)).toFixed(
           2
         )}{" "}
-        &euro;
       </div>
       <div>
         24h min:{" "}
         {(get24hourMin(currencyName) * getAmount(user, currencyName)).toFixed(
           2
         )}{" "}
-        &euro;
+        {fiatSymbol.current}
       </div>
     </div>
   );

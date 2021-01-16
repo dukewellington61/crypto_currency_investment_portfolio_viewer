@@ -15,38 +15,40 @@ const OverviewCurrencies = ({
   logedin,
   fiat,
   prevFiat,
+  fiatSymbol,
   getInitialValue,
   get24hourChangeByCurrency,
   getCurrentValue,
   handleClick,
 }) => {
-  // console.log(fiat.current);
+  console.log(fiatSymbol);
   // both hooks are neccessary to persist change currentValues so they survive re mounting of this component
   const [currentValuesChange, setCurrentValuesChange] = useState(
     sessionStorage.getItem("changeObj")
   );
 
   useEffect(() => {
-    // if (fiat.current === prevFiat.current) {
-    const changeObj = {};
-    currencyNamesAndCurrentValues.forEach(([currencyName, currentValue]) => {
-      const change = currentValue - prevCurrentValues.current[currencyName];
-      changeObj[currencyName] = change;
-    });
+    if (fiat.current === prevFiat.current) {
+      const changeObj = {};
+      currencyNamesAndCurrentValues.forEach(([currencyName, currentValue]) => {
+        const change = currentValue - prevCurrentValues.current[currencyName];
 
-    // makes sure that session storage and state are only updated if it is not a re mount
-    if (
-      !sessionStorage.getItem("changeObj") ||
-      !isNaN(Object.values(changeObj)[0])
-    ) {
-      sessionStorage.setItem("changeObj", JSON.stringify(changeObj));
-      setCurrentValuesChange(JSON.stringify(changeObj));
+        if (change !== 0) changeObj[currencyName] = change;
+      });
+
+      // makes sure that session storage and state are only updated if it is not a re mount
+      if (
+        !sessionStorage.getItem("changeObj") ||
+        !isNaN(Object.values(changeObj)[0])
+      ) {
+        sessionStorage.setItem("changeObj", JSON.stringify(changeObj));
+        setCurrentValuesChange(JSON.stringify(changeObj));
+      }
     }
-    // }
   }, [currencyNamesAndCurrentValues]);
 
   useEffect(() => {
-    // calcChange();
+    calcChange();
   }, [fiat.current]);
 
   // converts change current total into the selected fiat
@@ -54,29 +56,36 @@ const OverviewCurrencies = ({
     // switch from EUR to USD
     if (fiat.current === "USD" && prevFiat.current === "EUR") {
       if (exchangeRates.data) {
+        console.log("EUR to USD");
         const changeObj = {};
         currencyNamesAndCurrentValues.forEach(
           ([currencyName, currentValue]) => {
-            changeObj[currencyName] =
-              currentValuesChange[currencyName] * exchangeRates.data.rates.USD;
+            if (currentValuesChange) {
+              changeObj[currencyName] =
+                JSON.parse(currentValuesChange)[currencyName] *
+                exchangeRates.data.rates.USD;
+            }
           }
         );
-        setCurrentValuesChange(changeObj);
+
+        setCurrentValuesChange(JSON.stringify(changeObj));
       }
     }
 
     // switch from USD to EUR
     if (fiat.current === "EUR" && prevFiat.current === "USD") {
       if (exchangeRates.data) {
+        console.log("USD to EUR");
         const changeObj = {};
         currencyNamesAndCurrentValues.forEach(
           ([currencyName, currentValue]) => {
             changeObj[currencyName] =
-              currentValuesChange[currencyName] *
+              JSON.parse(currentValuesChange)[currencyName] *
               (1 / exchangeRates.data.rates.USD);
           }
         );
-        setCurrentValuesChange(changeObj);
+
+        setCurrentValuesChange(JSON.stringify(changeObj));
       }
     }
   };
@@ -110,6 +119,7 @@ const OverviewCurrencies = ({
                   <Twenty4hChangeByCurrency
                     cryptoCurrencies={cryptoCurrencies}
                     currencyName={currencyName}
+                    fiatSymbol={fiatSymbol}
                   />
                 </th>
               </Link>
@@ -119,32 +129,37 @@ const OverviewCurrencies = ({
 
               {/* initial value */}
               <td onClick={() => handleClick("initial_value", currencyName)}>
-                {getInitialValue(user, currencyName, fiat).toFixed(2)}&euro;
+                {getInitialValue(user, currencyName, fiat).toFixed(2)}{" "}
+                {fiatSymbol.current}
               </td>
 
               {/* current value */}
               <td onClick={() => handleClick("current_value", currencyName)}>
                 <div className="change_container">
-                  {" "}
-                  {currentValue.toFixed(2)}
-                  &euro;
-                  <div
-                    className="change_value"
-                    style={{
-                      color:
-                        JSON.parse(currentValuesChange)[currencyName] >= 0
-                          ? "green"
-                          : "red",
-                    }}
-                  >
-                    {Object.keys(JSON.parse(currentValuesChange)).length > 0 &&
-                    JSON.parse(currentValuesChange)[currencyName] &&
-                    JSON.parse(currentValuesChange)[currencyName] !== null &&
-                    JSON.parse(currentValuesChange)[currencyName] !== 0
-                      ? JSON.parse(currentValuesChange)[currencyName].toFixed(2)
-                      : Number(0).toFixed(2)}
-                    &euro;
-                  </div>
+                  {currentValue.toFixed(2)} {fiatSymbol.current}
+                  {currentValuesChange && (
+                    <div
+                      className="change_value"
+                      style={{
+                        color:
+                          currentValuesChange !== undefined &&
+                          JSON.parse(currentValuesChange)[currencyName] >= 0
+                            ? "green"
+                            : "red",
+                      }}
+                    >
+                      {Object.keys(JSON.parse(currentValuesChange)).length >
+                        0 &&
+                      JSON.parse(currentValuesChange)[currencyName] &&
+                      JSON.parse(currentValuesChange)[currencyName] !== null &&
+                      JSON.parse(currentValuesChange)[currencyName] !== 0
+                        ? JSON.parse(currentValuesChange)[currencyName].toFixed(
+                            2
+                          )
+                        : Number(0).toFixed(2)}{" "}
+                      {fiatSymbol.current}
+                    </div>
+                  )}
                 </div>
 
                 <Twenty4hChangeInvestmentByCurrencies
@@ -154,12 +169,13 @@ const OverviewCurrencies = ({
                   get24hourChangeByCurrency={get24hourChangeByCurrency}
                   getCurrentValue={getCurrentValue}
                   currencyName={currencyName}
+                  fiatSymbol={fiatSymbol}
                 />
               </td>
 
               {/* profit */}
               <td onClick={() => handleClick("balance", currencyName)}>
-                {getBalance(currencyName).toFixed(2)}&euro;
+                {getBalance(currencyName).toFixed(2)} {fiatSymbol.current}
               </td>
 
               {/* roi */}

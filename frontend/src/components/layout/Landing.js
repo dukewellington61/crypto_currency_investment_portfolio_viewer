@@ -10,6 +10,7 @@ function Landing({
   exchangeRates,
   logedin,
   fiat,
+  fiatSymbol,
   triggerAlert,
 }) {
   const [renderOverview, setRenderOverview] = useState(true);
@@ -137,6 +138,7 @@ function Landing({
           logedin={logedin}
           renderOverview={renderOverview}
           fiat={fiat}
+          fiatSymbol={fiatSymbol}
           updateOriginAndCurrencyState={updateOriginAndCurrencyState}
           toggleView={toggleView}
         />

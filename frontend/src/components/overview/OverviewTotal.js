@@ -11,6 +11,7 @@ const OverviewTotal = ({
   prevCurrentValueTotal,
   fiat,
   prevFiat,
+  fiatSymbol,
   get24hourChangeTotal,
   handleClick,
 }) => {
@@ -69,13 +70,15 @@ const OverviewTotal = ({
 
       {/* initial value */}
       <td onClick={() => handleClick("initial_value", "all_currencies")}>
-        {totalPurchase.toFixed(2)}&euro;
+        {totalPurchase.toFixed(2)} {fiatSymbol.current}
       </td>
 
       {/* current value */}
       <td onClick={() => handleClick("current_value", "all_currencies")}>
         <div className="change_container">
-          <div>{currentValueTotal.toFixed(2)}&euro;</div>
+          <div>
+            {currentValueTotal.toFixed(2)} {fiatSymbol.current}
+          </div>
           <div
             className="change_value"
             style={{
@@ -84,8 +87,8 @@ const OverviewTotal = ({
           >
             {currentValueTotalChange && currentValueTotalChange !== 0
               ? currentValueTotalChange
-              : 0}
-            &euro;
+              : 0}{" "}
+            {fiatSymbol.current}
           </div>
         </div>
 
@@ -96,7 +99,7 @@ const OverviewTotal = ({
 
       {/* profit */}
       <td onClick={() => handleClick("balance", "all_currencies")}>
-        {(currentValueTotal - totalPurchase).toFixed(2)}&euro;
+        {(currentValueTotal - totalPurchase).toFixed(2)} {fiatSymbol.current}
       </td>
 
       {/* roi */}
