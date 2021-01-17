@@ -110,9 +110,10 @@ function TotalChartDiagramm({
 
       currenciesTotalObjectsArray.forEach((obj) => {
         if (nameArray === "roiArray") {
-          obj.initialValueArray.forEach(
-            (el, index) => (initValResArray[index] += el)
-          );
+          obj.initialValueArray.forEach((el, index) => {
+            console.log(el);
+            initValResArray[index] += el;
+          });
           obj.currentValueArray.forEach(
             (el, index) => (currValResArray[index] += el)
           );

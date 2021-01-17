@@ -172,3 +172,14 @@ if fiat changes change changes in accordance with the exchange rates
  enable prevFiat and use conditional in 1st useEffect so it executes code only if it not a fiat change
 
  if its a fiat change only 2nd useEffect is to execute its code
+
+
+ Jan 17th
+ charts are to be able to display eur or usd depending on what user chooses
+
+ 1st: modify getMarketCharts() @actions/currencies.js in an corresponding fassion 
+ 2nd: getAmountAndDate() @auxiliary/auxiliaryCryptoData.js creates array of arrays whichs elements have timestamp, amount and initial value of a crypto currency
+initial value can be retrieved in eur, usd or gbp
+
+something else:
+profit and roi is always a bit higher in USD than in EUR. why?

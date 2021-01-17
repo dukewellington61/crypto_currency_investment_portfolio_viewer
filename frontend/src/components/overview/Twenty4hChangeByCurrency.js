@@ -41,7 +41,7 @@ const Twenty4hChangeByCurrency = ({
         }}
       >
         24h change: {get24hourChange().price_change_24h.toFixed(2)}{" "}
-        {fiatSymbol.current};
+        {fiatSymbol.current}
       </div>
       <div className="crypto_24h_change">
         24h max: {get24hourChange().max_24h.toFixed(2)} {fiatSymbol.current}

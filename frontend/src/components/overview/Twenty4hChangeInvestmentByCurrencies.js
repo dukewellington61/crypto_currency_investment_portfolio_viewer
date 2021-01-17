@@ -59,6 +59,7 @@ const Twenty4hChangeInvestmentByCurrencies = ({
         {(get24hourMax(currencyName) * getAmount(user, currencyName)).toFixed(
           2
         )}{" "}
+        {fiatSymbol.current}
       </div>
       <div>
         24h min:{" "}

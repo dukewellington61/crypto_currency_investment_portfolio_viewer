@@ -94,6 +94,7 @@ const OverviewTotal = ({
 
         <Twenty4hChangeInvestmentTotal
           get24hourChangeTotal={get24hourChangeTotal}
+          fiatSymbol={fiatSymbol}
         />
       </td>
 

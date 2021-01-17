@@ -21,7 +21,6 @@ const OverviewCurrencies = ({
   getCurrentValue,
   handleClick,
 }) => {
-  console.log(fiatSymbol);
   // both hooks are neccessary to persist change currentValues so they survive re mounting of this component
   const [currentValuesChange, setCurrentValuesChange] = useState(
     sessionStorage.getItem("changeObj")

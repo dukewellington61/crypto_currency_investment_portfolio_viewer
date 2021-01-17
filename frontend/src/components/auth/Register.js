@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 
-const Register = ({ logedin, signup }) => {
+const Register = ({ logedin, register }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,7 +15,7 @@ const Register = ({ logedin, signup }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    signup(email, password, password2);
+    register(email, password, password2);
   };
 
   // if some nasty user enters .../login in url --> redirect to landing page

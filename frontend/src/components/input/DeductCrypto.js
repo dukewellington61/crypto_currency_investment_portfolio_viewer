@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
+import { convertFiat } from "../../auxiliary/auxiliaryFiatData";
 
 // import { getLatestCryptoPrice } from "../../actions/currencies";
 
 const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
-  const [formData, setFormData] = useState({
+  let [formData, setFormData] = useState({
     crypto_currency: "",
     amount: "",
     date_of_purchase: "",
@@ -46,28 +47,41 @@ const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
 
     // value of the amount (in fiat) to be deducted from the amount of a crypto currency in the portfolio is calculated based on the median value
     // of all positions of this currency
-    const median_price =
-      (getInitialValue(user, crypto_currency) /
-        getAmount(user, crypto_currency)) *
-      amount;
+    const median_price_currency_positions =
+      getInitialValue(user, crypto_currency, { current: "EUR" }) /
+      getAmount(user, crypto_currency);
 
-    formData.price = median_price * -1;
+    // calculates the actual value of the deductable amount
+    const deductable_value = median_price_currency_positions * amount;
+
+    // returns an object which has actual value of deductable amount in EUR, USD and GBP
+    const convertObject = await convertFiat(
+      deductable_value,
+      "EUR",
+      date_of_purchase,
+      triggerAlert
+    );
+
+    // actual value of deductable amount is turned into negative
+    for (let [key, value] of Object.entries(convertObject)) {
+      convertObject[key] = value * -1;
+    }
+    // sets content of convertObject which is the negtive value of deductable amount for attributes EUR, USD and GBP to the formData Object
+    formData = Object.assign(formData, convertObject);
 
     // amount is beeing turned into negative so the corresponding position has a negative amount property
     formData.amount = parseFloat(formData.amount) * -1;
-    formData.fiat_currency = user.positions[0].fiat_currency;
-
-    // formData.fiat_currency = e.target.querySelector(
-    //   "#deduct_select_fiat"
-    // ).value;
-    // formData.price *= -1;
 
     await makePosition(formData);
+
+    // sets form fields back to blank
     setFormData({
       crypto_currency: "",
       amount: "",
       date_of_purchase: "",
     });
+
+    // reloads user object which is now updated with the deductable position
     loadUserObj();
   };
 

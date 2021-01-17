@@ -78,7 +78,7 @@ const getAmountAndDate = (positions, currencyName) => {
     if (el.crypto_currency === currencyName) {
       arrEl[0] = Date.parse(el.date_of_purchase);
       arrEl[1] = parseFloat(el.amount);
-      arrEl[2] = el.price;
+      arrEl[2] = el.price_EUR;
       AmountAndDateArr.push(arrEl);
     }
   });
