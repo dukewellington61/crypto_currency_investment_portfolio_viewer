@@ -42,12 +42,33 @@ function Landing({
 
   const isEmpty = (obj) => Object.keys(obj).length === 0;
 
+  const objIncludesFiat = (obj) => {
+    let returnValue = "";
+    Object.keys(obj).forEach((el) => {
+      if (el.includes(fiat.current)) {
+        returnValue = true;
+        return;
+      }
+    });
+    return returnValue;
+  };
+
+  const retrieveAttributesFromObject = (obj) => {
+    const returnObj = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (key.includes(fiat.current)) returnObj[key] = value;
+    }
+    return returnObj;
+  };
+
   const upDateMarketChartState = (duration) => {
     switch (duration) {
       case "all_total":
-        isEmpty(marketChartTotal)
+        isEmpty(marketChartTotal) || !objIncludesFiat(marketChartTotal)
           ? loadChartData(duration)
-          : setCurrentMarketChart(marketChartTotal);
+          : setCurrentMarketChart(
+              retrieveAttributesFromObject(marketChartTotal)
+            );
         break;
       case "day":
         isEmpty(marketChartDay)
@@ -84,6 +105,7 @@ function Landing({
         const res = await getMarketChartsCrypto2(
           user,
           currencyName,
+          fiat,
           currentPrice,
           duration
         );
@@ -99,13 +121,15 @@ function Landing({
           // if api returns errors, currenciesObject remains incomplete and marketCharts state will not be updated
           // so after the arr.forEach() is done marketCharts state either has valid data or is an empty object (which results in an empty diagram)
         } else {
-          currenciesObject[currencyName] = res;
+          currenciesObject[currencyName + "_" + fiat.current] = res;
           if (
             Object.keys(currenciesObject).length === currencyNamesArr.length
           ) {
             switch (duration) {
               case "all_total":
-                setMarketChartTotal(currenciesObject);
+                setMarketChartTotal(
+                  Object.assign(marketChartTotal, currenciesObject)
+                );
                 break;
               case "day":
                 setMarketChartDay(currenciesObject);
@@ -153,6 +177,7 @@ function Landing({
           originAndCurrency={originAndCurrency}
           loaded={loaded}
           logedin={logedin}
+          fiat={fiat}
           upDateMarketChartState={upDateMarketChartState}
         />
       )}

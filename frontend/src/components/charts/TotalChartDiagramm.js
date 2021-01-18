@@ -59,7 +59,7 @@ function TotalChartDiagramm({
       currenciesTotalObjectsArray.push(obj);
     };
 
-    currencyArr.forEach((currency) =>
+    currencyArr.forEach((currency) => {
       totalValueInvestment(
         cumulativeValueInvestment(
           positions,
@@ -67,8 +67,8 @@ function TotalChartDiagramm({
           currencyArr,
           currency
         )
-      )
-    );
+      );
+    });
 
     // not all currency price arrays as returned by the api have the same length --> this results in the last values of the calculated total price array being too low
     // this makes sure that all the indivual currency arrays from which totals are beeing calculated have the same length
@@ -111,7 +111,6 @@ function TotalChartDiagramm({
       currenciesTotalObjectsArray.forEach((obj) => {
         if (nameArray === "roiArray") {
           obj.initialValueArray.forEach((el, index) => {
-            console.log(el);
             initValResArray[index] += el;
           });
           obj.currentValueArray.forEach(

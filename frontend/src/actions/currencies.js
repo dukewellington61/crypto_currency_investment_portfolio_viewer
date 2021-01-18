@@ -158,10 +158,12 @@ const addDateToArr = (arr) =>
 export const getMarketChartsCrypto2 = async (
   user,
   currency,
+  fiat,
   current_price,
   duration
 ) => {
   console.log("getMarketChartsCrypto2() @currencies.js");
+  // fiat.current === "EUR" ? console.log("EUR") : console.log("USD");
 
   let numberOfDays = 0;
 
@@ -192,7 +194,7 @@ export const getMarketChartsCrypto2 = async (
     default:
   }
 
-  const urlString = `https://api.coingecko.com/api/v3/coins/${currency}/market_chart?vs_currency=eur&days=${numberOfDays}`;
+  const urlString = `https://api.coingecko.com/api/v3/coins/${currency}/market_chart?vs_currency=${fiat.current}&days=${numberOfDays}`;
 
   // const proxyurl = "https://cors-anywhere.herokuapp.com/";
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import TotalChartDiagramm from "./TotalChartDiagramm";
 
-function TotalChart({
+const TotalChart = ({
   user,
   currentMarketChart,
   toggleView,
@@ -10,10 +10,12 @@ function TotalChart({
   duration,
   upDateMarketChartState,
   logedin,
-}) {
+  fiat,
+}) => {
+  // console.log(currentMarketChart);
   useEffect(() => {
     if (logedin) upDateMarketChartState("all_total");
-  }, [user]);
+  }, [user, fiat.current]);
 
   return !loaded ? (
     <div>Loading ...</div>
@@ -57,13 +59,13 @@ function TotalChart({
           user={user}
           currentMarketChart={currentMarketChart}
           positions={user.positions}
-          fiat={user.positions[0].fiat_currency}
+          fiat={fiat}
           originAndCurrency={originAndCurrency}
           duration={duration}
         />
       </div>
     </div>
   );
-}
+};
 
 export default TotalChart;

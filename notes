@@ -179,7 +179,45 @@ if fiat changes change changes in accordance with the exchange rates
 
  1st: modify getMarketCharts() @actions/currencies.js in an corresponding fassion 
  2nd: getAmountAndDate() @auxiliary/auxiliaryCryptoData.js creates array of arrays whichs elements have timestamp, amount and initial value of a crypto currency
-initial value can be retrieved in eur, usd or gbp
+ initial value can be retrieved in eur, usd or gbp
+
+on switch fiat in chart mode change chart -> set new data in state so on switching fiat back and forth not everytime an api called is made
+
+when cart mounts: 
+
+@components/charts/TotalChart.js
+
+ useEffect(() => {
+    console.log("useEffect");
+    if (logedin) upDateMarketChartState("all_total");
+  }, [user]);
+
+  fires.
+
+@components/layout/Landing.js
+upDateMarketChartState() -> checks if state already has data, if not it makes the api call and updates state 
+
+at the moment:
+
+if EUR is selected - states in @components/layout/Landing.js are updated with arrays that have values based on euro prices
+if USD is selected - states in @components/layout/Landing.js are updated with arrays that have values based on us-dollar prices
+
+what I want:
+
+on switch fiat -> update state in @components/layout/Landing.js with arrays that have values based on selected currencies
+in addition to those based on previously chosen fiat --> so states hold arrays based on both (or more) currencies
+
+so:
+
+on switch fiat call upDateMarketChartState() -> checks if state already has data based on selected currencie and if not call loadChartData() with selected fiat which does the api call
+and stores the returned arrays in states and also updates state which is then passed as prop to @components/charts/TotalChartDiagram.js
+
+
+
+
+
+somehow some state need to store arrays for multiple currencies (setState({...spread operator})
 
 something else:
 profit and roi is always a bit higher in USD than in EUR. why?
+

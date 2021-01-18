@@ -75,7 +75,8 @@ const getAmountAndDate = (positions, currencyName) => {
   positions.forEach((el) => {
     let arrEl = [];
 
-    if (el.crypto_currency === currencyName) {
+    // currencyName has a "_fiat" attached to it which has to be removed so the conditional can work
+    if (el.crypto_currency === currencyName.split("_")[0]) {
       arrEl[0] = Date.parse(el.date_of_purchase);
       arrEl[1] = parseFloat(el.amount);
       arrEl[2] = el.price_EUR;
