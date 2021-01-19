@@ -221,3 +221,18 @@ somehow some state need to store arrays for multiple currencies (setState({...sp
 something else:
 profit and roi is always a bit higher in USD than in EUR. why?
 
+18th Jan
+day: state has both currencies *** too high values *** no reaction on switch currency
+week: state has only one currency *** values correct *** every switch triggers an api call
+month: state has only one currency *** values correct ***  every switch triggers an api call
+all: state has both curencies *** values correct *** on switch no further api call 
+
+solved
+
+next issue:
+profit total USD --> last value in diagram is higher than current value in overview.js (which seemd to be correct)
+reason: eur price for initial value is being used to calculate the usd chart
+
+next issue:
+individual currency chart do not work
+

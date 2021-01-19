@@ -3,13 +3,13 @@ import Twenty4hChange from "./Twenty4hChange";
 import { Line } from "react-chartjs-2";
 import { cumulativeValueInvestment } from "../../auxiliary/auxiliaryCryptoData";
 
-function TotalChartDiagramm({
+const TotalChartDiagramm = ({
   positions,
   currentMarketChart,
   fiat,
   originAndCurrency,
   duration,
-}) {
+}) => {
   const [nameArray, setNameArray] = useState("");
 
   const [labelStr, setLabelStr] = useState("");
@@ -60,12 +60,13 @@ function TotalChartDiagramm({
     };
 
     currencyArr.forEach((currency) => {
+      // console.log(currency);
       totalValueInvestment(
         cumulativeValueInvestment(
           positions,
           currentMarketChart[currency],
-          currencyArr,
-          currency
+          currency,
+          fiat
         )
       );
     });
@@ -169,6 +170,6 @@ function TotalChartDiagramm({
       </div>
     </Fragment>
   );
-}
+};
 
 export default TotalChartDiagramm;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getLatestCryptoData = async (currencyNamesArr, fiatCurrency) => {
-  console.log("getLatestCryptoPrice() @currencies.js");
+  // console.log("getLatestCryptoPrice() @currencies.js");
   const currencyNamesString = await getNameString(currencyNamesArr);
 
   // /coins/markets - List all supported coins price, market cap, volume, and market related data
@@ -27,7 +27,7 @@ const getNameString = async (currencyNamesArr) => {
 };
 
 export const getMarketCharts = async (currency, date_of_purchase) => {
-  console.log("getMarketCharts() @currencies.js");
+  // console.log("getMarketCharts() @currencies.js");
   const from = new Date(date_of_purchase).getTime() / 1000;
   const to = new Date().getTime() / 1000;
 
@@ -48,7 +48,7 @@ export const getMarketChartsCrypto = async (
   current_price,
   duration
 ) => {
-  console.log("getMarketChartsCrypto() @currencies.js");
+  // console.log("getMarketChartsCrypto() @currencies.js");
 
   let from = null;
   let date = null;
@@ -162,7 +162,7 @@ export const getMarketChartsCrypto2 = async (
   current_price,
   duration
 ) => {
-  console.log("getMarketChartsCrypto2() @currencies.js");
+  // console.log("getMarketChartsCrypto2() @currencies.js");
   // fiat.current === "EUR" ? console.log("EUR") : console.log("USD");
 
   let numberOfDays = 0;

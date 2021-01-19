@@ -68,7 +68,7 @@ export const getAmount = (user, currencyName) => {
   return sum;
 };
 
-const getAmountAndDate = (positions, currencyName) => {
+const getAmountAndDate = (positions, currencyName, fiat) => {
   // extracts amount of coins, date of purchase and price
   let AmountAndDateArr = [];
 
@@ -77,9 +77,10 @@ const getAmountAndDate = (positions, currencyName) => {
 
     // currencyName has a "_fiat" attached to it which has to be removed so the conditional can work
     if (el.crypto_currency === currencyName.split("_")[0]) {
+      // console.log(currencyName);
       arrEl[0] = Date.parse(el.date_of_purchase);
       arrEl[1] = parseFloat(el.amount);
-      arrEl[2] = el.price_EUR;
+      arrEl[2] = el[`price_${fiat.current}`];
       AmountAndDateArr.push(arrEl);
     }
   });
@@ -111,8 +112,8 @@ const getAmountAndDate = (positions, currencyName) => {
 export const cumulativeValueInvestment = (
   positions,
   marketChart,
-  currencyArr,
-  currency
+  currency,
+  fiat
 ) => {
   let resultObject = {};
   let initialValueArr = [];
@@ -124,8 +125,9 @@ export const cumulativeValueInvestment = (
   // 1st array: getAmountAndDate() returns array with amount, price and date of purchase for each position of a crypro currency
   // 2nd array: marketChart is array of objects -> each object has initialValueArray, currentValueArray, balanceArray etc. ..
   if (marketChart) {
-    getAmountAndDate(positions, currency).forEach(
+    getAmountAndDate(positions, currency, fiat).forEach(
       ([date_of_purchase, amount, initial_value]) => {
+        // console.log(getAmountAndDate(positions, currency, fiat));
         marketChart.forEach(([date, price_crypto, timeStamp], index) => {
           if (date_of_purchase <= date) {
             currentValueArr[index] = price_crypto * amount;

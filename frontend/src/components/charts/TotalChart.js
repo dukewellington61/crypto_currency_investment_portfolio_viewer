@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import TotalChartDiagramm from "./TotalChartDiagramm";
 
 const TotalChart = ({
@@ -7,15 +7,25 @@ const TotalChart = ({
   toggleView,
   originAndCurrency,
   loaded,
-  duration,
   upDateMarketChartState,
   logedin,
   fiat,
 }) => {
   // console.log(currentMarketChart);
+
+  const [duration, setDuration] = useState("all_total");
+
   useEffect(() => {
-    if (logedin) upDateMarketChartState("all_total");
+    if (logedin) upDateMarketChartState(duration);
+    // console.log("useEffect");
   }, [user, fiat.current]);
+
+  const handleClick = (e) => {
+    setDuration(e.target.innerHTML);
+    upDateMarketChartState(e.target.innerHTML);
+    // console.log(e.target.innerHTML);
+    // console.log(duration);
+  };
 
   return !loaded ? (
     <div>Loading ...</div>
@@ -28,30 +38,30 @@ const TotalChart = ({
         <div
           id={duration === "day" && "duration"}
           className="durations"
-          onClick={() => upDateMarketChartState("day")}
+          onClick={(e) => handleClick(e)}
         >
           day
         </div>
         <div
           id={duration === "week" && "duration"}
           className="durations"
-          onClick={() => upDateMarketChartState("week")}
+          onClick={(e) => handleClick(e)}
         >
           week
         </div>
         <div
           id={duration === "month" && "duration"}
           className="durations"
-          onClick={() => upDateMarketChartState("month")}
+          onClick={(e) => handleClick(e)}
         >
           month
         </div>
         <div
           id={duration === "all_total" && "duration"}
           className="durations"
-          onClick={() => upDateMarketChartState("all_total")}
+          onClick={(e) => handleClick(e)}
         >
-          all
+          all_total
         </div>
       </div>
       <div>

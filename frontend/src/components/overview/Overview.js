@@ -108,8 +108,11 @@ const Overview = ({
   };
 
   const handleClick = (origin, currency) => {
+    console.log(currency);
     toggleView();
-    updateOriginAndCurrencyState(origin, currency);
+    currency === "all_currencies"
+      ? updateOriginAndCurrencyState(origin, currency)
+      : updateOriginAndCurrencyState(origin, `${currency}_${fiat.current}`);
   };
 
   return (

@@ -29,8 +29,10 @@ function Landing({
 
   const [originAndCurrency, setOriginAndCurency] = useState([]);
 
-  const updateOriginAndCurrencyState = (origin, currency) =>
+  const updateOriginAndCurrencyState = (origin, currency) => {
     setOriginAndCurency([origin, currency]);
+    console.log("updateOriginAndCurrencyState");
+  };
 
   const [marketChartTotal, setMarketChartTotal] = useState({});
   const [marketChartDay, setMarketChartDay] = useState({});
@@ -50,6 +52,7 @@ function Landing({
         return;
       }
     });
+    // console.log(returnValue);
     return returnValue;
   };
 
@@ -71,19 +74,24 @@ function Landing({
             );
         break;
       case "day":
-        isEmpty(marketChartDay)
+        isEmpty(marketChartDay) || !objIncludesFiat(marketChartDay)
           ? loadChartData(duration)
-          : setCurrentMarketChart(marketChartDay);
+          : setCurrentMarketChart(retrieveAttributesFromObject(marketChartDay));
+        // console.log(marketChartDay);
         break;
       case "week":
-        isEmpty(marketChartWeek)
+        isEmpty(marketChartWeek) || !objIncludesFiat(marketChartWeek)
           ? loadChartData(duration)
-          : setCurrentMarketChart(marketChartWeek);
+          : setCurrentMarketChart(
+              retrieveAttributesFromObject(marketChartWeek)
+            );
         break;
       case "month":
-        isEmpty(marketChartMonth)
+        isEmpty(marketChartMonth) || !objIncludesFiat(marketChartMonth)
           ? loadChartData(duration)
-          : setCurrentMarketChart(marketChartMonth);
+          : setCurrentMarketChart(
+              retrieveAttributesFromObject(marketChartMonth)
+            );
         break;
       default:
     }
@@ -132,13 +140,20 @@ function Landing({
                 );
                 break;
               case "day":
-                setMarketChartDay(currenciesObject);
+                setMarketChartDay(
+                  Object.assign(marketChartDay, currenciesObject)
+                );
                 break;
               case "week":
-                setMarketChartWeek(currenciesObject);
+                setMarketChartWeek(
+                  Object.assign(marketChartWeek, currenciesObject)
+                );
+
                 break;
               case "month":
-                setMarketChartMonth(currenciesObject);
+                setMarketChartMonth(
+                  Object.assign(marketChartMonth, currenciesObject)
+                );
                 break;
               default:
             }

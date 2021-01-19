@@ -55,7 +55,7 @@ const OverviewCurrencies = ({
     // switch from EUR to USD
     if (fiat.current === "USD" && prevFiat.current === "EUR") {
       if (exchangeRates.data) {
-        console.log("EUR to USD");
+        // console.log("EUR to USD");
         const changeObj = {};
         currencyNamesAndCurrentValues.forEach(
           ([currencyName, currentValue]) => {
@@ -74,7 +74,7 @@ const OverviewCurrencies = ({
     // switch from USD to EUR
     if (fiat.current === "EUR" && prevFiat.current === "USD") {
       if (exchangeRates.data) {
-        console.log("USD to EUR");
+        // console.log("USD to EUR");
         const changeObj = {};
         currencyNamesAndCurrentValues.forEach(
           ([currencyName, currentValue]) => {
