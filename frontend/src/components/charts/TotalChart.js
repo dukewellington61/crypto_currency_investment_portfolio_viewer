@@ -11,9 +11,8 @@ const TotalChart = ({
   logedin,
   fiat,
 }) => {
-  // console.log(currentMarketChart);
-
-  const [duration, setDuration] = useState("all_total");
+  // console.log(originAndCurrency);
+  const [duration, setDuration] = useState("all");
 
   useEffect(() => {
     if (logedin) upDateMarketChartState(duration);
@@ -57,11 +56,11 @@ const TotalChart = ({
           month
         </div>
         <div
-          id={duration === "all_total" && "duration"}
+          id={duration === "all" && "duration"}
           className="durations"
           onClick={(e) => handleClick(e)}
         >
-          all_total
+          all
         </div>
       </div>
       <div>

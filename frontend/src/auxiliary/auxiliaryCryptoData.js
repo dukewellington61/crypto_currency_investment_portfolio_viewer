@@ -125,9 +125,9 @@ export const cumulativeValueInvestment = (
   // 1st array: getAmountAndDate() returns array with amount, price and date of purchase for each position of a crypro currency
   // 2nd array: marketChart is array of objects -> each object has initialValueArray, currentValueArray, balanceArray etc. ..
   if (marketChart) {
+    // console.log(marketChart);
     getAmountAndDate(positions, currency, fiat).forEach(
       ([date_of_purchase, amount, initial_value]) => {
-        // console.log(getAmountAndDate(positions, currency, fiat));
         marketChart.forEach(([date, price_crypto, timeStamp], index) => {
           if (date_of_purchase <= date) {
             currentValueArr[index] = price_crypto * amount;
@@ -136,6 +136,7 @@ export const cumulativeValueInvestment = (
               price_crypto,
               timeStamp,
             ]);
+            // timeStampArr[index] = marketChart[index][0];
             initialValueArr[index] = initial_value;
             balanceArr[index] = currentValueArr[index] - initialValueArr[index];
             roiArr[index] =
@@ -163,15 +164,16 @@ const checkDuration = (marketChart) =>
   (24 * 60 * 60);
 
 const getTimeStamps = (marketChart, index, array2) => {
-  if (
-    index === 0 || checkDuration(marketChart) < 90
-      ? index % 10 === 0
-      : index % 5 === 0
-  ) {
-    return array2[2];
-  } else {
-    return " ";
-  }
+  // if (
+  //   index === 0 || checkDuration(marketChart) < 90
+  //     ? index % 10 === 0
+  //     : index % 5 === 0
+  // ) {
+  //   return array2[2];
+  // } else {
+  //   return " ";
+  // }
+  return array2[2];
 };
 
 export const getInitialValue = (user, currency, fiat) => {

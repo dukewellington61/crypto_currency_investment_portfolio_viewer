@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { getMarketChartsCrypto2 } from "../../actions/currencies";
 import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
 import Overview from "../overview/Overview";
@@ -27,12 +27,26 @@ function Landing({
     }
   };
 
+  const [origin, setOrigin] = useState("");
+  const [currency, setCurrency] = useState("");
   const [originAndCurrency, setOriginAndCurency] = useState([]);
 
   const updateOriginAndCurrencyState = (origin, currency) => {
+    setOrigin(origin);
+    setCurrency(currency);
     setOriginAndCurency([origin, currency]);
-    console.log("updateOriginAndCurrencyState");
   };
+
+  // on click duration (day, week, etc.) in @components/charts/TotalChart.js originAndCurrency is updated
+  // currency in originAndCurrency state gets _fiat.current appendix
+  // in order to update originAndCurrency state also on switch fiat the following useEffect hook is employed
+  // currency needs correct fiat.current appendix for cumulativeValueInvestment() @auxiliary/auxiliaryCryptoData.js to work properly
+  useEffect(() => {
+    if (currency !== "all_currencies") {
+      const curr = currency.split("_")[0];
+      setOriginAndCurency([origin, curr + "_" + fiat.current]);
+    }
+  }, [fiat.current]);
 
   const [marketChartTotal, setMarketChartTotal] = useState({});
   const [marketChartDay, setMarketChartDay] = useState({});
@@ -65,13 +79,16 @@ function Landing({
   };
 
   const upDateMarketChartState = (duration) => {
+    // console.log("upDateMarketChartState");
     switch (duration) {
-      case "all_total":
+      case "all":
+        // console.log(marketChartTotal);
         isEmpty(marketChartTotal) || !objIncludesFiat(marketChartTotal)
           ? loadChartData(duration)
           : setCurrentMarketChart(
               retrieveAttributesFromObject(marketChartTotal)
             );
+        // console.log(marketChartTotal);
         break;
       case "day":
         isEmpty(marketChartDay) || !objIncludesFiat(marketChartDay)
@@ -134,7 +151,7 @@ function Landing({
             Object.keys(currenciesObject).length === currencyNamesArr.length
           ) {
             switch (duration) {
-              case "all_total":
+              case "all":
                 setMarketChartTotal(
                   Object.assign(marketChartTotal, currenciesObject)
                 );

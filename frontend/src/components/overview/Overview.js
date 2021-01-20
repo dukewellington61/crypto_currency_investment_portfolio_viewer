@@ -108,7 +108,6 @@ const Overview = ({
   };
 
   const handleClick = (origin, currency) => {
-    console.log(currency);
     toggleView();
     currency === "all_currencies"
       ? updateOriginAndCurrencyState(origin, currency)

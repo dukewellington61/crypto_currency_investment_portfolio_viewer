@@ -10,6 +10,7 @@ const TotalChartDiagramm = ({
   originAndCurrency,
   duration,
 }) => {
+  // console.log(currentMarketChart);
   const [nameArray, setNameArray] = useState("");
 
   const [labelStr, setLabelStr] = useState("");
@@ -21,26 +22,39 @@ const TotalChartDiagramm = ({
   const [origin, currency] = originAndCurrency;
 
   useEffect(() => {
+    console.log("useEffect");
     switch (origin) {
       case "initial_value":
         setNameArray("initialValueArray");
-        setLabelStr(`Price in ${fiat}`);
+        // setLabelStr(`Value of ${currency} in ${fiat.current}`);
         break;
       case "current_value":
         setNameArray("currentValueArray");
-        setLabelStr(`Price in ${fiat}`);
+        // setLabelStr(`Value of ${currency} in ${fiat.current}`);
         break;
       case "balance":
         setNameArray("balanceArray");
-        setLabelStr(`Price in ${fiat}`);
+        // setLabelStr(`Value of ${currency} in ${fiat.current}`);
         break;
       case "roi":
         setNameArray("roiArray");
-        setLabelStr(`ROI in %`);
+        // setLabelStr(`ROI in %`);
         break;
       default:
     }
   }, []);
+
+  useEffect(() => {
+    origin === "roi"
+      ? setLabelStr(`ROI in %`)
+      : setLabelStr(
+          `Value of ${
+            currency === "all_currencies"
+              ? "this portfolio"
+              : currency.split("_")[0]
+          } in ${fiat.current}`
+        );
+  }, [fiat.current]);
 
   useEffect(() => {
     const currenciesTotalObjectsArray = [];
@@ -71,6 +85,8 @@ const TotalChartDiagramm = ({
       );
     });
 
+    // console.log(currency);
+
     // not all currency price arrays as returned by the api have the same length --> this results in the last values of the calculated total price array being too low
     // this makes sure that all the indivual currency arrays from which totals are beeing calculated have the same length
     // (which corresponds with the length of the shortest array)
@@ -96,10 +112,15 @@ const TotalChartDiagramm = ({
     // some of these arrays contain empty slots (for details see comments in cumulativeValueInvestment() in @auxiliaryCryptoData.js)
     // those have to be removed, else the line diagrams display a lot of null values at the beginning
     // hence filter is employed
-    currenciesTotalObjectsArray.forEach((obj) => {
-      const filtered = obj.timeStampArray.filter((el) => el !== undefined);
-      filtered.forEach((el, index) => (timeStamps[index] = el));
-    });
+    currency !== "all_currencies"
+      ? currenciesTotalObjectsArray.forEach((obj) => {
+          const filtered = obj.timeStampArray.filter((el) => el !== undefined);
+          filtered.forEach((el, index) => (timeStamps[index] = el));
+        })
+      : // if total is to be displayed the above causes problems so in that case no filter is employed
+        currenciesTotalObjectsArray.forEach((obj) => {
+          obj.timeStampArray.forEach((el, index) => (timeStamps[index] = el));
+        });
 
     // the following code sums up initial_value, current_value, balance of every individual currency so that the totals of these attributes can be displayed in a chart
     // it also calculates the development of roi over time
@@ -135,7 +156,22 @@ const TotalChartDiagramm = ({
     }
     setResultArray(resArray);
     setTimeStampArray(timeStamps);
+    // setTimeStampArray(timeStampArray);
+    // console.log(timeStamps);
   }, [nameArray, currentMarketChart, duration]);
+
+  const getUnit = () => {
+    switch (duration) {
+      case "day":
+        return "hour";
+      case "week":
+        return "day";
+      case "month":
+        return "week";
+      case "all":
+        return "month";
+    }
+  };
 
   return (
     <Fragment>
@@ -161,6 +197,18 @@ const TotalChartDiagramm = ({
                   scaleLabel: {
                     display: true,
                     labelString: labelStr,
+                  },
+                },
+              ],
+              xAxes: [
+                {
+                  type: "time",
+                  time: {
+                    unit: getUnit(),
+                    displayFormats: {
+                      quarter: "MMM YYYY",
+                    },
+                    distribution: "series",
                   },
                 },
               ],

@@ -42,87 +42,6 @@ export const getMarketCharts = async (currency, date_of_purchase) => {
   }
 };
 
-export const getMarketChartsCrypto = async (
-  user,
-  currency,
-  current_price,
-  duration
-) => {
-  // console.log("getMarketChartsCrypto() @currencies.js");
-
-  let from = null;
-  let date = null;
-
-  switch (duration) {
-    case "day":
-      date = new Date();
-      date.setDate(date.getDate() - 1);
-      from = date / 1000;
-      break;
-    case "week":
-      date = new Date();
-      date.setDate(date.getDate() - 7);
-      from = date / 1000;
-      break;
-    case "month":
-      date = new Date();
-      date.setDate(date.getDate() - 30);
-      from = date / 1000;
-      break;
-    case "all_currency":
-      from = new Date(await getFromDate(user, currency)).getTime() / 1000;
-      break;
-    case "all_total":
-      const res = user.positions.sort(
-        (a, b) =>
-          Date.parse(a.date_of_purchase) - Date.parse(b.date_of_purchase)
-      );
-      from = new Date(res[0].date_of_purchase).getTime() / 1000;
-      break;
-    default:
-  }
-
-  const to = new Date().getTime() / 1000;
-
-  const urlString = `https://api.coingecko.com/api/v3/coins/${currency}/market_chart/range?vs_currency=eur&from=${from}&to=${to}`;
-
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
-
-  try {
-    const dataSequence = await axios.get(proxyurl + urlString);
-
-    const dataSequenceTransformed = addDateToArr(dataSequence.data.prices);
-
-    let returnValue = "";
-
-    switch (duration) {
-      case "day":
-        returnValue = dataSequenceTransformed.slice(0, 270);
-        break;
-      case "week":
-        returnValue = dataSequenceTransformed.slice(0, 165);
-        break;
-      case "month":
-        returnValue = dataSequenceTransformed.slice(0, 720);
-        break;
-      case "all_currency":
-        returnValue = dataSequenceTransformed;
-        break;
-      case "all_total":
-        returnValue = dataSequenceTransformed;
-        break;
-      default:
-    }
-
-    // replaces the last price in the array with the most recent price so the last data point diagrams are always up to date
-    returnValue[returnValue.length - 1][1] = current_price;
-
-    return returnValue;
-  } catch (error) {
-    return error;
-  }
-};
-
 const getFromDate = (user, currency) => {
   let dates = [];
 
@@ -143,16 +62,22 @@ const getFromDate = (user, currency) => {
   return sort[0] > sort[sort.length - 1] ? sort[sort.length - 1] : sort[0];
 };
 
+// const addDateToArr = (arr) =>
+//   arr.map((el, index) => {
+//     const date = new Date(el[0]);
+//     const day =
+//       date.getDate() < 10 ? "0" + date.getDate() : "" + date.getDate();
+//     const month = date.toLocaleString("default", { month: "long" });
+//     const year = date.getFullYear();
+//     const dateString = `${day}. ${month} ${year}`;
+//     return [...arr[index], dateString];
+//   });
+
 const addDateToArr = (arr) =>
   arr.map((el, index) => {
     const date = new Date(el[0]);
-    const day =
-      date.getDate() < 10 ? "0" + date.getDate() : "" + date.getDate();
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-    const dateString = `${day}. ${month} ${year}`;
-    // console.log(dateString);
-    return [...arr[index], dateString];
+
+    return [...arr[index], date];
   });
 
 export const getMarketChartsCrypto2 = async (
@@ -182,7 +107,7 @@ export const getMarketChartsCrypto2 = async (
         (new Date() - new Date(await getFromDate(user, currency))) /
         (24 * 60 * 60 * 1000);
       break;
-    case "all_total":
+    case "all":
       const res = user.positions.sort(
         (a, b) =>
           Date.parse(a.date_of_purchase) - Date.parse(b.date_of_purchase)
@@ -218,7 +143,7 @@ export const getMarketChartsCrypto2 = async (
       case "all_currency":
         returnValue = dataSequenceTransformed;
         break;
-      case "all_total":
+      case "all":
         returnValue = dataSequenceTransformed;
         break;
       default:

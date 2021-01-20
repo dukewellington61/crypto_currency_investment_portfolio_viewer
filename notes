@@ -35,13 +35,13 @@ user props conditionaly, depending on what is to be displayed
 problem: architecture of app doesn't allow for props from Overview.js to TotalCharts.js
 
 version two:
-on click total Purchased for / Current Value / Balance / ROI pull in data for all_total and store it in useState all_total in overview
-on click total Purchased for / Current Value / Balance / ROI check if useState all_total in overview has data ---> if so use this data else pull in data from api
+on click total Purchased for / Current Value / Balance / ROI pull in data for all and store it in useState all in overview
+on click total Purchased for / Current Value / Balance / ROI check if useState all in overview has data ---> if so use this data else pull in data from api
 
 on click day / week / month pull in data for day / week / month and store it in useState day / week / month in Overview.js
 on click day / week / month check if useState day / week / month in overview has data ---> if so use this data else pull in data from api
 
-on click all take data from all_total state
+on click all take data from all state
 
 problem: architecture of app doesn't allow for props from Overview.js to TotalCharts.js
 solution: restructure app --> Overview.js --> TotalChart.js --> TotalChartDiagramm.js
@@ -189,7 +189,7 @@ when cart mounts:
 
  useEffect(() => {
     console.log("useEffect");
-    if (logedin) upDateMarketChartState("all_total");
+    if (logedin) upDateMarketChartState("all");
   }, [user]);
 
   fires.
