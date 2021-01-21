@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import TotalChartDiagramm from "./TotalChartDiagramm";
+import ChangeMinMax from "./ChangeMinMax";
+import CurrencyLogos from "../layout/CurrencyLogos";
 
 const TotalChart = ({
   user,
+  cryptoCurrencies,
   currentMarketChart,
   toggleView,
   originAndCurrency,
@@ -10,8 +13,8 @@ const TotalChart = ({
   upDateMarketChartState,
   logedin,
   fiat,
+  fiatSymbol,
 }) => {
-  // console.log(originAndCurrency);
   const [duration, setDuration] = useState("all");
 
   useEffect(() => {
@@ -26,54 +29,66 @@ const TotalChart = ({
     // console.log(duration);
   };
 
+  const [resultArray, setResultArray] = useState([]);
+
+  const updateResultArrayState = (arr) => setResultArray(arr);
+
+  const [origin, currency] = originAndCurrency;
+
+  // console.log(currency);
+
   return !loaded ? (
     <div>Loading ...</div>
   ) : (
-    <div id="total_chart_container">
+    <Fragment>
       <div id="toggle_view" onClick={toggleView}>
-        go back
+        <i class="fas fa-angle-double-left"></i> back to overview
       </div>
-      <div id="durations_container">
-        <div
-          id={duration === "day" && "duration"}
-          className="durations"
-          onClick={(e) => handleClick(e)}
-        >
-          day
+      <CurrencyLogos cryptoCurrencies={cryptoCurrencies} currency={currency} />
+      <ChangeMinMax dataArray={resultArray} fiatSymbol={fiatSymbol} />
+      <div id="total_chart_container">
+        <div id="durations_container">
+          <div
+            id={duration === "day" && "duration"}
+            className="durations"
+            onClick={(e) => handleClick(e)}
+          >
+            day
+          </div>
+          <div
+            id={duration === "week" && "duration"}
+            className="durations"
+            onClick={(e) => handleClick(e)}
+          >
+            week
+          </div>
+          <div
+            id={duration === "month" && "duration"}
+            className="durations"
+            onClick={(e) => handleClick(e)}
+          >
+            month
+          </div>
+          <div
+            id={duration === "all" && "duration"}
+            className="durations"
+            onClick={(e) => handleClick(e)}
+          >
+            all
+          </div>
         </div>
-        <div
-          id={duration === "week" && "duration"}
-          className="durations"
-          onClick={(e) => handleClick(e)}
-        >
-          week
-        </div>
-        <div
-          id={duration === "month" && "duration"}
-          className="durations"
-          onClick={(e) => handleClick(e)}
-        >
-          month
-        </div>
-        <div
-          id={duration === "all" && "duration"}
-          className="durations"
-          onClick={(e) => handleClick(e)}
-        >
-          all
+        <div>
+          <TotalChartDiagramm
+            currentMarketChart={currentMarketChart}
+            positions={user.positions}
+            fiat={fiat}
+            originAndCurrency={originAndCurrency}
+            duration={duration}
+            updateResultArrayState={updateResultArrayState}
+          />
         </div>
       </div>
-      <div>
-        <TotalChartDiagramm
-          user={user}
-          currentMarketChart={currentMarketChart}
-          positions={user.positions}
-          fiat={fiat}
-          originAndCurrency={originAndCurrency}
-          duration={duration}
-        />
-      </div>
-    </div>
+    </Fragment>
   );
 };
 

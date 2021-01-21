@@ -36,6 +36,7 @@ const Twenty4hChangeByCurrency = ({
         price: {get24hourChange().current_price.toFixed(2)} {fiatSymbol.current}
       </div>
       <div
+        className="crypto_24h_change"
         style={{
           color: get24hourChange().price_change_24h > 0 ? "green" : "red",
         }}

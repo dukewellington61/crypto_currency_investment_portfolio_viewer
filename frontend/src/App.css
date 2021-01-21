@@ -199,6 +199,24 @@
 }
 
 /* @components/portfolio/TotalChart.js */
+#currency_logo_charts_container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+}
+
+.currency_logo_charts {
+  width: 3rem;
+}
+
+#currency_name_chart {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
 #total_chart_container {
   position: relative;
 }
@@ -206,16 +224,21 @@
 #toggle_view {
   position: absolute;
   right: 1rem;
-  top: 0;
+  top: 6rem;
   font-weight: bold;
   cursor: pointer;
 }
 
 #durations_container {
   display: flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
+  margin-left: 2rem;
   color: gray;
   font-size: 0.85em;
+}
+
+#durations_container div:not(:first-child) {
+  padding-left: 4rem;
 }
 
 #duration {
@@ -235,7 +258,7 @@
   font-weight: bold;
 }
 
-/* @/components/layout/Alert.js */
+/* @components/layout/Alert.js */
 #remove_alert {
   position: absolute;
   right: 0.5rem;
@@ -243,6 +266,16 @@
   color: black;
   font-weight: bold;
   cursor: pointer;
+}
+
+/* @components/overview/Overview.js */
+#toggle_view:hover {
+  color: darkgrey;
+}
+
+.crypto_image {
+  width: 1.5em;
+  margin-right: 0.25rem;
 }
 
 /* @components/overview/TwentyFourHourChange.js */
@@ -253,11 +286,43 @@
 
 /* @components/overview/Twenty4hChangeByCurrency.js */
 .crypto_24h_change {
-  text-decoration: none !important;
+  /* text-decoration: none !important; */
   color: black;
 }
 
+.crypto_24h_change:hover {
+  text-decoration: none !important;
+  /* color: black; */
+}
+
 /* @components/overview/OverviewCurrencies.js & OverviewTotal */
+.overview_name_container {
+  display: flex;
+  align-items: center;
+}
+
+.crypto_name {
+  color: black;
+}
+
+.crypto_name:hover {
+  color: cornflowerblue;
+}
+
+.crypto_abbreviation {
+  margin-left: 0.5rem;
+  color: black;
+  font-size: 0.75em;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  font-weight: bold;
+}
+
 .change_container {
   display: flex;
   justify-content: start;
@@ -283,4 +348,17 @@
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: black;
+}
+
+/* @components/charts/ChangeMinMax */
+#change_min_max_charts_container {
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+  font-size: 0.75em;
+}
+
+.crypto_24h_change {
+  padding-left: 1rem;
 }

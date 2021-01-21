@@ -5,6 +5,7 @@ import SparkLine from "../charts/SparkLine";
 import { Link } from "react-router-dom";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentPrice } from "../../auxiliary/auxiliaryCryptoData";
+import { getImage } from "../../auxiliary/auxiliaryCryptoData";
 
 const OverviewCurrencies = ({
   user,
@@ -93,6 +94,19 @@ const OverviewCurrencies = ({
     getCurrentValue(user, cryptoCurrencies, currency) -
     getInitialValue(user, currency, fiat);
 
+  const getAbbrevation = (currencyName) => {
+    let abb = "";
+    if (Object.keys(cryptoCurrencies).length > 0) {
+      cryptoCurrencies.data.forEach((obj) => {
+        if (obj.id === currencyName) {
+          abb = obj.symbol;
+        }
+      });
+
+      return abb;
+    }
+  };
+
   return (
     <tbody>
       {logedin &&
@@ -114,7 +128,20 @@ const OverviewCurrencies = ({
                 }}
               >
                 <th scope="row">
-                  {currencyName}{" "}
+                  <div className="overview_name_container">
+                    <img
+                      className="crypto_image"
+                      src={getImage(cryptoCurrencies, currencyName)}
+                      alt={currencyName}
+                    />
+                    <div className="crypto_name">
+                      {currencyName.charAt(0).toUpperCase() +
+                        currencyName.slice(1)}{" "}
+                    </div>
+                    <div className="crypto_abbreviation">
+                      ({getAbbrevation(currencyName)})
+                    </div>
+                  </div>
                   <Twenty4hChangeByCurrency
                     cryptoCurrencies={cryptoCurrencies}
                     currencyName={currencyName}
@@ -127,13 +154,19 @@ const OverviewCurrencies = ({
               <td>{getAmount(user, currencyName).toFixed(3)}</td>
 
               {/* initial value */}
-              <td onClick={() => handleClick("initial_value", currencyName)}>
+              <td
+                className="clickable"
+                onClick={() => handleClick("initial_value", currencyName)}
+              >
                 {getInitialValue(user, currencyName, fiat).toFixed(2)}{" "}
                 {fiatSymbol.current}
               </td>
 
               {/* current value */}
-              <td onClick={() => handleClick("current_value", currencyName)}>
+              <td
+                className="clickable"
+                onClick={() => handleClick("current_value", currencyName)}
+              >
                 <div className="change_container">
                   {currentValue.toFixed(2)} {fiatSymbol.current}
                   {currentValuesChange && (
@@ -173,12 +206,18 @@ const OverviewCurrencies = ({
               </td>
 
               {/* profit */}
-              <td onClick={() => handleClick("balance", currencyName)}>
+              <td
+                className="clickable"
+                onClick={() => handleClick("balance", currencyName)}
+              >
                 {getBalance(currencyName).toFixed(2)} {fiatSymbol.current}
               </td>
 
               {/* roi */}
-              <td onClick={() => handleClick("roi", currencyName)}>
+              <td
+                className="clickable"
+                onClick={() => handleClick("roi", currencyName)}
+              >
                 <div className="x_container">
                   <div>
                     {(

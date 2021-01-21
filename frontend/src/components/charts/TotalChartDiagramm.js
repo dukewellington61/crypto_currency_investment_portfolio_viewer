@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import Twenty4hChange from "./Twenty4hChange";
+// import ChangeMinMax from "./ChangeMinMax";
 import { Line } from "react-chartjs-2";
 import { cumulativeValueInvestment } from "../../auxiliary/auxiliaryCryptoData";
 
@@ -9,6 +9,7 @@ const TotalChartDiagramm = ({
   fiat,
   originAndCurrency,
   duration,
+  updateResultArrayState,
 }) => {
   // console.log(currentMarketChart);
   const [nameArray, setNameArray] = useState("");
@@ -156,8 +157,8 @@ const TotalChartDiagramm = ({
     }
     setResultArray(resArray);
     setTimeStampArray(timeStamps);
-    // setTimeStampArray(timeStampArray);
-    // console.log(timeStamps);
+
+    updateResultArrayState(resArray);
   }, [nameArray, currentMarketChart, duration]);
 
   const getUnit = () => {
@@ -175,7 +176,6 @@ const TotalChartDiagramm = ({
 
   return (
     <Fragment>
-      <Twenty4hChange dataArray={resultArray} />
       <div>
         <Line
           data={{

@@ -185,3 +185,12 @@ export const getInitialValue = (user, currency, fiat) => {
   });
   return sum;
 };
+
+export const getImage = (cryptoCurrencies, currencyName) => {
+  let url = "";
+  if (Object.keys(cryptoCurrencies).length > 0)
+    cryptoCurrencies.data.forEach((obj) => {
+      if (obj.id === currencyName) url = obj.image;
+    });
+  return url;
+};

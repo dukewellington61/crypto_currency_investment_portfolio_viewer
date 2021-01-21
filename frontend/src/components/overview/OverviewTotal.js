@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SparkLine from "../charts/SparkLine";
 import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
+import CurrencyLogos from "../layout/CurrencyLogos";
 
 const OverviewTotal = ({
   user,
@@ -64,17 +65,28 @@ const OverviewTotal = ({
 
   return (
     <tr id="overview_total">
-      <th scope="row"></th>
+      <td>
+        <CurrencyLogos
+          cryptoCurrencies={cryptoCurrencies}
+          currency={"all_currencies"}
+        />
+      </td>
 
       <td></td>
 
       {/* initial value */}
-      <td onClick={() => handleClick("initial_value", "all_currencies")}>
+      <td
+        className="clickable"
+        onClick={() => handleClick("initial_value", "all_currencies")}
+      >
         {totalPurchase.toFixed(2)} {fiatSymbol.current}
       </td>
 
       {/* current value */}
-      <td onClick={() => handleClick("current_value", "all_currencies")}>
+      <td
+        className="clickable"
+        onClick={() => handleClick("current_value", "all_currencies")}
+      >
         <div className="change_container">
           <div>
             {currentValueTotal.toFixed(2)} {fiatSymbol.current}
@@ -99,12 +111,18 @@ const OverviewTotal = ({
       </td>
 
       {/* profit */}
-      <td onClick={() => handleClick("balance", "all_currencies")}>
+      <td
+        className="clickable"
+        onClick={() => handleClick("balance", "all_currencies")}
+      >
         {(currentValueTotal - totalPurchase).toFixed(2)} {fiatSymbol.current}
       </td>
 
       {/* roi */}
-      <td onClick={() => handleClick("roi", "all_currencies")}>
+      <td
+        className="clickable"
+        onClick={() => handleClick("roi", "all_currencies")}
+      >
         <div className="x_container">
           <div>
             {((currentValueTotal * 100) / totalPurchase - 100).toFixed(0)}%

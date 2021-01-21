@@ -202,6 +202,7 @@ function Landing({
       {renderTotalChart && (
         <TotalChart
           user={user}
+          cryptoCurrencies={cryptoCurrencies}
           currentMarketChart={currentMarketChart}
           logedin={logedin}
           triggerAlert={triggerAlert}
@@ -210,6 +211,7 @@ function Landing({
           loaded={loaded}
           logedin={logedin}
           fiat={fiat}
+          fiatSymbol={fiatSymbol}
           upDateMarketChartState={upDateMarketChartState}
         />
       )}

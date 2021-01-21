@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const Twenty4hChange = ({ dataArray }) => {
+const ChangeMinMax = ({ dataArray, fiatSymbol }) => {
   const [change, setChange] = useState(0);
   const [twentyFourHoursMax, setTwentyFourHoursMax] = useState(0);
   const [twentyFourHoursMin, setTwentyFourHoursMin] = useState(0);
@@ -30,18 +30,24 @@ const Twenty4hChange = ({ dataArray }) => {
   };
 
   return (
-    <div className="twenty_four_hour_charts_container">
+    <div id="change_min_max_charts_container">
       <div
         style={{
           color: change > 0 ? "green" : "red",
         }}
       >
-        change: {change.toFixed(2)} &euro;
+        change: {change.toFixed(2)} {fiatSymbol.current}
       </div>
-      <div className="crypto_24h_change">max: {twentyFourHoursMax} &euro;</div>
-      <div className="crypto_24h_change">min: {twentyFourHoursMin} &euro;</div>
+      <div className="crypto_24h_change">
+        max: {twentyFourHoursMax && twentyFourHoursMax.toFixed(2)}{" "}
+        {fiatSymbol.current}
+      </div>
+      <div className="crypto_24h_change">
+        min: {twentyFourHoursMin && twentyFourHoursMin.toFixed(2)}{" "}
+        {fiatSymbol.current}
+      </div>
     </div>
   );
 };
 
-export default Twenty4hChange;
+export default ChangeMinMax;
