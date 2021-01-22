@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import SparkLine from "../charts/SparkLine";
 import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
 import CurrencyLogos from "../layout/CurrencyLogos";
@@ -65,12 +66,28 @@ const OverviewTotal = ({
 
   return (
     <tr id="overview_total">
-      <td>
-        <CurrencyLogos
-          cryptoCurrencies={cryptoCurrencies}
-          currency={"all_currencies"}
-        />
-      </td>
+      {/* currencys and logos*/}
+      <Link
+        to={{
+          pathname: "/position",
+          // current_price: totalPurchase.toFixed(2),
+          state: {
+            currency: "all_currencies",
+            user: user,
+          },
+        }}
+      >
+        <td>
+          {" "}
+          <div style={{ display: "flex", justifyContent: "start" }}>
+            <CurrencyLogos
+              cryptoCurrencies={cryptoCurrencies}
+              currency={"all_currencies"}
+              origin={"OverviewTotal"}
+            />
+          </div>
+        </td>
+      </Link>
 
       <td></td>
 

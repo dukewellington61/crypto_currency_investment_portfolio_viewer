@@ -206,9 +206,20 @@
   margin-left: 2rem;
 }
 
-.currency_logo_charts {
-  width: 3rem;
+#currency_logo_charts_container_overview_total {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-left: 0rem;
 }
+
+.currency_logo_charts {
+  width: 1.5rem;
+}
+
+/* .all_currency_logos_charts {
+  width: 1.5rem;
+} */
 
 #currency_name_chart {
   display: flex;
@@ -221,7 +232,7 @@
   position: relative;
 }
 
-#toggle_view {
+#toggle_view_charts {
   position: absolute;
   right: 1rem;
   top: 6rem;
@@ -229,9 +240,22 @@
   cursor: pointer;
 }
 
+#toggle_view_charts:hover {
+  color: darkgrey;
+}
+
+#toggle_view_ledger > a {
+  position: absolute;
+  right: 1rem;
+  top: 6rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: black !important;
+  text-decoration: none !important;
+}
+
 #durations_container {
   display: flex;
-  /* justify-content: space-around; */
   margin-left: 2rem;
   color: gray;
   font-size: 0.85em;
@@ -269,10 +293,6 @@
 }
 
 /* @components/overview/Overview.js */
-#toggle_view:hover {
-  color: darkgrey;
-}
-
 .crypto_image {
   width: 1.5em;
   margin-right: 0.25rem;
@@ -361,4 +381,18 @@
 
 .crypto_24h_change {
   padding-left: 1rem;
+}
+
+/* @components/positions/PositionsByCurrency.js */
+.delete_ledger_entry {
+  visibility: hidden;
+  color: grey;
+}
+
+.delete_ledger_entry:hover {
+  color: black;
+}
+
+.clickable:hover > td > .delete_ledger_entry {
+  visibility: visible;
 }

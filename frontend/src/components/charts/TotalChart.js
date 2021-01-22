@@ -41,7 +41,7 @@ const TotalChart = ({
     <div>Loading ...</div>
   ) : (
     <Fragment>
-      <div id="toggle_view" onClick={toggleView}>
+      <div id="toggle_view_charts" onClick={toggleView}>
         <i class="fas fa-angle-double-left"></i> back to overview
       </div>
       <CurrencyLogos cryptoCurrencies={cryptoCurrencies} currency={currency} />

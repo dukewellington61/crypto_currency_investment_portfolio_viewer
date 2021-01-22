@@ -4,6 +4,7 @@ import OverviewTotal from "./OverviewTotal";
 import { getNamesAndCurrentValues } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentValue } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
+import { getInitialValuePurchase } from "../../auxiliary/auxiliaryCryptoData";
 
 const Overview = ({
   user,
@@ -41,7 +42,7 @@ const Overview = ({
 
       setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
-      setTotalPurchase(getInitialValuePurchase());
+      setTotalPurchase(getInitialValuePurchase(user, fiat));
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
 
@@ -72,15 +73,6 @@ const Overview = ({
   }, [fiatCurr]);
 
   //
-
-  const getInitialValuePurchase = () => {
-    let sum = 0;
-    if (user)
-      user.positions.forEach((position) => {
-        sum += position[`price_${fiat.current}`];
-      });
-    return sum;
-  };
 
   const get24hourChangeByCurrency = (currencyName) => {
     let returnValue = 0;

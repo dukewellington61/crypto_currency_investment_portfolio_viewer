@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 import { convertFiat } from "../../auxiliary/auxiliaryFiatData";
-
-// import { getLatestCryptoPrice } from "../../actions/currencies";
 
 const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
   let [formData, setFormData] = useState({
@@ -86,84 +85,68 @@ const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
   };
 
   return (
-    <div className="form_container">
-      <h3 className="large text-primary">Deduct Crypto</h3>
-      <p className="lead">Deduct cryptocurrency from your portfolio</p>
-      <form className="form" onSubmit={(e) => onSubmit(e)}>
-        <div className="form-group">
-          <div className="dropdown input_field">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <div>Select a cryptocurrency</div>
-              <select
-                className="btn btn-outline-secondary"
-                name="crypto_currency"
-                style={{ position: "absolute", right: "0", width: "50%" }}
-                onChange={(e) => onChange(e)}
+    <Fragment>
+      <div id="toggle_view_ledger">
+        <Link to="/">
+          <i class="fas fa-angle-double-left"></i> back to overview
+        </Link>
+      </div>
+      <div className="form_container">
+        <h3 className="large text-primary">Deduct Crypto</h3>
+        <p className="lead">Deduct cryptocurrency from your portfolio</p>
+        <form className="form" onSubmit={(e) => onSubmit(e)}>
+          <div className="form-group">
+            <div className="dropdown input_field">
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
-                {currencyNames.map((currencyName) => {
-                  return (
-                    <option value={`${currencyName}`}>{currencyName}</option>
-                  );
-                })}
-              </select>
+                <div>Select a cryptocurrency</div>
+                <select
+                  className="btn btn-outline-secondary"
+                  name="crypto_currency"
+                  style={{ position: "absolute", right: "0", width: "50%" }}
+                  onChange={(e) => onChange(e)}
+                >
+                  {currencyNames.map((currencyName) => {
+                    return (
+                      <option value={`${currencyName}`}>{currencyName}</option>
+                    );
+                  })}
+                </select>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="form-group">
-          <input
-            className="form-control input_field"
-            type="number"
-            placeholder="Amount"
-            name="amount"
-            value={amount}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-
-        {/* <div className="input-group input_field">
-          <input
-            className="form-control"
-            type="number"
-            min="1"
-            step="any"
-            placeholder="Value of amount"
-            name="price"
-            value={price}
-            onChange={(e) => onChange(e)}
-            required
-          />
-          <div className="input-group-append">
-            <select
-              id="deduct_select_fiat"
-              className="btn btn-outline-secondary"
-            >
-              <option value="EUR">EUR</option>
-              <option value="USD">USD</option>
-            </select>
+          <div className="form-group">
+            <input
+              className="form-control input_field"
+              type="number"
+              placeholder="Amount"
+              name="amount"
+              value={amount}
+              onChange={(e) => onChange(e)}
+              required
+            />
           </div>
-        </div> */}
 
-        <div className="form-group">
-          <input
-            className="form-control input_field"
-            type="date"
-            name="date_of_purchase"
-            value={date_of_purchase}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <input
+              className="form-control input_field"
+              type="date"
+              name="date_of_purchase"
+              value={date_of_purchase}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
 
-        <input type="submit" className="btn btn-primary" value="Deduct" />
-      </form>
-    </div>
+          <input type="submit" className="btn btn-primary" value="Deduct" />
+        </form>
+      </div>
+    </Fragment>
   );
 };
 

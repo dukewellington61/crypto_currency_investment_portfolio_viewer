@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentPrice } from "../../auxiliary/auxiliaryCryptoData";
 import { getImage } from "../../auxiliary/auxiliaryCryptoData";
+import { getAbbrevation } from "../../auxiliary/auxiliaryCryptoData";
 
 const OverviewCurrencies = ({
   user,
@@ -94,19 +95,6 @@ const OverviewCurrencies = ({
     getCurrentValue(user, cryptoCurrencies, currency) -
     getInitialValue(user, currency, fiat);
 
-  const getAbbrevation = (currencyName) => {
-    let abb = "";
-    if (Object.keys(cryptoCurrencies).length > 0) {
-      cryptoCurrencies.data.forEach((obj) => {
-        if (obj.id === currencyName) {
-          abb = obj.symbol;
-        }
-      });
-
-      return abb;
-    }
-  };
-
   return (
     <tbody>
       {logedin &&
@@ -139,7 +127,7 @@ const OverviewCurrencies = ({
                         currencyName.slice(1)}{" "}
                     </div>
                     <div className="crypto_abbreviation">
-                      ({getAbbrevation(currencyName)})
+                      ({getAbbrevation(cryptoCurrencies, currencyName)})
                     </div>
                   </div>
                   <Twenty4hChangeByCurrency

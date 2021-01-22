@@ -194,3 +194,26 @@ export const getImage = (cryptoCurrencies, currencyName) => {
     });
   return url;
 };
+
+export const getAbbrevation = (cryptoCurrencies, currencyName) => {
+  let abb = "";
+  if (Object.keys(cryptoCurrencies).length > 0) {
+    cryptoCurrencies.data.forEach((obj) => {
+      if (obj.id === currencyName) {
+        abb = obj.symbol;
+      }
+    });
+
+    return abb;
+  }
+};
+
+export const getInitialValuePurchase = (user, fiat) => {
+  console.log(fiat);
+  let sum = 0;
+  if (user)
+    user.positions.forEach((position) => {
+      sum += position[`price_${fiat.current}`];
+    });
+  return sum;
+};

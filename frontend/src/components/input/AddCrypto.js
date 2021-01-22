@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 import { getLatestCryptoData } from "../../actions/currencies";
 import { convertFiat } from "../../auxiliary/auxiliaryFiatData";
 
@@ -65,66 +66,73 @@ const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
   };
 
   return (
-    <div className="form_container">
-      <h3 className="large text-primary">Add Crypto</h3>
-      <p className="lead">Add cryptocurrency to your portfolio</p>
-      <form className="form" onSubmit={(e) => onSubmit(e)}>
-        <div className="form-group">
-          <input
-            className="form-control input_field"
-            type="text"
-            placeholder="Crypto Currency"
-            name="crypto_currency"
-            value={crypto_currency}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            className="form-control input_field"
-            type="number"
-            placeholder="Amount"
-            name="amount"
-            value={amount}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-
-        <div className="input-group input_field">
-          <input
-            className="form-control"
-            type="number"
-            min="1"
-            step="any"
-            placeholder="Price"
-            name="price"
-            value={price}
-            onChange={(e) => onChange(e)}
-            required
-          />
-          <div className="input-group-append">
-            <select className="btn btn-outline-secondary">
-              <option value="EUR">EUR</option>
-              <option value="USD">USD</option>
-            </select>
+    <Fragment>
+      <div id="toggle_view_ledger">
+        <Link to="/">
+          <i class="fas fa-angle-double-left"></i> back to overview
+        </Link>
+      </div>
+      <div className="form_container">
+        <h3 className="large text-primary">Add Crypto</h3>
+        <p className="lead">Add cryptocurrency to your portfolio</p>
+        <form className="form" onSubmit={(e) => onSubmit(e)}>
+          <div className="form-group">
+            <input
+              className="form-control input_field"
+              type="text"
+              placeholder="Crypto Currency"
+              name="crypto_currency"
+              value={crypto_currency}
+              onChange={(e) => onChange(e)}
+              required
+            />
           </div>
-        </div>
+          <div className="form-group">
+            <input
+              className="form-control input_field"
+              type="number"
+              placeholder="Amount"
+              name="amount"
+              value={amount}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <input
-            className="form-control input_field"
-            type="date"
-            name="date_of_purchase"
-            value={date_of_purchase}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Add" />
-      </form>
-    </div>
+          <div className="input-group input_field">
+            <input
+              className="form-control"
+              type="number"
+              min="1"
+              step="any"
+              placeholder="Price"
+              name="price"
+              value={price}
+              onChange={(e) => onChange(e)}
+              required
+            />
+            <div className="input-group-append">
+              <select className="btn btn-outline-secondary">
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <input
+              className="form-control input_field"
+              type="date"
+              name="date_of_purchase"
+              value={date_of_purchase}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
+          <input type="submit" className="btn btn-primary" value="Add" />
+        </form>
+      </div>
+    </Fragment>
   );
 };
 

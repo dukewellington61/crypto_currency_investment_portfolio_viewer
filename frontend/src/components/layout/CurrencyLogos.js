@@ -1,11 +1,17 @@
 import React from "react";
 import { getImage } from "../../auxiliary/auxiliaryCryptoData";
 
-const CurrencyLogos = ({ cryptoCurrencies, currency }) => {
+const CurrencyLogos = ({ cryptoCurrencies, currency, origin }) => {
   return Object.keys(cryptoCurrencies).length === 0 ? (
     <div>...Loading</div>
   ) : (
-    <div id="currency_logo_charts_container">
+    <div
+      id={
+        origin === "OverviewTotal"
+          ? "currency_logo_charts_container_overview_total"
+          : "currency_logo_charts_container"
+      }
+    >
       {currency === "all_currencies" ? (
         cryptoCurrencies.data.map((obj) => {
           return (

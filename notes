@@ -236,3 +236,12 @@ reason: eur price for initial value is being used to calculate the usd chart
 next issue:
 individual currency chart do not work
 
+Jan 22nd
+ledger or position?
+
+to reduce time to portfolio page leave app the way it is now (+responsiveness), only add delete ledger entry functionality
+
+
+case: a currency has been deducted to 0
+problem: if a previous positive ledger entry is beeing removed, that currency has negative value
+problem: currency is still on display in overview --> quick solution - simply do not display currency in overview any more but keep it in positions
