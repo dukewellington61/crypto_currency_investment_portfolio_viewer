@@ -220,6 +220,7 @@ const App = () => {
                 <AddCrypto
                   makePosition={makePosition}
                   loadUserObj={loadUserObj}
+                  updateCryptoCurrenciesState={updateCryptoCurrenciesState}
                   triggerAlert={triggerAlert}
                 />
               )}

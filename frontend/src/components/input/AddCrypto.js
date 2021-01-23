@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import { getLatestCryptoData } from "../../actions/currencies";
 import { convertFiat } from "../../auxiliary/auxiliaryFiatData";
 
-const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
+const AddCrypto = ({
+  makePosition,
+  loadUserObj,
+  updateCryptoCurrenciesState,
+  triggerAlert,
+}) => {
   const [formData, setFormData] = useState({
     crypto_currency: "",
     amount: "",
@@ -57,6 +62,8 @@ const AddCrypto = ({ makePosition, loadUserObj, triggerAlert }) => {
 
       // reloads user object which is now updated with the added position
       loadUserObj();
+      // updates cryptoCurrencies Obj @App.js which has all the data for @foverview/Overview.js
+      updateCryptoCurrenciesState();
     } else {
       triggerAlert(
         `Sorry, either we don't have ${crypto_currency} in our list or you've got the spelling wrong.`,

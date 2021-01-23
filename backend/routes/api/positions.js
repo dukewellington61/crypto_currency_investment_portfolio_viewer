@@ -8,15 +8,13 @@ const User = require("../../models/User");
 // @desc    Create a position
 // @access  Private
 router.post("/", auth, async (req, res) => {
+  console.log("post");
   try {
     const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
       return res.status(401).json({ msg: "User not found" });
     }
-
-    console.log("req.body");
-    console.log(req.body);
 
     // Denormalization
     // stores positions objects in users collection
@@ -35,6 +33,36 @@ router.post("/", auth, async (req, res) => {
 
     res.json(position);
   } catch (err) {
+    res.status(500).json({ errors: { msg: err.message } });
+  }
+});
+
+// @route   POST api/delete/:currency
+// @desc    Remove all positions of a specified currency
+// @access  Private
+router.delete("/:currency", auth, async (req, res) => {
+  console.log(req.params.currency);
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+
+    let positionsArray = user.positions;
+
+    // console.log(positionsArray);
+
+    newPositionsArray = positionsArray.filter(
+      (position) => position.crypto_currency !== req.params.currency
+    );
+
+    console.log(newPositionsArray);
+
+    user.positions = newPositionsArray;
+
+    // console.log(user);
+
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    console.log(err.message);
     res.status(500).json({ errors: { msg: err.message } });
   }
 });

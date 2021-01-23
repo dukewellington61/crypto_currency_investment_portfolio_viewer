@@ -396,3 +396,38 @@
 .clickable:hover > td > .delete_ledger_entry {
   visibility: visible;
 }
+
+/* @layout/RemoveCryptoQuery.js */
+#security_query_container {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1005;
+  background-color: rgba(10, 10, 10, 0.45);
+}
+
+#security_query {
+  margin: 0 auto;
+  background-color: rgba(10, 10, 10, 0.5);
+  padding: 1rem;
+  border-style: solid;
+  border-color: red;
+}
+
+#security_query_text {
+  color: white;
+  font-weight: bold;
+}
+
+#security_query_buttons {
+  display: flex;
+  justify-content: center;
+}
+
+#security_query_buttons button {
+  margin: 1rem;
+}

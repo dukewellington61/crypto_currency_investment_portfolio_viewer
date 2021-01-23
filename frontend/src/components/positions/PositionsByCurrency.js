@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import CurrencyLogos from "../layout/CurrencyLogos";
 import { Link } from "react-router-dom";
+// import { removePosition } from "../../actions/positions";
 import { getCurrencyPositions } from "../../auxiliary/auxiliaryCryptoData";
 import { useLocation } from "react-router-dom";
 import { getAbbrevation } from "../../auxiliary/auxiliaryCryptoData";
@@ -36,6 +37,10 @@ function PositionsByCurrency({ cryptoCurrencies, fiat, fiatSymbol }) {
       );
     }
   };
+
+  // const deletePosition = (id) => {
+  //   removePosition(id);
+  // };
 
   return (
     <Fragment>
@@ -83,7 +88,10 @@ function PositionsByCurrency({ cryptoCurrencies, fiat, fiatSymbol }) {
                   {fiatSymbol.current}
                 </td>
                 <td>
-                  <div className="delete_ledger_entry">
+                  <div
+                    className="delete_ledger_entry"
+                    // onClick={() => deletePosition(position._id)}
+                  >
                     <i class="fas fa-trash-alt"></i>
                   </div>
                 </td>

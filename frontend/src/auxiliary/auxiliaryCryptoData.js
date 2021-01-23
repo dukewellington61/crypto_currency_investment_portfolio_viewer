@@ -209,7 +209,7 @@ export const getAbbrevation = (cryptoCurrencies, currencyName) => {
 };
 
 export const getInitialValuePurchase = (user, fiat) => {
-  console.log(fiat);
+  // console.log(fiat);
   let sum = 0;
   if (user)
     user.positions.forEach((position) => {

@@ -245,3 +245,41 @@ to reduce time to portfolio page leave app the way it is now (+responsiveness), 
 case: a currency has been deducted to 0
 problem: if a previous positive ledger entry is beeing removed, that currency has negative value
 problem: currency is still on display in overview --> quick solution - simply do not display currency in overview any more but keep it in positions
+or maybe better yet: remove it from positions --> this also solves the 1st problem --> no transaction record but positions
+
+programm logic
+
+on deduct crypto check value of currency in question. if value = 0 remove all positions of said currency from db
+
+this has to be in @actions/positions.js --> new fn removePosition()
+
+List of problems
+
+add position
+on add position - some of the new coins don't have data in overview >> reload cryptoCurencies obj -> getLatestCryptoData() @actions/currencies.js
+problem: on first 2min update cryptoCurencies obj newly added crypro which has been properly displayed after beeing added has now no data until next
+2min update (or even less?) --> it seems on every other 2min update lates crypto has no data
+also: change behave weird --> maybe something to do with changeObj in sessionStorage?
+
+
+
+spelling lowercase mandatory --> needs to be changed
+updating db user feedback -> maybe overlay with info
+
+
+possible way to handle position / ledger problem:
+user can't delete transactions
+only way to reduce crypto is to use deduct functionality
+no positions are being removed from db
+conditional makes sure, that currencies that have 0 value are not being displayed in overview
+
+user can't delete transactions
+only way to reduce crypto is to use deduct functionality
+if user reduces crypto to zero all positions of that currencies are being deleted
+transaction list is basically a list of all transactions of currencies currently in the portfolio
+
+programm logic
+
+on deduct crypto check value of currency in question. if value = 0 remove all positions of said currency from db
+
+this has to be in @actions/positions.js --> new fn removePosition()

@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import RemoveCryptoQuery from "../layout/RemoveCryptoQuery";
 import { Link } from "react-router-dom";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
@@ -12,7 +13,14 @@ const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
     date_of_purchase: "",
   });
 
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
   const { crypto_currency, amount, date_of_purchase } = formData;
+
+  const [renderSafetyQuery, setRenderSafetyQuery] = useState(false);
+
+  const removeSavetyQuery = () => setRenderSafetyQuery(false);
 
   const [currencyNames, setCurrencyNames] = useState([]);
 
@@ -22,8 +30,7 @@ const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
     setCurrencyNames(namesArr);
   }, []);
 
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [currency, setCurrency] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -38,9 +45,19 @@ const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
 
     if (amount > currentAmount) {
       triggerAlert(
-        `You have only ${currentAmount} unit(s) of this currency`,
+        `You currently have only ${currentAmount} unit(s) of this currency`,
         "danger"
       );
+      return;
+    }
+
+    // sets selected currency to useState so it can be used in child component (onSubmit sets it back to blank)
+    setCurrency(crypto_currency);
+
+    // renders overlay with safety query if user reduces amount of a currency to 0 (which will remove that currency from portfolio)
+    // rest of code in onSubmit function doesn't execute
+    if (parseFloat(amount) === currentAmount) {
+      setRenderSafetyQuery(true);
       return;
     }
 
@@ -86,6 +103,12 @@ const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
 
   return (
     <Fragment>
+      <div style={{ display: renderSafetyQuery ? "block" : "none" }}>
+        <RemoveCryptoQuery
+          currency={currency}
+          removeSavetyQuery={removeSavetyQuery}
+        />
+      </div>
       <div id="toggle_view_ledger">
         <Link to="/">
           <i class="fas fa-angle-double-left"></i> back to overview
