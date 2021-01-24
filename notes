@@ -283,3 +283,16 @@ programm logic
 on deduct crypto check value of currency in question. if value = 0 remove all positions of said currency from db
 
 this has to be in @actions/positions.js --> new fn removePosition()
+
+to do:
+deduct crypto 
+--> empty form when done
+--> when remove crypto -> user feedback
+--> select currency in form doesn't update
+
+add crypto
+--> sometimes change don't match on add crypto_currency
+--> sometimes newly added crypto_currency goes blank on every other update cryptoCurrencies obj --> seems to be solved
+
+charts
+check behaviour with newly added currencies

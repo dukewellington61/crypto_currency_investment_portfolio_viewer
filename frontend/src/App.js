@@ -26,6 +26,40 @@ import Alert from "./components/layout/Alert";
 
 import "./App.css";
 
+const updateCryptoCurrenciesState = async (
+  logedin,
+  fiat,
+  triggerAlert,
+  setCryptoCurrencies
+) => {
+  console.log("updateCryptoCurrenciesState");
+  if (logedin) {
+    setInterval(() => {
+      update();
+    }, 120000);
+
+    const update = async () => {
+      const userObj = await loadUser();
+      console.log("update");
+      console.log(userObj);
+
+      const currencyNames = getCurrenciesNames(userObj);
+
+      console.log(currencyNames);
+
+      const crypto = await getLatestCryptoData(currencyNames, fiat.current);
+      if (crypto instanceof Error) {
+        // triggerAlert("Something went wrong", "danger");
+        triggerAlert(crypto.message, "danger");
+      } else {
+        setCryptoCurrencies(crypto);
+      }
+    };
+
+    update();
+  }
+};
+
 const App = () => {
   const [user, setUser] = useState({});
 
@@ -46,31 +80,15 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    updateCryptoCurrenciesState();
+    console.log("useEffect__here!!");
+    updateCryptoCurrenciesState(
+      logedin,
+      fiat,
+      triggerAlert,
+      setCryptoCurrencies
+    );
     updateExchangeRateState();
   }, [logedin]);
-
-  const updateCryptoCurrenciesState = async () => {
-    if (logedin) {
-      const currencyNames = getCurrenciesNames(user);
-
-      setInterval(() => {
-        update();
-      }, 120000);
-
-      const update = async () => {
-        const crypto = await getLatestCryptoData(currencyNames, fiat.current);
-        if (crypto instanceof Error) {
-          // triggerAlert("Something went wrong", "danger");
-          triggerAlert(crypto.message, "danger");
-        } else {
-          setCryptoCurrencies(crypto);
-        }
-      };
-
-      update();
-    }
-  };
 
   const updateExchangeRateState = async () => {
     const date = getCurrentDate();
@@ -97,7 +115,13 @@ const App = () => {
       default:
     }
 
-    updateCryptoCurrenciesState();
+    updateCryptoCurrenciesState(
+      user,
+      logedin,
+      fiat,
+      triggerAlert,
+      setCryptoCurrencies
+    );
   };
 
   const makePosition = async (formData) => {
@@ -109,7 +133,12 @@ const App = () => {
         ? triggerAlert("Amount deducted", "success")
         : triggerAlert("Position added", "success");
       setUser({ ...user.positions.unshift(position.data) });
-      updateCryptoCurrenciesState();
+      updateCryptoCurrenciesState(
+        logedin,
+        fiat,
+        triggerAlert,
+        setCryptoCurrencies
+      );
     }
   };
 
@@ -218,10 +247,13 @@ const App = () => {
               path="/add_crypto"
               render={() => (
                 <AddCrypto
+                  fiat={fiat}
+                  logedin={logedin}
                   makePosition={makePosition}
                   loadUserObj={loadUserObj}
                   updateCryptoCurrenciesState={updateCryptoCurrenciesState}
                   triggerAlert={triggerAlert}
+                  setCryptoCurrencies={setCryptoCurrencies}
                 />
               )}
             />
@@ -233,10 +265,11 @@ const App = () => {
               path="/deduct_crypto"
               render={() => (
                 <DeductCrypto
+                  user={user}
                   makePosition={makePosition}
                   loadUserObj={loadUserObj}
                   triggerAlert={triggerAlert}
-                  user={user}
+                  setUser={setUser}
                 />
               )}
             />

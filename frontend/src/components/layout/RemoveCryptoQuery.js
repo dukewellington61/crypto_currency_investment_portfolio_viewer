@@ -1,10 +1,12 @@
 import React from "react";
 import { removePositions } from "../../actions/positions";
 
-const RemoveCryptoQuery = ({ currency, removeSavetyQuery }) => {
-  const handleClick = () => {
-    removePositions(currency);
+const RemoveCryptoQuery = ({ user, currency, setUser, removeSavetyQuery }) => {
+  const handleClick = async () => {
+    const positions = await removePositions(currency);
     removeSavetyQuery();
+    // update user state
+    setUser({ ...user, positions: positions.data });
   };
 
   return (

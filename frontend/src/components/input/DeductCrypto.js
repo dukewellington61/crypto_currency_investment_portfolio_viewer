@@ -6,7 +6,13 @@ import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 import { convertFiat } from "../../auxiliary/auxiliaryFiatData";
 
-const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
+const DeductCrypto = ({
+  user,
+  makePosition,
+  loadUserObj,
+  setUser,
+  triggerAlert,
+}) => {
   let [formData, setFormData] = useState({
     crypto_currency: "",
     amount: "",
@@ -55,7 +61,7 @@ const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
     setCurrency(crypto_currency);
 
     // renders overlay with safety query if user reduces amount of a currency to 0 (which will remove that currency from portfolio)
-    // rest of code in onSubmit function doesn't execute
+    // in that case rest of code in onSubmit function doesn't execute
     if (parseFloat(amount) === currentAmount) {
       setRenderSafetyQuery(true);
       return;
@@ -105,7 +111,9 @@ const DeductCrypto = ({ user, makePosition, loadUserObj, triggerAlert }) => {
     <Fragment>
       <div style={{ display: renderSafetyQuery ? "block" : "none" }}>
         <RemoveCryptoQuery
+          user={user}
           currency={currency}
+          setUser={setUser}
           removeSavetyQuery={removeSavetyQuery}
         />
       </div>

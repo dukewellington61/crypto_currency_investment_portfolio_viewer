@@ -41,26 +41,15 @@ router.post("/", auth, async (req, res) => {
 // @desc    Remove all positions of a specified currency
 // @access  Private
 router.delete("/:currency", auth, async (req, res) => {
-  console.log(req.params.currency);
   try {
     const user = await User.findById(req.user.id).select("-password");
 
-    let positionsArray = user.positions;
-
-    // console.log(positionsArray);
-
-    newPositionsArray = positionsArray.filter(
+    user.positions = user.positions.filter(
       (position) => position.crypto_currency !== req.params.currency
     );
 
-    console.log(newPositionsArray);
-
-    user.positions = newPositionsArray;
-
-    // console.log(user);
-
     await user.save();
-    res.json(user);
+    res.json(user.positions);
   } catch (err) {
     console.log(err.message);
     res.status(500).json({ errors: { msg: err.message } });

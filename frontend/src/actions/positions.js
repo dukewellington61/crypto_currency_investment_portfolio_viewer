@@ -19,16 +19,9 @@ export const createPosition = async (formData) => {
 export const removePositions = async (crypto_currency) => {
   try {
     const res = await axios.delete(`/api/positions/${crypto_currency}`);
+
     return res;
   } catch (err) {
     return err;
   }
 };
-
-// export const removePosition = async (id) => {
-//   try {
-//     const res = await axios.delete(`/api/position/${id}`);
-//   } catch (err) {
-//     return err;
-//   }
-// };

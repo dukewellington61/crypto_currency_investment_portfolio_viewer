@@ -4,10 +4,13 @@ import { getLatestCryptoData } from "../../actions/currencies";
 import { convertFiat } from "../../auxiliary/auxiliaryFiatData";
 
 const AddCrypto = ({
+  fiat,
+  logedin,
   makePosition,
   loadUserObj,
   updateCryptoCurrenciesState,
   triggerAlert,
+  setCryptoCurrencies,
 }) => {
   const [formData, setFormData] = useState({
     crypto_currency: "",
@@ -63,7 +66,12 @@ const AddCrypto = ({
       // reloads user object which is now updated with the added position
       loadUserObj();
       // updates cryptoCurrencies Obj @App.js which has all the data for @foverview/Overview.js
-      updateCryptoCurrenciesState();
+      updateCryptoCurrenciesState(
+        logedin,
+        fiat,
+        triggerAlert,
+        setCryptoCurrencies
+      );
     } else {
       triggerAlert(
         `Sorry, either we don't have ${crypto_currency} in our list or you've got the spelling wrong.`,

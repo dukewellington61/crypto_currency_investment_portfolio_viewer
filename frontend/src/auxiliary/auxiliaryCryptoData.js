@@ -1,13 +1,12 @@
 export const getCurrenciesNames = (user) => {
   let currencyArr = [];
-  if (user) {
+  if (user && user.positions) {
     user.positions.map((position) =>
       currencyArr.push(position.crypto_currency)
     );
   }
 
   // techsith's recommended way to remove duplicates from array (https://www.youtube.com/watch?v=dvPybpgk5Y4)
-
   return [...new Set(currencyArr)];
 };
 
@@ -211,7 +210,7 @@ export const getAbbrevation = (cryptoCurrencies, currencyName) => {
 export const getInitialValuePurchase = (user, fiat) => {
   // console.log(fiat);
   let sum = 0;
-  if (user)
+  if (user && user.positions)
     user.positions.forEach((position) => {
       sum += position[`price_${fiat.current}`];
     });
