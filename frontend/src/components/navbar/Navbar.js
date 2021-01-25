@@ -5,7 +5,7 @@ import Fiat from "./Fiat";
 
 const Navbar = ({ logout, logedin, setFiatCurrency }) => {
   return (
-    <nav id="navbar">
+    <nav id="navbar" className="navbar navbar-expand-lg navbar-light bg-dark">
       <div id="brand_container">
         <Link
           id="brand"

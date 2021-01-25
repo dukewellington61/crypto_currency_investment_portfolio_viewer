@@ -2,10 +2,12 @@ import React, { Fragment, useState, useEffect } from "react";
 import TotalChartDiagramm from "./TotalChartDiagramm";
 import ChangeMinMax from "./ChangeMinMax";
 import CurrencyLogos from "../layout/CurrencyLogos";
+// import { checkDuration } from "../../auxiliary/auxiliaryDateData";
 
 const TotalChart = ({
   user,
   cryptoCurrencies,
+  marketChartTotal,
   currentMarketChart,
   toggleView,
   originAndCurrency,
@@ -59,6 +61,9 @@ const TotalChart = ({
             id={duration === "week" && "duration"}
             className="durations"
             onClick={(e) => handleClick(e)}
+            // style={{
+            //   display: checkDuration(marketChartTotal) >= 7 ? "block" : "none",
+            // }}
           >
             week
           </div>
@@ -66,6 +71,9 @@ const TotalChart = ({
             id={duration === "month" && "duration"}
             className="durations"
             onClick={(e) => handleClick(e)}
+            // style={{
+            //   display: checkDuration(marketChartTotal) >= 30 ? "block" : "none",
+            // }}
           >
             month
           </div>

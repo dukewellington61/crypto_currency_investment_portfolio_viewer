@@ -203,6 +203,7 @@ function Landing({
         <TotalChart
           user={user}
           cryptoCurrencies={cryptoCurrencies}
+          marketChartTotal={marketChartTotal}
           currentMarketChart={currentMarketChart}
           logedin={logedin}
           triggerAlert={triggerAlert}

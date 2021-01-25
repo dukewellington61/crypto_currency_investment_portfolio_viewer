@@ -77,12 +77,14 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: green;
+  text-decoration: none;
 }
 
 #deduct_crypto {
   font-size: 1.5rem;
   font-weight: bold;
   color: red;
+  text-decoration: none;
 }
 
 /* @components/navbar/AccountIcon.js */

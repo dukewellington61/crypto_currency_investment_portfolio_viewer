@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SparkLine from "../charts/SparkLine";
 import Twenty4hChangeInvestmentTotal from "./Twenty4hChangeInvestmentTotal";
 import CurrencyLogos from "../layout/CurrencyLogos";
+import { duration7Days } from "../../auxiliary/auxiliaryDateData";
 
 const OverviewTotal = ({
   user,
@@ -39,6 +40,12 @@ const OverviewTotal = ({
   useEffect(() => {
     calcChange();
   }, [fiat.current]);
+
+  // const [greaterThan7Days, setGreaterThan7Days] = useState(false);
+
+  // useEffect(() => {
+  //   setGreaterThan7Days(duration7Days(user));
+  // }, []);
 
   // converts change current total into the selected fiat
   const calcChange = async () => {
@@ -77,6 +84,7 @@ const OverviewTotal = ({
           },
         }}
       >
+        <th scope="row"></th>
         <td>
           {" "}
           <div style={{ display: "flex", justifyContent: "start" }}>
@@ -94,7 +102,10 @@ const OverviewTotal = ({
       {/* initial value */}
       <td
         className="clickable"
-        onClick={() => handleClick("initial_value", "all_currencies")}
+        onClick={
+          duration7Days(user) &&
+          (() => handleClick("initial_value", "all_currencies"))
+        }
       >
         {totalPurchase.toFixed(2)} {fiatSymbol.current}
       </td>
@@ -102,7 +113,10 @@ const OverviewTotal = ({
       {/* current value */}
       <td
         className="clickable"
-        onClick={() => handleClick("current_value", "all_currencies")}
+        onClick={
+          duration7Days(user) &&
+          (() => handleClick("current_value", "all_currencies"))
+        }
       >
         <div className="change_container">
           <div>
@@ -130,7 +144,10 @@ const OverviewTotal = ({
       {/* profit */}
       <td
         className="clickable"
-        onClick={() => handleClick("balance", "all_currencies")}
+        onClick={
+          duration7Days(user) &&
+          (() => handleClick("balance", "all_currencies"))
+        }
       >
         {(currentValueTotal - totalPurchase).toFixed(2)} {fiatSymbol.current}
       </td>
@@ -138,7 +155,9 @@ const OverviewTotal = ({
       {/* roi */}
       <td
         className="clickable"
-        onClick={() => handleClick("roi", "all_currencies")}
+        onClick={
+          duration7Days(user) && (() => handleClick("roi", "all_currencies"))
+        }
       >
         <div className="x_container">
           <div>
