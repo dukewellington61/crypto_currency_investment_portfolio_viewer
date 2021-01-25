@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
-    "client": "cd ./frontend && npm start",
+    "client": "cd ./client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
