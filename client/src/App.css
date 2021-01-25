@@ -302,6 +302,15 @@
 }
 
 /* @components/overview/Overview.js */
+/* table {
+  overflow: auto;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+} */
+
 .crypto_image {
   width: 1.5em;
   margin-right: 0.25rem;
