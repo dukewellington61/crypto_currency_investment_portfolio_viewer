@@ -286,13 +286,19 @@ this has to be in @actions/positions.js --> new fn removePosition()
 
 to do:
 deduct crypto 
---> empty form when done
---> when remove crypto -> user feedback
+--> empty form when done -->done
+--> when remove crypto -> user feedback -->done
 --> select currency in form doesn't update
 
 add crypto
 --> sometimes change don't match on add crypto_currency
 --> sometimes newly added crypto_currency goes blank on every other update cryptoCurrencies obj --> seems to be solved
+--> while updating db some kinda feedback -> maybe layover with message
 
 charts
 check behaviour with newly added currencies
+
+handle not loged in user
+handle empty portfolio
+
+

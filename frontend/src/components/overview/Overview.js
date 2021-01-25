@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import OverviewCurrencies from "./OverviewCurrencies";
 import OverviewTotal from "./OverviewTotal";
 import { getNamesAndCurrentValues } from "../../auxiliary/auxiliaryCryptoData";
@@ -72,8 +72,6 @@ const Overview = ({
     prevFiat.current = fiatCurr;
   }, [fiatCurr]);
 
-  //
-
   const get24hourChangeByCurrency = (currencyName) => {
     let returnValue = 0;
 
@@ -107,50 +105,61 @@ const Overview = ({
   };
 
   return (
-    <div>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Crypto</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Initial Value</th>
-            <th scope="col">Current Value</th>
-            <th scope="col">Profit</th>
-            <th scope="col">ROI</th>
-            <th scope="col">Last 7 Days</th>
-          </tr>
-        </thead>
-        <OverviewCurrencies
-          user={user}
-          cryptoCurrencies={cryptoCurrencies}
-          exchangeRates={exchangeRates}
-          currencyNamesAndCurrentValues={currencyNamesAndCurrentValues}
-          prevCurrentValues={prevCurrentValues}
-          logedin={logedin}
-          fiat={fiat}
-          prevFiat={prevFiat}
-          fiatSymbol={fiatSymbol}
-          getInitialValue={getInitialValue}
-          get24hourChangeByCurrency={get24hourChangeByCurrency}
-          getCurrentValue={getCurrentValue}
-          handleClick={handleClick}
-        />
-        <OverviewTotal
-          user={user}
-          cryptoCurrencies={cryptoCurrencies}
-          exchangeRates={exchangeRates}
-          totalPurchase={totalPurchase}
-          currentValueTotal={currentValueTotal}
-          prevCurrentValueTotal={prevCurrentValueTotal}
-          fiat={fiat}
-          prevFiat={prevFiat}
-          fiatSymbol={fiatSymbol}
-          get24hourChangeTotal={get24hourChangeTotal}
-          handleClick={handleClick}
-        />
-      </table>
-    </div>
+    <Fragment>
+      {cryptoCurrencies.data && cryptoCurrencies.data.length === 0 ? (
+        <div className="provisional_user_info">
+          <div>
+            There are currently no cryptocurrencies in your portfolio. Add
+            crypto by hitting the + button in the navbar.
+          </div>
+        </div>
+      ) : (
+        <div>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Crypto</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Initial Value</th>
+                <th scope="col">Current Value</th>
+                <th scope="col">Profit</th>
+                <th scope="col">ROI</th>
+                <th scope="col">Last 7 Days</th>
+              </tr>
+            </thead>
+            <OverviewCurrencies
+              user={user}
+              cryptoCurrencies={cryptoCurrencies}
+              exchangeRates={exchangeRates}
+              currencyNamesAndCurrentValues={currencyNamesAndCurrentValues}
+              prevCurrentValues={prevCurrentValues}
+              logedin={logedin}
+              fiat={fiat}
+              prevFiat={prevFiat}
+              fiatSymbol={fiatSymbol}
+              getInitialValue={getInitialValue}
+              get24hourChangeByCurrency={get24hourChangeByCurrency}
+              getCurrentValue={getCurrentValue}
+              handleClick={handleClick}
+            />
+            <OverviewTotal
+              user={user}
+              cryptoCurrencies={cryptoCurrencies}
+              exchangeRates={exchangeRates}
+              totalPurchase={totalPurchase}
+              currentValueTotal={currentValueTotal}
+              prevCurrentValueTotal={prevCurrentValueTotal}
+              fiat={fiat}
+              prevFiat={prevFiat}
+              fiatSymbol={fiatSymbol}
+              get24hourChangeTotal={get24hourChangeTotal}
+              handleClick={handleClick}
+            />
+          </table>
+        </div>
+      )}
+    </Fragment>
   );
 };
 
-export default Overview;
+export default React.memo(Overview);

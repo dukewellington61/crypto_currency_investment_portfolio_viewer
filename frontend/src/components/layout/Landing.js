@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
 import { getMarketChartsCrypto2 } from "../../actions/currencies";
 import { getCurrenciesNames } from "../../auxiliary/auxiliaryCryptoData";
 import Overview from "../overview/Overview";
@@ -16,7 +16,7 @@ function Landing({
   const [renderOverview, setRenderOverview] = useState(true);
   const [renderTotalChart, setRenderTotalChart] = useState(false);
 
-  const toggleView = () => {
+  const toggleView = useCallback(() => {
     if (renderOverview) {
       setRenderOverview(false);
       setRenderTotalChart(true);
@@ -25,17 +25,17 @@ function Landing({
       setRenderOverview(true);
       setRenderTotalChart(false);
     }
-  };
+  }, [renderOverview]);
 
   const [origin, setOrigin] = useState("");
   const [currency, setCurrency] = useState("");
   const [originAndCurrency, setOriginAndCurency] = useState([]);
 
-  const updateOriginAndCurrencyState = (origin, currency) => {
+  const updateOriginAndCurrencyState = useCallback((origin, currency) => {
     setOrigin(origin);
     setCurrency(currency);
     setOriginAndCurency([origin, currency]);
-  };
+  }, []);
 
   // on click duration (day, week, etc.) in @components/charts/TotalChart.js originAndCurrency is updated
   // currency in originAndCurrency state gets _fiat.current appendix
@@ -192,9 +192,9 @@ function Landing({
           cryptoCurrencies={cryptoCurrencies}
           exchangeRates={exchangeRates}
           logedin={logedin}
-          renderOverview={renderOverview}
           fiat={fiat}
           fiatSymbol={fiatSymbol}
+          renderOverview={renderOverview}
           updateOriginAndCurrencyState={updateOriginAndCurrencyState}
           toggleView={toggleView}
         />

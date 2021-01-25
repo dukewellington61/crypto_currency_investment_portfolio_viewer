@@ -8,10 +8,12 @@ import { convertFiat } from "../../auxiliary/auxiliaryFiatData";
 
 const DeductCrypto = ({
   user,
+  currencyNames,
   makePosition,
   loadUserObj,
   setUser,
   triggerAlert,
+  setCurrencyNames,
 }) => {
   let [formData, setFormData] = useState({
     crypto_currency: "",
@@ -28,13 +30,13 @@ const DeductCrypto = ({
 
   const removeSavetyQuery = () => setRenderSafetyQuery(false);
 
-  const [currencyNames, setCurrencyNames] = useState([]);
+  // const [currencyNames, setCurrencyNames] = useState([]);
 
-  useEffect(() => {
-    const namesArr = getCurrenciesNames(user);
-    namesArr.unshift("");
-    setCurrencyNames(namesArr);
-  }, []);
+  // useEffect(() => {
+  //   const namesArr = getCurrenciesNames(user);
+  //   namesArr.unshift("");
+  //   setCurrencyNames(namesArr);
+  // }, []);
 
   const [currency, setCurrency] = useState("");
 
@@ -97,15 +99,18 @@ const DeductCrypto = ({
     await makePosition(formData);
 
     // sets form fields back to blank
+    makeBlankForm();
+
+    // reloads user object which is now updated with the deductable position
+    loadUserObj();
+  };
+
+  const makeBlankForm = () =>
     setFormData({
       crypto_currency: "",
       amount: "",
       date_of_purchase: "",
     });
-
-    // reloads user object which is now updated with the deductable position
-    loadUserObj();
-  };
 
   return (
     <Fragment>
@@ -113,8 +118,12 @@ const DeductCrypto = ({
         <RemoveCryptoQuery
           user={user}
           currency={currency}
+          currencyNames={currencyNames}
           setUser={setUser}
           removeSavetyQuery={removeSavetyQuery}
+          triggerAlert={triggerAlert}
+          makeBlankForm={makeBlankForm}
+          setCurrencyNames={setCurrencyNames}
         />
       </div>
       <div id="toggle_view_ledger">
@@ -141,6 +150,7 @@ const DeductCrypto = ({
                   style={{ position: "absolute", right: "0", width: "50%" }}
                   onChange={(e) => onChange(e)}
                 >
+                  <option value={""}>{""}</option>
                   {currencyNames.map((currencyName) => {
                     return (
                       <option value={`${currencyName}`}>{currencyName}</option>
@@ -171,6 +181,7 @@ const DeductCrypto = ({
               value={date_of_purchase}
               onChange={(e) => onChange(e)}
               required
+              max={new Date().toISOString().split("T")[0]}
             />
           </div>
 

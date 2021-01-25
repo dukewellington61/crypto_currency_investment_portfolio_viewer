@@ -30,9 +30,9 @@ const updateCryptoCurrenciesState = async (
   logedin,
   fiat,
   triggerAlert,
-  setCryptoCurrencies
+  setCryptoCurrencies,
+  setCurrencyNames
 ) => {
-  console.log("updateCryptoCurrenciesState");
   if (logedin) {
     setInterval(() => {
       update();
@@ -40,12 +40,10 @@ const updateCryptoCurrenciesState = async (
 
     const update = async () => {
       const userObj = await loadUser();
-      console.log("update");
-      console.log(userObj);
 
       const currencyNames = getCurrenciesNames(userObj);
 
-      console.log(currencyNames);
+      setCurrencyNames(currencyNames);
 
       const crypto = await getLatestCryptoData(currencyNames, fiat.current);
       if (crypto instanceof Error) {
@@ -71,6 +69,8 @@ const App = () => {
 
   const [exchangeRates, setExchangeRate] = useState({});
 
+  const [currencyNames, setCurrencyNames] = useState([]);
+
   const fiat = useRef("EUR");
 
   const fiatSymbol = useRef("€");
@@ -80,12 +80,12 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    console.log("useEffect__here!!");
     updateCryptoCurrenciesState(
       logedin,
       fiat,
       triggerAlert,
-      setCryptoCurrencies
+      setCryptoCurrencies,
+      setCurrencyNames
     );
     updateExchangeRateState();
   }, [logedin]);
@@ -116,11 +116,11 @@ const App = () => {
     }
 
     updateCryptoCurrenciesState(
-      user,
       logedin,
       fiat,
       triggerAlert,
-      setCryptoCurrencies
+      setCryptoCurrencies,
+      setCurrencyNames
     );
   };
 
@@ -137,7 +137,8 @@ const App = () => {
         logedin,
         fiat,
         triggerAlert,
-        setCryptoCurrencies
+        setCryptoCurrencies,
+        setCurrencyNames
       );
     }
   };
@@ -196,6 +197,11 @@ const App = () => {
           setFiatCurrency={setFiatCurrency}
         />
         <Alert alert={alert} removeAlert={removeAlert} />
+        {!logedin && (
+          <div className="provisional_user_info">
+            <div> You are currently loged out. Log in or sign up.</div>
+          </div>
+        )}
         <Switch>
           {logedin && (
             <Route
@@ -225,11 +231,6 @@ const App = () => {
               />
             )}
           />
-          {/* <Route
-            exact
-            path="/position_chart"
-            render={() => <PositionChart />}
-          /> */}
 
           <Route
             exact
@@ -254,6 +255,7 @@ const App = () => {
                   updateCryptoCurrenciesState={updateCryptoCurrenciesState}
                   triggerAlert={triggerAlert}
                   setCryptoCurrencies={setCryptoCurrencies}
+                  setCurrencyNames={setCurrencyNames}
                 />
               )}
             />
@@ -266,10 +268,12 @@ const App = () => {
               render={() => (
                 <DeductCrypto
                   user={user}
+                  currencyNames={currencyNames}
                   makePosition={makePosition}
                   loadUserObj={loadUserObj}
                   triggerAlert={triggerAlert}
                   setUser={setUser}
+                  setCurrencyNames={setCurrencyNames}
                 />
               )}
             />

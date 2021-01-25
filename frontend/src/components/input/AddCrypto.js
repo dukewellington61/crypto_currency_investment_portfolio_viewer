@@ -11,6 +11,7 @@ const AddCrypto = ({
   updateCryptoCurrenciesState,
   triggerAlert,
   setCryptoCurrencies,
+  setCurrencyNames,
 }) => {
   const [formData, setFormData] = useState({
     crypto_currency: "",
@@ -24,10 +25,15 @@ const AddCrypto = ({
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const [updatingDB, setUpdatingDB] = useState(false);
+
   let submitObj = {};
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    // sets state updatingDB to true so form is disabled while DB is being updated
+    setUpdatingDB(true);
 
     // dropdown menu doesn't send default value (EUR) because onChange fires only on user input
     // in order to send a value (EUR or USD) it had to be actively selected everytime the user wants to enter a new position
@@ -53,7 +59,11 @@ const AddCrypto = ({
     const returnValue = await getLatestCryptoData([crypto_currency]);
 
     if (returnValue.data.length > 0) {
+      // triggers function that updates DB
       await makePosition(submitObj);
+
+      // sets state updatingDB back to false
+      setUpdatingDB(false);
 
       // sets form fields back to blank
       setFormData({
@@ -70,7 +80,8 @@ const AddCrypto = ({
         logedin,
         fiat,
         triggerAlert,
-        setCryptoCurrencies
+        setCryptoCurrencies,
+        setCurrencyNames
       );
     } else {
       triggerAlert(
@@ -100,6 +111,7 @@ const AddCrypto = ({
               value={crypto_currency}
               onChange={(e) => onChange(e)}
               required
+              disabled={updatingDB}
             />
           </div>
           <div className="form-group">
@@ -111,6 +123,7 @@ const AddCrypto = ({
               value={amount}
               onChange={(e) => onChange(e)}
               required
+              disabled={updatingDB}
             />
           </div>
 
@@ -125,6 +138,7 @@ const AddCrypto = ({
               value={price}
               onChange={(e) => onChange(e)}
               required
+              disabled={updatingDB}
             />
             <div className="input-group-append">
               <select className="btn btn-outline-secondary">
@@ -142,9 +156,16 @@ const AddCrypto = ({
               value={date_of_purchase}
               onChange={(e) => onChange(e)}
               required
+              disabled={updatingDB}
+              max={new Date().toISOString().split("T")[0]}
             />
           </div>
-          <input type="submit" className="btn btn-primary" value="Add" />
+          <input
+            type="submit"
+            className="btn btn-primary"
+            value="Add"
+            disabled={updatingDB}
+          />
         </form>
       </div>
     </Fragment>
