@@ -114,17 +114,31 @@ const Overview = ({
           </div>
         </div>
       ) : (
-        <div>
+        <div className="container">
           <table className="table table-striped table-responsive-sm">
-            <thead className="thead-dark">
+            <thead className="thead-dark" style={{ position: "sticky" }}>
               <tr>
-                <th scope="col">Crypto</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Initial Value</th>
-                <th scope="col">Current Value</th>
-                <th scope="col">Profit</th>
-                <th scope="col">ROI</th>
-                <th scope="col">Last 7 Days</th>
+                <th className="header" scope="col">
+                  Crypto
+                </th>
+                <th className="header" scope="col">
+                  Amount
+                </th>
+                <th className="header" scope="col">
+                  Initial Value
+                </th>
+                <th className="header" scope="col">
+                  Current Value
+                </th>
+                <th className="header" scope="col">
+                  Profit
+                </th>
+                <th className="header" scope="col">
+                  ROI
+                </th>
+                <th className="header" scope="col">
+                  Last 7 Days
+                </th>
               </tr>
             </thead>
             <OverviewCurrencies
