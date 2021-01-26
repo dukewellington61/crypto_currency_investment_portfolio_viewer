@@ -115,8 +115,8 @@ const Overview = ({
         </div>
       ) : (
         <div>
-          <table className="table table-striped table-responsive-md">
-            <thead>
+          <table className="table table-striped table-responsive-sm">
+            <thead className="thead-dark">
               <tr>
                 <th scope="col">Crypto</th>
                 <th scope="col">Amount</th>
