@@ -302,6 +302,10 @@
 }
 
 /* @components/overview/Overview.js */
+.table_div {
+  overflow-x: scroll;
+}
+
 th {
   width: 14.25%;
   white-space: nowrap;
