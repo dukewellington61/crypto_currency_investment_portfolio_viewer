@@ -44,7 +44,9 @@ const TotalChart = ({
   ) : (
     <Fragment>
       <div id="toggle_view_charts" onClick={toggleView}>
-        <i class="fas fa-angle-double-left"></i> back to overview
+        <button type="button" class="btn btn-secondary">
+          <i class="fas fa-angle-double-left"></i> back to overview
+        </button>
       </div>
       <CurrencyLogos cryptoCurrencies={cryptoCurrencies} currency={currency} />
       <ChangeMinMax dataArray={resultArray} fiatSymbol={fiatSymbol} />

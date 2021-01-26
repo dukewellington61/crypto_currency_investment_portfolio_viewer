@@ -8,7 +8,7 @@
 /* @components/navbar/Navbar.js */
 #navbar {
   width: 100%;
-  background-color: black !important;
+  /* background-color: black !important; */
   box-shadow: 3px 2px 2px 1px grey;
 }
 
@@ -74,20 +74,30 @@
 }
 
 #add_crypto {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
-  color: green;
+  /* color: green !important; */
   text-decoration: none;
+  /* margin: 0 2em; */
 }
 
 #deduct_crypto {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
-  color: red;
+  /* color: red !important; */
   text-decoration: none;
+  /* margin: 0 2em; */
+}
+
+.navbar_link_items {
+  margin: 0 3rem;
 }
 
 /* @components/navbar/AccountIcon.js */
+.fa-user {
+  font-size: 2em;
+}
+
 #menu {
   display: none;
   position: absolute;

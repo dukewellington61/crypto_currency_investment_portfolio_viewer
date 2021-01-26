@@ -84,7 +84,7 @@ const OverviewTotal = ({
           },
         }}
       >
-        <th scope="row"></th>
+        {/* <th scope="row"></th> */}
         <td>
           {" "}
           <div style={{ display: "flex", justifyContent: "start" }}>
@@ -97,7 +97,7 @@ const OverviewTotal = ({
         </td>
       </Link>
 
-      <td></td>
+      <td>Total Portfolio</td>
 
       {/* initial value */}
       <td

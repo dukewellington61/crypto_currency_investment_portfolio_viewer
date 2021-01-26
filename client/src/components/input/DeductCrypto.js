@@ -128,7 +128,9 @@ const DeductCrypto = ({
       </div>
       <div id="toggle_view_ledger">
         <Link to="/">
-          <i class="fas fa-angle-double-left"></i> back to overview
+          <button type="button" class="btn btn-secondary">
+            <i class="fas fa-angle-double-left"></i> back to overview
+          </button>
         </Link>
       </div>
       <div className="form_container">

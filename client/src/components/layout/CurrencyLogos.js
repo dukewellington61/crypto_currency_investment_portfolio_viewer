@@ -31,7 +31,7 @@ const CurrencyLogos = ({ cryptoCurrencies, currency, origin }) => {
       )}
       <div id="currency_name_chart">
         {currency === "all_currencies"
-          ? "Total Portfolio"
+          ? ""
           : currency.charAt(0).toUpperCase() + currency.slice(1).split("_")[0]}
       </div>
     </div>

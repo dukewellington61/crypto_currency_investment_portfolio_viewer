@@ -46,7 +46,9 @@ function PositionsByCurrency({ cryptoCurrencies, fiat, fiatSymbol }) {
     <Fragment>
       <div id="toggle_view_ledger">
         <Link to="/">
-          <i class="fas fa-angle-double-left"></i> back to overview
+          <button type="button" class="btn btn-secondary">
+            <i class="fas fa-angle-double-left"></i> back to overview
+          </button>
         </Link>
       </div>
       <div style={{ display: "flex" }}>
@@ -88,12 +90,12 @@ function PositionsByCurrency({ cryptoCurrencies, fiat, fiatSymbol }) {
                   {fiatSymbol.current}
                 </td>
                 <td>
-                  <div
+                  {/* <div
                     className="delete_ledger_entry"
                     // onClick={() => deletePosition(position._id)}
                   >
                     <i class="fas fa-trash-alt"></i>
-                  </div>
+                  </div> */}
                 </td>
               </tr>
             );
