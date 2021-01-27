@@ -146,10 +146,8 @@ const OverviewCurrencies = ({
                 className="clickable"
                 onClick={() => handleClick("initial_value", currencyName)}
               >
-                {(
-                  getAmount(user, currencyName) *
-                  getInitialValue(user, currencyName, fiat)
-                ).toFixed(2)}{" "}
+                {// getAmount(user, currencyName) *
+                getInitialValue(user, currencyName, fiat).toFixed(2)}{" "}
                 {fiatSymbol.current}
               </td>
 

@@ -148,6 +148,7 @@ const App = () => {
     if (token instanceof Error) {
       triggerAlert(token.response.data.errors.msg, "danger");
     } else {
+      triggerAlert("You've sucessfully loged in!", "success");
       loadUserObj();
     }
   };
@@ -169,11 +170,12 @@ const App = () => {
     setLogedin(false);
   };
 
-  const register = (email, password, password2) => {
-    const token = signup(email, password, password2);
+  const register = async (email, password, password2) => {
+    const token = await signup(email, password, password2);
     if (token instanceof Error) {
       triggerAlert(token.response.data.errors.msg, "danger");
     } else {
+      triggerAlert("Welcome Hodler! Create your portfolio!", "success");
       loadUserObj();
     }
   };
