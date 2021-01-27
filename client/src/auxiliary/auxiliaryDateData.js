@@ -17,22 +17,26 @@ export const getCurrentDate = () => {
 // };
 
 export const duration7Days = (user) => {
-  const sorted = user.positions.sort((a, b) => {
-    return a.date_of_purchase - b.date_of_purchase;
-  });
+  if (user.positions.length > 0) {
+    const sorted = user.positions.sort((a, b) => {
+      return a.date_of_purchase - b.date_of_purchase;
+    });
 
-  const oldestDateUnix =
-    new Date(sorted[sorted.length - 1].date_of_purchase).getTime() / 1000;
+    console.log(sorted);
 
-  const currentDateUnix = new Date().getTime() / 1000;
+    const oldestDateUnix =
+      new Date(sorted[sorted.length - 1].date_of_purchase).getTime() / 1000;
 
-  const durationUnix = currentDateUnix - oldestDateUnix;
+    const currentDateUnix = new Date().getTime() / 1000;
 
-  const durationDays = Math.floor(durationUnix / 86400);
+    const durationUnix = currentDateUnix - oldestDateUnix;
 
-  if (durationDays > 7) {
-    return true;
-  } else {
-    return false;
+    const durationDays = Math.floor(durationUnix / 86400);
+
+    if (durationDays > 7) {
+      return true;
+    } else {
+      return false;
+    }
   }
 };

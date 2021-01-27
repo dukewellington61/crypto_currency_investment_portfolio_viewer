@@ -110,7 +110,7 @@ const Overview = ({
         <div className="provisional_user_info">
           <div>
             There are currently no cryptocurrencies in your portfolio. Add
-            crypto by hitting the + button in the navbar.
+            crypto by hitting the "+ add crypto" button in the navbar menu.
           </div>
         </div>
       ) : (

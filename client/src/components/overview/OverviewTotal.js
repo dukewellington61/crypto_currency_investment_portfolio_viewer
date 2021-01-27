@@ -41,12 +41,6 @@ const OverviewTotal = ({
     calcChange();
   }, [fiat.current]);
 
-  // const [greaterThan7Days, setGreaterThan7Days] = useState(false);
-
-  // useEffect(() => {
-  //   setGreaterThan7Days(duration7Days(user));
-  // }, []);
-
   // converts change current total into the selected fiat
   const calcChange = async () => {
     // switch from EUR to USD

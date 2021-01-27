@@ -212,7 +212,7 @@ export const getInitialValuePurchase = (user, fiat) => {
   let sum = 0;
   if (user && user.positions)
     user.positions.forEach((position) => {
-      sum += position[`price_${fiat.current}`];
+      sum += position[`price_${fiat.current}`] * position.amount;
     });
   return sum;
 };

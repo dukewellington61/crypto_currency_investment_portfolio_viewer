@@ -174,7 +174,7 @@ const App = () => {
     if (token instanceof Error) {
       triggerAlert(token.response.data.errors.msg, "danger");
     } else {
-      loadUser();
+      loadUserObj();
     }
   };
 
