@@ -302,19 +302,59 @@
 }
 
 /* @components/layout/Alert.js */
-#remove_alert {
+/* #remove_alert {
   position: absolute;
   right: 0.5rem;
   top: 0;
   color: black;
   font-weight: bold;
   cursor: pointer;
+} */
+
+#alert {
+  width: 100%;
+  opacity: 0.9;
 }
 
 /* @components/overview/Overview.js */
-.table_div {
-  overflow-x: scroll;
+#container {
+  overflow: scroll;
+  white-space: nowrap;
+  overflow-x: hide;
 }
+
+#arrow_container {
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 50%;
+  color: grey;
+}
+
+@media only screen and (min-width: 768px) {
+  #arrow_container {
+    display: none !important;
+  }
+}
+
+.fa-chevron-left {
+  text-align: right;
+  font-size: 2em;
+}
+
+.fa-chevron-right {
+  text-align: left;
+  font-size: 2em;
+}
+
+/* .fa-chevron-right {
+  left: 100%;
+} */
+
+/* .table_div {
+  white-space: nowrap;
+  overflow-x: hide;
+} */
 
 th {
   width: 14.25%;

@@ -22,8 +22,6 @@ export const duration7Days = (user) => {
       return a.date_of_purchase - b.date_of_purchase;
     });
 
-    console.log(sorted);
-
     const oldestDateUnix =
       new Date(sorted[sorted.length - 1].date_of_purchase).getTime() / 1000;
 

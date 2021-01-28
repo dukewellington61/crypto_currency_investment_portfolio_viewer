@@ -301,4 +301,12 @@ check behaviour with newly added currencies
 handle not loged in user
 handle empty portfolio
 
+27th Jan
 
+horizontal scroll arrows for mobile screens which can't fit the whole width of overview (for representational purpose only)
+
+arrows show up on mouse over iframe
+
+arrows sticky to vertical center of screen (left and right)
+
+remove scroll bars
