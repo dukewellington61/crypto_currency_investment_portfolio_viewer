@@ -24,7 +24,7 @@ import PositionsByCurrency from "./components/positions/PositionsByCurrency";
 
 import Alert from "./components/layout/Alert";
 
-import "./App.css";
+import "./App.scss";
 
 const updateCryptoCurrenciesState = async (
   logedin,
