@@ -338,13 +338,27 @@
 }
 
 .fa-chevron-left {
+  visibility: hidden;
   text-align: right;
   font-size: 2em;
 }
 
+.fa-chevron-left:hover {
+  color: black;
+}
+
 .fa-chevron-right {
+  visibility: hidden;
   text-align: left;
   font-size: 2em;
+}
+
+.fa-chevron-right:hover {
+  color: black;
+}
+
+.arrow_display {
+  visibility: visible;
 }
 
 th {

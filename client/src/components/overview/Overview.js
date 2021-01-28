@@ -104,45 +104,53 @@ const Overview = ({
       : updateOriginAndCurrencyState(origin, `${currency}_${fiat.current}`);
   };
 
-  const leftArrowRef = useRef(null);
-  const rightArrowRef = useRef(null);
+  const [scrollPosition, setScrollposition] = useState(0);
+
+  const ArrowRightRef = useRef(null);
+  const ArrowLeftRef = useRef(null);
   const containerRef = useRef(null);
 
-  // console.log(leftArrowRef);
-  // console.log(rightArrowRef);
-  // const buttonRight = rightArrowRef.current;
-  // const buttonLeft = leftArrowRef.current;
-  const container = containerRef.current;
-
-  // console.log(buttonRight);
-  // console.log(buttonLeft);
-  console.log(container);
-
-  // if (buttonRight) {
-  //   buttonRight.onclick = function (event) {
-  //     console.log("click_button_right");
-  //     container.scrollLeft += 20;
-  //     event.preventDefault();
-  //   };
-  // }
-
-  // if (buttonLeft) {
-  //   buttonLeft.onclick = function (event) {
-  //     console.log("click_button_left");
-  //     container.scrollLeft -= 20;
-  //     event.preventDefault();
-  //   };
-  // }
-
   const handleLeftClick = () => {
-    container.scrollLeft -= 300;
-    console.log(container.scrollLeft);
+    setScrollposition((containerRef.current.scrollLeft -= 280));
   };
 
   const handleRightClick = () => {
-    container.scrollLeft -= -300;
-    console.log(container.scrollLeft);
+    setScrollposition((containerRef.current.scrollLeft -= -280));
   };
+
+  useEffect(() => {
+    if (containerRef.current.scrollLeft === 0) {
+      ArrowRightRef.current.classList.add("arrow_display");
+      ArrowLeftRef.current.classList.remove("arrow_display");
+    }
+  }, []);
+
+  if (containerRef.current) {
+    containerRef.current.addEventListener("scroll", () => {
+      if (containerRef.current.scrollLeft === 0) {
+        ArrowRightRef.current.classList.add("arrow_display");
+        ArrowLeftRef.current.classList.remove("arrow_display");
+      }
+
+      if (containerRef.current.scrollLeft > 0) {
+        ArrowLeftRef.current.classList.add("arrow_display");
+      }
+
+      if (
+        containerRef.current.scrollLeft ===
+        containerRef.current.scrollWidth - window.innerWidth
+      ) {
+        ArrowRightRef.current.classList.remove("arrow_display");
+      }
+
+      if (
+        containerRef.current.scrollLeft <
+        containerRef.current.scrollWidth - window.innerWidth
+      ) {
+        ArrowRightRef.current.classList.add("arrow_display");
+      }
+    });
+  }
 
   return cryptoCurrencies.data && cryptoCurrencies.data.length === 0 ? (
     <div className="provisional_user_info">
@@ -164,12 +172,12 @@ const Overview = ({
       >
         <i
           className="fas fa-chevron-left"
-          ref={leftArrowRef}
+          ref={ArrowLeftRef}
           onClick={handleLeftClick}
         ></i>
         <i
           className="fas fa-chevron-right"
-          ref={rightArrowRef}
+          ref={ArrowRightRef}
           onClick={handleRightClick}
         ></i>
       </div>
