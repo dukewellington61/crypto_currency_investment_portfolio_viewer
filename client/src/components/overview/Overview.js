@@ -135,13 +135,13 @@ const Overview = ({
   // }
 
   const handleLeftClick = () => {
-    container.scrollLeft -= 20;
-    console.log("click_button_left");
+    container.scrollLeft -= 300;
+    console.log(container.scrollLeft);
   };
 
   const handleRightClick = () => {
-    container.scrollLeft -= 20;
-    console.log("click_button_right");
+    container.scrollLeft -= -300;
+    console.log(container.scrollLeft);
   };
 
   return cryptoCurrencies.data && cryptoCurrencies.data.length === 0 ? (
@@ -173,7 +173,8 @@ const Overview = ({
           onClick={handleRightClick}
         ></i>
       </div>
-      <div ref={containerRef} className="table_div">
+
+      <div>
         <table
           id="container"
           className="table table-striped table-responsive-sm"

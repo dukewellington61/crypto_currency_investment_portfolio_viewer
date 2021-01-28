@@ -312,15 +312,15 @@
 } */
 
 #alert {
+  position: absolute;
   width: 100%;
   opacity: 0.9;
 }
 
 /* @components/overview/Overview.js */
 #container {
-  overflow: scroll;
-  white-space: nowrap;
-  overflow-x: hide;
+  scroll-behavior: smooth;
+  overflow-x: scroll !important;
 }
 
 #arrow_container {
@@ -346,15 +346,6 @@
   text-align: left;
   font-size: 2em;
 }
-
-/* .fa-chevron-right {
-  left: 100%;
-} */
-
-/* .table_div {
-  white-space: nowrap;
-  overflow-x: hide;
-} */
 
 th {
   width: 14.25%;
