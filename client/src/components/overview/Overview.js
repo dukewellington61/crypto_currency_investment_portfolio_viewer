@@ -159,8 +159,8 @@ const Overview = ({
   // if the app is displayed elsewhere the code below won't fire
 
   window.addEventListener("message", (message) => {
-    if (message.data === "iframe") {
-      console.log("iframe");
+    if (message.data === "iframe_crypto_portfolio_viewer") {
+      console.log("iframe_crypto_portfolio_viewer");
       document.querySelector("html").classList.add("hideScrollBar");
     }
   });
