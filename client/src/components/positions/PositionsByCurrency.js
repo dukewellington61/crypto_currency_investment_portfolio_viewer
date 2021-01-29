@@ -43,21 +43,23 @@ function PositionsByCurrency({ cryptoCurrencies, fiat, fiatSymbol }) {
   // };
 
   return (
-    <Fragment>
-      <div id="toggle_view_ledger">
-        <Link to="/">
-          <button type="button" class="btn btn-secondary">
-            <i class="fas fa-angle-double-left"></i> back to overview
-          </button>
-        </Link>
-      </div>
-      <div style={{ display: "flex" }}>
-        <CurrencyLogos
-          cryptoCurrencies={cryptoCurrencies}
-          currency={data.state.currency}
-          origin={"OverviewTotal"}
-        />
-        <div style={{ marginLeft: "1rem" }}>transaction record</div>
+    <div id="positions_container">
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex" }}>
+          <CurrencyLogos
+            cryptoCurrencies={cryptoCurrencies}
+            currency={data.state.currency}
+            origin={"OverviewTotal"}
+          />
+          <div style={{ marginLeft: "1rem" }}>transaction record</div>
+        </div>
+        <div id="toggle_view_ledger">
+          <Link to="/">
+            <button type="button" class="btn btn-secondary">
+              <i class="fas fa-angle-double-left"></i> back to overview
+            </button>
+          </Link>
+        </div>
       </div>
 
       <table className="table table-striped">
@@ -129,7 +131,7 @@ function PositionsByCurrency({ cryptoCurrencies, fiat, fiatSymbol }) {
           </tr>
         </tbody>
       </table>
-    </Fragment>
+    </div>
   );
 }
 

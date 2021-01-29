@@ -190,6 +190,11 @@
 
 /* @components/auth/Login.js */
 /* @components/input/Positions.js */
+#positions_container {
+  position: relative;
+  top: 1rem;
+}
+
 @media only screen and (min-width: 350px) {
   .input_field {
     width: 75% !important;
@@ -232,6 +237,11 @@
 }
 
 /* @components/portfolio/TotalChart.js */
+#charts_container {
+  position: relative;
+  top: 1rem;
+}
+
 #currency_logo_charts_container {
   display: flex;
   align-items: center;
@@ -250,6 +260,10 @@
   width: 1.5rem;
 }
 
+#currency_logos {
+  margin-top: 1rem;
+}
+
 /* .all_currency_logos_charts {
   width: 1.5rem;
 } */
@@ -266,11 +280,12 @@
 }
 
 #toggle_view_charts {
-  position: absolute;
+  // position: absolute;
   right: 1rem;
   top: 6rem;
   font-weight: bold;
   cursor: pointer;
+  z-index: 99;
 }
 
 #toggle_view_charts:hover {
@@ -278,9 +293,10 @@
 }
 
 #toggle_view_ledger > a {
-  position: absolute;
-  right: 1rem;
-  top: 6rem;
+  // position: absolute;
+  // right: 1rem;
+  // top: 6rem;
+  margin-right: 0.5rem;
   font-weight: bold;
   cursor: pointer;
   color: black !important;
@@ -332,7 +348,14 @@
 }
 
 /* @components/overview/Overview.js */
-#container {
+@media only screen and (min-width: 768px) {
+  #overview_container {
+    position: relative;
+    top: 2rem;
+  }
+}
+
+#overview_table {
   scroll-behavior: smooth;
   overflow-x: scroll !important;
 }
@@ -343,6 +366,7 @@
   position: sticky;
   top: 50%;
   color: grey;
+  pointer-events: none;
 }
 
 @media only screen and (min-width: 768px) {
@@ -355,6 +379,8 @@
   visibility: hidden;
   text-align: right;
   font-size: 2em;
+  pointer-events: initial;
+  cursor: e-resize;
 }
 
 .fa-chevron-left:hover {
@@ -365,6 +391,8 @@
   visibility: hidden;
   text-align: left;
   font-size: 2em;
+  pointer-events: initial;
+  cursor: e-resize;
 }
 
 .fa-chevron-right:hover {

@@ -160,7 +160,7 @@ const Overview = ({
       </div>
     </div>
   ) : (
-    <Fragment>
+    <div id="overview_container">
       <div
         id="arrow_container"
         style={{
@@ -184,7 +184,7 @@ const Overview = ({
 
       <div>
         <table
-          id="container"
+          id="overview_table"
           className="table table-striped table-responsive-sm"
           ref={containerRef}
         >
@@ -229,7 +229,7 @@ const Overview = ({
           />
         </table>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

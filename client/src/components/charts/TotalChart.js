@@ -42,13 +42,31 @@ const TotalChart = ({
   return !loaded ? (
     <div>Loading ...</div>
   ) : (
-    <Fragment>
-      <div id="toggle_view_charts" onClick={toggleView}>
-        <button type="button" class="btn btn-secondary">
-          <i class="fas fa-angle-double-left"></i> back to overview
-        </button>
+    <div id="charts_container">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div id="currency_logos">
+          <CurrencyLogos
+            cryptoCurrencies={cryptoCurrencies}
+            currency={currency}
+          />
+        </div>
+        <div
+          id="toggle_view_charts"
+          style={{ marginBottom: "2rem", marginRight: "1rem" }}
+          onClick={toggleView}
+        >
+          <button type="button" class="btn btn-secondary">
+            <i class="fas fa-angle-double-left"></i> back to overview
+          </button>
+        </div>
       </div>
-      <CurrencyLogos cryptoCurrencies={cryptoCurrencies} currency={currency} />
+
       <ChangeMinMax dataArray={resultArray} fiatSymbol={fiatSymbol} />
       <div id="total_chart_container">
         <div id="durations_container">
@@ -98,7 +116,7 @@ const TotalChart = ({
           />
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 
