@@ -126,7 +126,10 @@ const Overview = ({
   };
 
   useEffect(() => {
-    containerRef.current.scrollLeft = sessionStorage.getItem("scroll_position");
+    if (containerRef)
+      containerRef.current.scrollLeft = sessionStorage.getItem(
+        "scroll_position"
+      );
 
     arrowRightRef.current.classList.add("arrow_display");
     arrowLeftRef.current.classList.remove("arrow_display");

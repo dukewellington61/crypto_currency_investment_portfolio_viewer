@@ -1,10 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  withRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { createPosition } from "./actions/positions";
 import { getCurrenciesNames } from "./auxiliary/auxiliaryCryptoData";
@@ -15,7 +10,6 @@ import { signout } from "./auxiliary/auxiliaryUserData";
 import { signup } from "./auxiliary/auxiliaryUserData";
 import { getFiatExchangeRates } from "./actions/currencies";
 import { getCurrentDate } from "./auxiliary/auxiliaryDateData";
-import { useHistory } from "react-router-dom";
 
 import Navbar from "./components/navbar/Navbar";
 import Landing from "./components/layout/Landing";
@@ -29,6 +23,8 @@ import PositionsByCurrency from "./components/positions/PositionsByCurrency";
 // import PositionChart from "./components/positions/PositionChart";
 
 import Alert from "./components/layout/Alert";
+
+import crypto from "./img/crypto.jpg";
 
 import "./App.scss";
 import "./auxiliary/auxIframe.js";
@@ -81,8 +77,6 @@ const App = () => {
   const fiat = useRef("EUR");
 
   const fiatSymbol = useRef("€");
-
-  let history = useHistory();
 
   useEffect(() => {
     loadUserObj();
@@ -172,8 +166,8 @@ const App = () => {
       setUser(userObj);
       setLogedin(true);
     } else if (!userObj) {
-      history.push("/login");
-      // triggerAlert("Your are currently not loged in.", "danger");
+      // history.push("/login");
+      triggerAlert("You are currently log out. Log in or sign up!", "danger");
     }
   };
 
@@ -181,6 +175,8 @@ const App = () => {
     signout();
     setUser({});
     setLogedin(false);
+    // history.push("/login");
+    triggerAlert("You are now loged out", "success");
   };
 
   const register = async (email, password, password2) => {
@@ -188,7 +184,7 @@ const App = () => {
     if (token instanceof Error) {
       triggerAlert(token.response.data.errors.msg, "danger");
     } else {
-      triggerAlert("Welcome Hodler! Create your portfolio!", "success");
+      triggerAlert("Welcome Hodler! Enter  your portfolio!", "success");
       loadUserObj();
     }
   };
@@ -217,24 +213,37 @@ const App = () => {
             <div> You are currently loged out. Log in or sign up.</div>
           </div>
         )} */}
+        {/* {!logedin && (
+          <img
+            src={crypto}
+            style={{ width: "100vw", height: "100vh" }}
+            alt="image"
+          />
+        )} */}
+        {logedin ? (
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Landing
+                user={user}
+                cryptoCurrencies={cryptoCurrencies}
+                exchangeRates={exchangeRates}
+                logedin={logedin}
+                fiat={fiat}
+                fiatSymbol={fiatSymbol}
+                triggerAlert={triggerAlert}
+              />
+            )}
+          />
+        ) : (
+          <img
+            src={crypto}
+            style={{ width: "100vw", height: "100vh" }}
+            alt="image"
+          />
+        )}
         <Switch>
-          {logedin && (
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Landing
-                  user={user}
-                  cryptoCurrencies={cryptoCurrencies}
-                  exchangeRates={exchangeRates}
-                  logedin={logedin}
-                  fiat={fiat}
-                  fiatSymbol={fiatSymbol}
-                  triggerAlert={triggerAlert}
-                />
-              )}
-            />
-          )}
           <Route
             exact
             path="/position"
@@ -299,4 +308,4 @@ const App = () => {
   );
 };
 
-export default withRouter(App);
+export default App;
