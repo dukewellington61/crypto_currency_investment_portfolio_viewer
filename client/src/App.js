@@ -1,5 +1,10 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  withRouter,
+} from "react-router-dom";
 
 import { createPosition } from "./actions/positions";
 import { getCurrenciesNames } from "./auxiliary/auxiliaryCryptoData";
@@ -10,6 +15,7 @@ import { signout } from "./auxiliary/auxiliaryUserData";
 import { signup } from "./auxiliary/auxiliaryUserData";
 import { getFiatExchangeRates } from "./actions/currencies";
 import { getCurrentDate } from "./auxiliary/auxiliaryDateData";
+import { useHistory } from "react-router-dom";
 
 import Navbar from "./components/navbar/Navbar";
 import Landing from "./components/layout/Landing";
@@ -75,6 +81,8 @@ const App = () => {
   const fiat = useRef("EUR");
 
   const fiatSymbol = useRef("€");
+
+  let history = useHistory();
 
   useEffect(() => {
     loadUserObj();
@@ -156,12 +164,16 @@ const App = () => {
 
   const loadUserObj = async () => {
     const userObj = await loadUser();
+    console.log(userObj);
     if (userObj instanceof Error) {
       triggerAlert(userObj.response.data.errors.msg, "danger");
       return;
     } else if (userObj) {
       setUser(userObj);
       setLogedin(true);
+    } else if (!userObj) {
+      history.push("/login");
+      // triggerAlert("Your are currently not loged in.", "danger");
     }
   };
 
@@ -200,11 +212,11 @@ const App = () => {
           setFiatCurrency={setFiatCurrency}
         />
         <Alert alert={alert} removeAlert={removeAlert} />
-        {!logedin && (
+        {/* {!logedin && (
           <div className="provisional_user_info">
             <div> You are currently loged out. Log in or sign up.</div>
           </div>
-        )}
+        )} */}
         <Switch>
           {logedin && (
             <Route
@@ -287,4 +299,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withRouter(App);

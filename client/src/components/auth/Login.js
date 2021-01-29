@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 
 const Login = ({ login, logedin }) => {
   const [formData, setFormData] = useState({
-    email: "meister@lampe.de",
+    email: "example@portfolio.com",
     password: "123456",
   });
 
