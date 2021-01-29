@@ -104,50 +104,57 @@ const Overview = ({
       : updateOriginAndCurrencyState(origin, `${currency}_${fiat.current}`);
   };
 
+  // arrows for horizontal scroll in iframe
+  // update state neccessary, because without re render --> conditionally arrow display / not display doesn't work properly
+  // state variable is needed nowhere
   const [scrollPosition, setScrollposition] = useState(0);
 
-  const ArrowRightRef = useRef(null);
-  const ArrowLeftRef = useRef(null);
+  const arrowRightRef = useRef(null);
+  const arrowLeftRef = useRef(null);
   const containerRef = useRef(null);
 
   const handleLeftClick = () => {
-    setScrollposition((containerRef.current.scrollLeft -= 280));
+    const scrollPos = (containerRef.current.scrollLeft -= 280);
+    setScrollposition(scrollPos);
+    sessionStorage.setItem("scroll_position", scrollPos);
   };
 
   const handleRightClick = () => {
-    setScrollposition((containerRef.current.scrollLeft -= -280));
+    const scrollPos = (containerRef.current.scrollLeft -= -280);
+    setScrollposition(scrollPos);
+    sessionStorage.setItem("scroll_position", scrollPos);
   };
 
   useEffect(() => {
-    if (containerRef.current.scrollLeft === 0) {
-      ArrowRightRef.current.classList.add("arrow_display");
-      ArrowLeftRef.current.classList.remove("arrow_display");
-    }
+    containerRef.current.scrollLeft = sessionStorage.getItem("scroll_position");
+
+    arrowRightRef.current.classList.add("arrow_display");
+    arrowLeftRef.current.classList.remove("arrow_display");
   }, []);
 
   if (containerRef.current) {
     containerRef.current.addEventListener("scroll", () => {
       if (containerRef.current.scrollLeft === 0) {
-        ArrowRightRef.current.classList.add("arrow_display");
-        ArrowLeftRef.current.classList.remove("arrow_display");
+        arrowRightRef.current.classList.add("arrow_display");
+        arrowLeftRef.current.classList.remove("arrow_display");
       }
 
       if (containerRef.current.scrollLeft > 0) {
-        ArrowLeftRef.current.classList.add("arrow_display");
+        arrowLeftRef.current.classList.add("arrow_display");
       }
 
       if (
         containerRef.current.scrollLeft ===
         containerRef.current.scrollWidth - window.innerWidth
       ) {
-        ArrowRightRef.current.classList.remove("arrow_display");
+        arrowRightRef.current.classList.remove("arrow_display");
       }
 
       if (
         containerRef.current.scrollLeft <
         containerRef.current.scrollWidth - window.innerWidth
       ) {
-        ArrowRightRef.current.classList.add("arrow_display");
+        arrowRightRef.current.classList.add("arrow_display");
       }
     });
   }
@@ -172,12 +179,12 @@ const Overview = ({
       >
         <i
           className="fas fa-chevron-left"
-          ref={ArrowLeftRef}
+          ref={arrowLeftRef}
           onClick={handleLeftClick}
         ></i>
         <i
           className="fas fa-chevron-right"
-          ref={ArrowRightRef}
+          ref={arrowRightRef}
           onClick={handleRightClick}
         ></i>
       </div>
