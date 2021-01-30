@@ -163,7 +163,8 @@ const App = () => {
       triggerAlert("You've sucessfully loged in!", "success");
       loadUserObj();
       // return <Redirect to="/" />;
-      history.push("/login");
+      // history.push("/login");
+      return token;
     }
   };
 

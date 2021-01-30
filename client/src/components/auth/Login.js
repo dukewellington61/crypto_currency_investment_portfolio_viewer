@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Login = ({ login, logedin }) => {
   const [formData, setFormData] = useState({
@@ -9,12 +10,15 @@ const Login = ({ login, logedin }) => {
 
   const { email, password } = formData;
 
+  let history = useHistory();
+
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    login(email, password);
+    const token = await login(email, password);
+    if (token) history.push("/");
   };
 
   // if some nasty user enters .../login in url --> redirect to landing page
