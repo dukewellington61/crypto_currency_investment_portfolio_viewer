@@ -3,9 +3,9 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  // withRouter,
-  // useHistory,
-  // Redirect,
+  withRouter,
+  useHistory,
+  Redirect,
 } from "react-router-dom";
 
 import { createPosition } from "./actions/positions";
@@ -85,7 +85,7 @@ const App = () => {
 
   const fiatSymbol = useRef("€");
 
-  // let history = useHistory();
+  let history = useHistory();
 
   useEffect(() => {
     loadUserObj();
@@ -162,18 +162,20 @@ const App = () => {
     } else {
       triggerAlert("You've sucessfully loged in!", "success");
       loadUserObj();
+      // return <Redirect to="/" />;
+      history.push("/login");
     }
   };
 
   const loadUserObj = async () => {
     const userObj = await loadUser();
-    console.log(userObj);
     if (userObj instanceof Error) {
       triggerAlert(userObj.response.data.errors.msg, "danger");
       return;
     } else if (userObj) {
       setUser(userObj);
       setLogedin(true);
+      return <Redirect to="/" />;
     } else if (!userObj) {
       // history.push("/login");
       triggerAlert("You are currently log out. Log in or sign up!", "danger");
@@ -311,5 +313,5 @@ const App = () => {
   );
 };
 
-// export default withRouter(App);
-export default App;
+export default withRouter(App);
+// export default App;
