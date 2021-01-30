@@ -1,5 +1,5 @@
 import React from "react";
-import crypto from "../../img/crypto.jpg";
+import crypto from "../../img/crypto.svg";
 
 const HeroImage = () => {
   return (

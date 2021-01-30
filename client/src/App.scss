@@ -37,6 +37,10 @@
   }
 }
 
+// .navbar-collapse {
+//   flex-basis: auto;
+// }
+
 #brand {
   font-size: 1.25rem;
   text-align: center;
@@ -350,6 +354,7 @@
   position: absolute;
   width: 100%;
   opacity: 0.9;
+  z-index: 99;
 }
 
 /* @components/overview/Overview.js */

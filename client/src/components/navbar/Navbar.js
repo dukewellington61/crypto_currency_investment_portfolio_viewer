@@ -53,11 +53,13 @@ const Navbar = ({ logout, logedin, setFiatCurrency }) => {
               )}
             </li>
 
-            <li className="nav-item">
-              <div className="nav-link">
-                <Fiat setFiatCurrency={setFiatCurrency} />
-              </div>
-            </li>
+            {logedin && (
+              <li className="nav-item">
+                <div className="nav-link">
+                  <Fiat setFiatCurrency={setFiatCurrency} />
+                </div>
+              </li>
+            )}
 
             <li className="nav-item dropdown">
               <Link
