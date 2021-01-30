@@ -1,3 +1,8 @@
+// body {
+//   overflow-x: hidden !important;
+//   width: 100%;
+// }
+
 .hideScrollBar {
   overflow: scroll;
   overflow-x: hidden;
@@ -21,8 +26,8 @@
 
 /* @components/navbar/Navbar.js */
 #navbar {
-  width: 100%;
-  /* background-color: black !important; */
+  width: 100vw;
+  background-color: black !important;
   box-shadow: 3px 2px 2px 1px grey;
 }
 
@@ -358,25 +363,43 @@
 }
 
 /* @components/overview/Overview.js */
+#overview_container {
+  // position: relative;
+  // scroll-behavior: smooth;
+  // overflow-x: scroll !important;
+}
+
+@media only screen and (min-width: 629px) {
+  #overview_container {
+    overflow-x: scroll !important;
+  }
+}
+
 @media only screen and (min-width: 768px) {
   #overview_container {
-    position: relative;
     top: 2rem;
   }
 }
 
 #overview_table {
+  // position: absolute;
+  // width: 100%;
   scroll-behavior: smooth;
   overflow-x: scroll !important;
+  // max-width: 100%;
 }
 
 #arrow_container {
-  display: flex;
+  display: none;
   justify-content: space-between;
   position: sticky;
   top: 50%;
   color: grey;
   pointer-events: none;
+}
+
+.display_arrow_container {
+  display: flex;
 }
 
 @media only screen and (min-width: 768px) {

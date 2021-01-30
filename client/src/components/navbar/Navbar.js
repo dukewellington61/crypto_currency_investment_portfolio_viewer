@@ -31,7 +31,7 @@ const Navbar = ({ logout, logedin, setFiatCurrency }) => {
         id="navbarNav"
         style={{ display: "flex" }}
       >
-        <ul className="navbar-nav ml-auto justify-content-center">
+        <ul className="navbar-nav ml-auto justify-content-right">
           {" "}
           <div style={{ display: "flex" }}>
             <li id="add_crypto" className="nav-item active ">

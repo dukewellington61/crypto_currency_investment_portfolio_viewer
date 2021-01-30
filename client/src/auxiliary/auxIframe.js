@@ -8,5 +8,8 @@ window.addEventListener("message", (message) => {
   if (message.data === "iframe_crypto_portfolio_viewer") {
     console.log("iframe_crypto_portfolio_viewer");
     document.querySelector("html").classList.add("hideScrollBar");
+    document
+      .querySelector("#arrow_container")
+      .classList.add("display_arrow_container");
   }
 });
