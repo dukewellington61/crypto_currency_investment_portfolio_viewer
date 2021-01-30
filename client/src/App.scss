@@ -390,7 +390,8 @@
 }
 
 #arrow_container {
-  display: none;
+  // display: none;
+  display: flex;
   justify-content: space-between;
   position: sticky;
   top: 50%;
