@@ -4,7 +4,7 @@ import Fiat from "./Fiat";
 
 const Navbar = ({ logout, logedin, setFiatCurrency }) => {
   return (
-    <nav id="navbar" className="navbar navbar-dark bg-dark navbar-expand-lg">
+    <nav id="navbar" className="navbar navbar-dark bg-dark navbar-expand-sm">
       <Link
         id="brand"
         className="navbar-brand"
@@ -33,7 +33,7 @@ const Navbar = ({ logout, logedin, setFiatCurrency }) => {
             {logedin && (
               <Link className="nav-link" to="/add_crypto">
                 <button type="button" class="btn btn-secondary">
-                  <div id="deduct_crypto">+ add crypto</div>
+                  <div id="deduct_crypto">+</div>
                 </button>
               </Link>
             )}
@@ -42,7 +42,7 @@ const Navbar = ({ logout, logedin, setFiatCurrency }) => {
             {logedin && (
               <Link className="nav-link" to="/deduct_crypto">
                 <button type="button" class="btn btn-secondary">
-                  <div id="deduct_crypto">− deduct crypto</div>
+                  <div id="deduct_crypto">−</div>
                 </button>
               </Link>
             )}

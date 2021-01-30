@@ -1,5 +1,12 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  // withRouter,
+  // useHistory,
+  // Redirect,
+} from "react-router-dom";
 
 import { createPosition } from "./actions/positions";
 import { getCurrenciesNames } from "./auxiliary/auxiliaryCryptoData";
@@ -24,7 +31,7 @@ import PositionsByCurrency from "./components/positions/PositionsByCurrency";
 
 import Alert from "./components/layout/Alert";
 
-import crypto from "./img/crypto.jpg";
+import HeroImage from "./components/layout/HeroImage";
 
 import "./App.scss";
 import "./auxiliary/auxIframe.js";
@@ -77,6 +84,8 @@ const App = () => {
   const fiat = useRef("EUR");
 
   const fiatSymbol = useRef("€");
+
+  // let history = useHistory();
 
   useEffect(() => {
     loadUserObj();
@@ -208,64 +217,44 @@ const App = () => {
           setFiatCurrency={setFiatCurrency}
         />
         <Alert alert={alert} removeAlert={removeAlert} />
-        {/* {!logedin && (
-          <div className="provisional_user_info">
-            <div> You are currently loged out. Log in or sign up.</div>
-          </div>
-        )} */}
-        {/* {!logedin && (
-          <img
-            src={crypto}
-            style={{ width: "100vw", height: "100vh" }}
-            alt="image"
-          />
-        )} */}
-        {logedin ? (
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Landing
-                user={user}
-                cryptoCurrencies={cryptoCurrencies}
-                exchangeRates={exchangeRates}
-                logedin={logedin}
-                fiat={fiat}
-                fiatSymbol={fiatSymbol}
-                triggerAlert={triggerAlert}
-              />
-            )}
-          />
-        ) : (
-          <img
-            src={crypto}
-            style={{ width: "100vw", height: "100vh" }}
-            alt="image"
-          />
-        )}
-        <Switch>
-          <Route
-            exact
-            path="/position"
-            render={() => (
-              <PositionsByCurrency
-                cryptoCurrencies={cryptoCurrencies}
-                fiat={fiat}
-                fiatSymbol={fiatSymbol}
-              />
-            )}
-          />
 
-          <Route
-            exact
-            path="/login"
-            render={() => <Login login={login} logedin={logedin} />}
-          />
-          <Route
-            exact
-            path="/register"
-            render={() => <Register register={register} logedin={logedin} />}
-          />
+        <Switch>
+          {logedin ? (
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Landing
+                  user={user}
+                  cryptoCurrencies={cryptoCurrencies}
+                  exchangeRates={exchangeRates}
+                  logedin={logedin}
+                  fiat={fiat}
+                  fiatSymbol={fiatSymbol}
+                  triggerAlert={triggerAlert}
+                />
+              )}
+            />
+          ) : (
+            <Route exact path="/" render={() => <HeroImage />} />
+          )}
+
+          {!logedin && (
+            <Route
+              exact
+              path="/login"
+              render={() => <Login login={login} logedin={logedin} />}
+            />
+          )}
+
+          {!logedin && (
+            <Route
+              exact
+              path="/register"
+              render={() => <Register register={register} logedin={logedin} />}
+            />
+          )}
+
           {logedin && (
             <Route
               exact
@@ -302,10 +291,25 @@ const App = () => {
               )}
             />
           )}
+
+          {logedin && (
+            <Route
+              exact
+              path="/position"
+              render={() => (
+                <PositionsByCurrency
+                  cryptoCurrencies={cryptoCurrencies}
+                  fiat={fiat}
+                  fiatSymbol={fiatSymbol}
+                />
+              )}
+            />
+          )}
         </Switch>
       </Fragment>
     </Router>
   );
 };
 
+// export default withRouter(App);
 export default App;
