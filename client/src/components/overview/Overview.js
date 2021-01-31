@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import OverviewCurrencies from "./OverviewCurrencies";
 import OverviewTotal from "./OverviewTotal";
 import { getNamesAndCurrentValues } from "../../auxiliary/auxiliaryCryptoData";
@@ -170,7 +170,7 @@ const Overview = ({
       </div>
     </div>
   ) : (
-    <div id="overview_container">
+    <Fragment>
       <div id="arrow_container">
         <i
           className="fas fa-chevron-left"
@@ -183,53 +183,54 @@ const Overview = ({
           onClick={handleRightClick}
         ></i>
       </div>
-
-      <table
-        id="overview_table"
-        className="table table-striped table-responsive-sm"
-        ref={containerRef}
-      >
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">Crypto</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Initial Value</th>
-            <th scope="col">Current Value</th>
-            <th scope="col">Profit</th>
-            <th scope="col">ROI</th>
-            <th scope="col">Last 7 Days</th>
-          </tr>
-        </thead>
-        <OverviewCurrencies
-          user={user}
-          cryptoCurrencies={cryptoCurrencies}
-          exchangeRates={exchangeRates}
-          currencyNamesAndCurrentValues={currencyNamesAndCurrentValues}
-          prevCurrentValues={prevCurrentValues}
-          logedin={logedin}
-          fiat={fiat}
-          prevFiat={prevFiat}
-          fiatSymbol={fiatSymbol}
-          getInitialValue={getInitialValue}
-          get24hourChangeByCurrency={get24hourChangeByCurrency}
-          getCurrentValue={getCurrentValue}
-          handleClick={handleClick}
-        />
-        <OverviewTotal
-          user={user}
-          cryptoCurrencies={cryptoCurrencies}
-          exchangeRates={exchangeRates}
-          totalPurchase={totalPurchase}
-          currentValueTotal={currentValueTotal}
-          prevCurrentValueTotal={prevCurrentValueTotal}
-          fiat={fiat}
-          prevFiat={prevFiat}
-          fiatSymbol={fiatSymbol}
-          get24hourChangeTotal={get24hourChangeTotal}
-          handleClick={handleClick}
-        />
-      </table>
-    </div>
+      <div id="overview_container">
+        <table
+          id="overview_table"
+          className="table table-striped table-responsive-sm"
+          ref={containerRef}
+        >
+          <thead className="thead-dark">
+            <tr>
+              <th scope="col">Crypto</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Initial Value</th>
+              <th scope="col">Current Value</th>
+              <th scope="col">Profit</th>
+              <th scope="col">ROI</th>
+              <th scope="col">Last 7 Days</th>
+            </tr>
+          </thead>
+          <OverviewCurrencies
+            user={user}
+            cryptoCurrencies={cryptoCurrencies}
+            exchangeRates={exchangeRates}
+            currencyNamesAndCurrentValues={currencyNamesAndCurrentValues}
+            prevCurrentValues={prevCurrentValues}
+            logedin={logedin}
+            fiat={fiat}
+            prevFiat={prevFiat}
+            fiatSymbol={fiatSymbol}
+            getInitialValue={getInitialValue}
+            get24hourChangeByCurrency={get24hourChangeByCurrency}
+            getCurrentValue={getCurrentValue}
+            handleClick={handleClick}
+          />
+          <OverviewTotal
+            user={user}
+            cryptoCurrencies={cryptoCurrencies}
+            exchangeRates={exchangeRates}
+            totalPurchase={totalPurchase}
+            currentValueTotal={currentValueTotal}
+            prevCurrentValueTotal={prevCurrentValueTotal}
+            fiat={fiat}
+            prevFiat={prevFiat}
+            fiatSymbol={fiatSymbol}
+            get24hourChangeTotal={get24hourChangeTotal}
+            handleClick={handleClick}
+          />
+        </table>
+      </div>
+    </Fragment>
   );
 };
 
