@@ -163,7 +163,17 @@ const Overview = ({
     });
   }
 
-  hideArrowContainerOnMobile(arrowContainerRef);
+  // hideArrowContainerOnMobile(arrowContainerRef);
+  useEffect(() => {
+    if (
+      typeof window.orientation === "undefined" ||
+      navigator.userAgent.indexOf("IEMobile") === -1
+    ) {
+      arrowContainerRef.current.classList.add("display_arrow_container");
+      // containerElement.current.className = "display_arrow_container";
+      console.log(arrowContainerRef.current);
+    }
+  });
 
   return cryptoCurrencies.data && cryptoCurrencies.data.length === 0 ? (
     <div className="provisional_user_info">
