@@ -14,14 +14,14 @@ window.addEventListener("message", (message) => {
   // console.log(document.querySelector("#arrow_container"));
 });
 
-// if device is mobile (not desktop) add class hide_arrow_container
+// if device is desktop (not mobile) add class diplay_arrow_container
 export const hideArrowContainerOnMobile = (containerElement) => {
   // console.log(containerElement.current);
   if (
-    typeof window.orientation !== "undefined" ||
-    navigator.userAgent.indexOf("IEMobile") !== -1
+    typeof window.orientation === "undefined" ||
+    navigator.userAgent.indexOf("IEMobile") === -1
   ) {
-    containerElement.current.classList.add("hide_arrow_container");
+    containerElement.current.classList.add("display_arrow_container");
     console.log(containerElement.current);
   }
   console.log(containerElement.current);

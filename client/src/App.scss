@@ -319,7 +319,7 @@
 }
 
 #arrow_container {
-  display: flex;
+  display: none;
   justify-content: space-between;
   position: sticky;
   top: 50%;
@@ -334,7 +334,7 @@
 // }
 
 .hide_arrow_container {
-  display: none !important;
+  display: flex !important;
 }
 
 .fa-chevron-left {
