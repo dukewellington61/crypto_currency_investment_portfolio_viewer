@@ -21,7 +21,7 @@ export const hideArrowContainerOnMobile = (containerElement) => {
     typeof window.orientation !== "undefined" ||
     navigator.userAgent.indexOf("IEMobile") !== -1
   ) {
-    // containerElement.current.classList.add("hide_arrow_container");
+    containerElement.current.classList.add("hide_arrow_container");
     console.log(containerElement.current);
   }
   console.log(containerElement.current);
