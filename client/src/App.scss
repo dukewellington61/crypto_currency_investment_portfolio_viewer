@@ -309,15 +309,11 @@
 
 /* @components/overview/Overview.js */
 
-// #overview_container {
-//   position: relative;
-//   scroll-behavior: smooth;
-//   overflow-x: scroll !important;
-// }
-
-// #overview_container {
-//   overflow-x: hidden !important;
-// }
+#overview_container {
+  // position: relative;
+  // scroll-behavior: smooth;
+  overflow-x: auto !important;
+}
 
 @media only screen and (min-width: 600px) {
   #overview_container {
@@ -340,7 +336,7 @@
 }
 
 #arrow_container {
-  // display: flex;
+  display: flex;
   justify-content: space-between;
   position: sticky;
   top: 50%;
@@ -348,21 +344,15 @@
   pointer-events: none;
 }
 
-@media (max-width: 600px) {
-  #arrow_container {
-    display: flex !important;
-  }
-}
-
-@media (min-width: 601px) {
+@media only screen and (min-width: 600px) {
   #arrow_container {
     display: none !important;
   }
 }
 
-// .display_arrow_container {
-//   display: flex;
-// }
+.display_arrow_container {
+  display: flex;
+}
 
 .fa-chevron-left {
   visibility: hidden;
