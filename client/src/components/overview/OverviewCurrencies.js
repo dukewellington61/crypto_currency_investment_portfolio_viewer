@@ -117,11 +117,18 @@ const OverviewCurrencies = ({
               >
                 <th scope="row">
                   <div className="overview_name_container">
-                    <img
-                      className="crypto_image"
-                      src={getImage(cryptoCurrencies, currencyName)}
-                      alt={currencyName}
-                    />
+                    {Object.keys(cryptoCurrencies).length === 0 ? (
+                      <i
+                        className="fa fa-spinner fa-spin"
+                        style={{ fontSize: "1.5rem" }}
+                      />
+                    ) : (
+                      <img
+                        className="crypto_image"
+                        src={getImage(cryptoCurrencies, currencyName)}
+                        alt={currencyName}
+                      />
+                    )}
                     <div className="crypto_name">
                       {currencyName.charAt(0).toUpperCase() +
                         currencyName.slice(1)}{" "}
@@ -140,17 +147,17 @@ const OverviewCurrencies = ({
 
               {/* amount */}
               <td>{getAmount(user, currencyName).toFixed(2)}</td>
-
               {/* initial value */}
               <td
                 className="clickable"
                 onClick={() => handleClick("initial_value", currencyName)}
               >
-                {// getAmount(user, currencyName) *
-                getInitialValue(user, currencyName, fiat).toFixed(2)}{" "}
+                {
+                  // getAmount(user, currencyName) *
+                  getInitialValue(user, currencyName, fiat).toFixed(2)
+                }{" "}
                 {fiatSymbol.current}
               </td>
-
               {/* current value */}
               <td
                 className="clickable"
@@ -193,7 +200,6 @@ const OverviewCurrencies = ({
                   fiatSymbol={fiatSymbol}
                 />
               </td>
-
               {/* profit */}
               <td
                 className="clickable"
@@ -201,7 +207,6 @@ const OverviewCurrencies = ({
               >
                 {getBalance(currencyName).toFixed(2)} {fiatSymbol.current}
               </td>
-
               {/* roi */}
               <td
                 className="clickable"
@@ -226,7 +231,6 @@ const OverviewCurrencies = ({
                   </div>
                 </div>
               </td>
-
               {/* sparkline */}
               <td>
                 <SparkLine
