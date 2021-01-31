@@ -128,63 +128,6 @@
   font-size: 2em;
 }
 
-#menu {
-  display: none;
-  position: absolute;
-  width: 6.5rem;
-  right: 0;
-  z-index: 100;
-  transform: translate(0, -5px);
-}
-
-#account_nav_item:hover > #menu {
-  display: block;
-}
-
-@media only screen and (min-width: 768px) {
-  #menu {
-    width: 8rem;
-    /* transform: translate(0, 5px); */
-  }
-}
-
-#menu:hover {
-  display: block;
-}
-
-/* @components/navbar/CartIcon.js */
-#cart_navigation_quantity {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(218, 221, 217);
-  color: black;
-  width: 17px;
-  height: 17px;
-  border-radius: 100%;
-  font-size: 12px;
-  line-height: 12px;
-  transform: translate(16px);
-}
-
-@media only screen and (min-width: 768px) {
-  #cart_navigation_quantity {
-    transform: translate(16px, -5px);
-  }
-}
-
-.fa-shopping-cart {
-  font-size: 1.25rem;
-  transform: translate(0, -6px);
-}
-
-@media only screen and (min-width: 768px) {
-  .fa-shopping-cart {
-    position: absolute;
-    bottom: 0.2rem;
-  }
-}
-
 /* @components/navbar/Menus.js */
 #navbar_menu {
   position: absolute;
@@ -393,7 +336,6 @@
 }
 
 #arrow_container {
-  // display: none;
   display: flex;
   justify-content: space-between;
   position: sticky;
@@ -402,15 +344,15 @@
   pointer-events: none;
 }
 
-.display_arrow_container {
-  display: flex;
-}
-
 @media only screen and (min-width: 600px) {
   #arrow_container {
     display: none !important;
   }
 }
+
+// .display_arrow_container {
+//   display: flex;
+// }
 
 .fa-chevron-left {
   visibility: hidden;
