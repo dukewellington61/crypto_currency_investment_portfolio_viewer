@@ -319,7 +319,7 @@
 }
 
 #arrow_container {
-  display: flex;
+  display: none;
   justify-content: space-between;
   position: sticky;
   top: 50%;
@@ -333,9 +333,9 @@
   }
 }
 
-// .display_arrow_container {
-//   display: flex;
-// }
+.display_arrow_container {
+  display: flex;
+}
 
 .fa-chevron-left {
   visibility: hidden;
