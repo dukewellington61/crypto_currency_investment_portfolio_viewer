@@ -5,7 +5,7 @@ import { getNamesAndCurrentValues } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentValue } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValuePurchase } from "../../auxiliary/auxiliaryCryptoData";
-
+import { hideArrowContainerOnMobile } from "../../auxiliary/auxIframe";
 const Overview = ({
   user,
   cryptoCurrencies,
@@ -112,6 +112,7 @@ const Overview = ({
   const arrowRightRef = useRef(null);
   const arrowLeftRef = useRef(null);
   const containerRef = useRef(null);
+  const arrowContainerRef = useRef(null);
 
   const handleLeftClick = () => {
     const scrollPos = (containerRef.current.scrollLeft -= 280);
@@ -162,6 +163,8 @@ const Overview = ({
     });
   }
 
+  hideArrowContainerOnMobile(arrowContainerRef);
+
   return cryptoCurrencies.data && cryptoCurrencies.data.length === 0 ? (
     <div className="provisional_user_info">
       <div>
@@ -171,7 +174,7 @@ const Overview = ({
     </div>
   ) : (
     <Fragment>
-      <div id="arrow_container">
+      <div id="arrow_container" ref={arrowContainerRef}>
         <i
           className="fas fa-chevron-left"
           ref={arrowLeftRef}
