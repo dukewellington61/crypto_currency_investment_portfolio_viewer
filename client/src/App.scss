@@ -315,6 +315,10 @@
 //   overflow-x: scroll !important;
 // }
 
+// #overview_container {
+//   overflow-x: hidden !important;
+// }
+
 @media only screen and (min-width: 600px) {
   #overview_container {
     overflow-x: scroll !important;
@@ -336,7 +340,7 @@
 }
 
 #arrow_container {
-  display: flex;
+  // display: flex;
   justify-content: space-between;
   position: sticky;
   top: 50%;
@@ -344,7 +348,13 @@
   pointer-events: none;
 }
 
-@media only screen and (min-width: 600px) {
+@media (max-width: 600px) {
+  #arrow_container {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 601px) {
   #arrow_container {
     display: none !important;
   }
