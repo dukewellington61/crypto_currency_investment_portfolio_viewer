@@ -165,13 +165,24 @@ const Overview = ({
 
   // hideArrowContainerOnMobile(arrowContainerRef);
   useEffect(() => {
+    // if (
+    //   typeof window.orientation === "undefined" ||
+    //   navigator.userAgent.indexOf("IEMobile") === -1
+    // ) {
+    //   arrowContainerRef.current.classList.add("display_arrow_container");
+    //   // containerElement.current.className = "display_arrow_container";
+    //   console.log(arrowContainerRef.current);
+    // }
     if (
-      typeof window.orientation === "undefined" ||
-      navigator.userAgent.indexOf("IEMobile") === -1
+      navigator.userAgent.match(/Android/i) ||
+      navigator.userAgent.match(/webOS/i) ||
+      navigator.userAgent.match(/iPhone/i) ||
+      navigator.userAgent.match(/iPad/i) ||
+      navigator.userAgent.match(/iPod/i) ||
+      navigator.userAgent.match(/BlackBerry/i) ||
+      navigator.userAgent.match(/Windows Phone/i)
     ) {
-      arrowContainerRef.current.classList.add("display_arrow_container");
-      // containerElement.current.className = "display_arrow_container";
-      console.log(arrowContainerRef.current);
+      arrowContainerRef.current.classList.add("hide_arrow_container");
     }
   });
 

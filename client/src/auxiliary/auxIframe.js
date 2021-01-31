@@ -15,15 +15,15 @@ window.addEventListener("message", (message) => {
 });
 
 // if device is desktop (not mobile) add class diplay_arrow_container
-export const hideArrowContainerOnMobile = (containerElement) => {
-  // console.log(containerElement.current);
-  if (
-    typeof window.orientation === "undefined" ||
-    navigator.userAgent.indexOf("IEMobile") === -1
-  ) {
-    // containerElement.current.classList.add("display_arrow_container");
-    // containerElement.current.className = "display_arrow_container";
-    console.log(containerElement.current);
-  }
-  console.log(containerElement.current);
-};
+// export const hideArrowContainerOnMobile = (containerElement) => {
+//   // console.log(containerElement.current);
+//   if (
+//     typeof window.orientation === "undefined" ||
+//     navigator.userAgent.indexOf("IEMobile") === -1
+//   ) {
+//     // containerElement.current.classList.add("display_arrow_container");
+//     // containerElement.current.className = "display_arrow_container";
+//     console.log(containerElement.current);
+//   }
+//   console.log(containerElement.current);
+// };
