@@ -160,7 +160,7 @@ const App = () => {
     if (token instanceof Error) {
       triggerAlert(token.response.data.errors.msg, "danger");
     } else {
-      triggerAlert("You've sucessfully loged in!", "success");
+      triggerAlert("You have sucessfully logged in!", "success");
       loadUserObj();
       // return <Redirect to="/" />;
       // history.push("/login");
@@ -179,7 +179,10 @@ const App = () => {
       return <Redirect to="/" />;
     } else if (!userObj) {
       // history.push("/login");
-      triggerAlert("You are currently log out. Log in or sign up!", "danger");
+      triggerAlert(
+        "Welcome! You are currently logged out. Log in or sign up!",
+        "success"
+      );
     }
   };
 
@@ -188,7 +191,7 @@ const App = () => {
     setUser({});
     setLogedin(false);
     // history.push("/login");
-    triggerAlert("You are now loged out", "success");
+    triggerAlert("You are now logged out.", "success");
   };
 
   const register = async (email, password, password2) => {
@@ -196,7 +199,7 @@ const App = () => {
     if (token instanceof Error) {
       triggerAlert(token.response.data.errors.msg, "danger");
     } else {
-      triggerAlert("Welcome Hodler! Enter  your portfolio!", "success");
+      triggerAlert("Welcome Hodler! Enter your portfolio!", "success");
       loadUserObj();
     }
   };

@@ -164,15 +164,9 @@ const Overview = ({
   }
 
   // hideArrowContainerOnMobile(arrowContainerRef);
+
+  // hides arrows in iframe on mobile devices //
   useEffect(() => {
-    // if (
-    //   typeof window.orientation === "undefined" ||
-    //   navigator.userAgent.indexOf("IEMobile") === -1
-    // ) {
-    //   arrowContainerRef.current.classList.add("display_arrow_container");
-    //   // containerElement.current.className = "display_arrow_container";
-    //   console.log(arrowContainerRef.current);
-    // }
     if (
       navigator.userAgent.match(/Android/i) ||
       navigator.userAgent.match(/webOS/i) ||
