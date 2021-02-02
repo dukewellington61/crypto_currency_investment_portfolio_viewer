@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import OverviewCurrencies from "./OverviewCurrencies";
 import OverviewTotal from "./OverviewTotal";
-import { getNamesAndCurrentValues } from "../../auxiliary/auxiliaryCryptoData";
+import { getOverviewValues } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentValue } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValuePurchase } from "../../auxiliary/auxiliaryCryptoData";
-import { hideArrowContainerOnMobile } from "../../auxiliary/auxIframe";
+
 const Overview = ({
   user,
   cryptoCurrencies,
@@ -17,10 +17,7 @@ const Overview = ({
   updateOriginAndCurrencyState,
   toggleView,
 }) => {
-  const [
-    currencyNamesAndCurrentValues,
-    setCurrencyNamesAndCurrentValues,
-  ] = useState([]);
+  const [overviewValues, setOverViewValues] = useState([]);
 
   const [currentValueTotal, setCurrentValueTotal] = useState(0);
 
@@ -28,21 +25,24 @@ const Overview = ({
 
   useEffect(() => {
     if (logedin) {
-      const namesAndCurrentValuesArr = getNamesAndCurrentValues(
+      const overviewValuesArray = getOverviewValues(
         user,
-        cryptoCurrencies
+        cryptoCurrencies,
+        fiat
       );
 
-      setCurrencyNamesAndCurrentValues(namesAndCurrentValuesArr);
+      if (overviewValuesArray) {
+        setOverViewValues(overviewValuesArray);
 
-      const totalsArray = namesAndCurrentValuesArr.map(
-        ([currencyName, currencyValue]) =>
-          getCurrentValue(user, cryptoCurrencies, currencyName)
-      );
+        const totalsArray = overviewValuesArray.map(
+          ([currencyName, currencyValue]) =>
+            getCurrentValue(user, cryptoCurrencies, currencyName)
+        );
 
-      setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
+        setCurrentValueTotal(totalsArray.reduce((a, b) => a + b, 0));
 
-      setTotalPurchase(getInitialValuePurchase(user, fiat));
+        setTotalPurchase(getInitialValuePurchase(user, fiat));
+      }
     }
   }, [user, cryptoCurrencies, logedin, renderOverview]);
 
@@ -53,10 +53,12 @@ const Overview = ({
 
   useEffect(() => {
     prevCurrentValueTotal.current = currentValueTotal;
-    currencyNamesAndCurrentValues.map(([currencyName, currencyValue]) => {
-      const currVal = getCurrentValue(user, cryptoCurrencies, currencyName);
-      prevCurrentValues.current[currencyName] = currVal;
-    });
+    overviewValues.map(
+      ([currencyName, amount, initialValue, currentValue, profit, ROI]) => {
+        const currVal = getCurrentValue(user, cryptoCurrencies, currencyName);
+        prevCurrentValues.current[currencyName] = currVal;
+      }
+    );
   }, [currentValueTotal]);
 
   // these next lines of code preserve the previous state of fiat (i.e. the fiat user had selected before current
@@ -87,7 +89,7 @@ const Overview = ({
 
   const get24hourChangeTotal = () => {
     let sum = 0;
-    currencyNamesAndCurrentValues.forEach((arr) => {
+    overviewValues.forEach((arr) => {
       sum +=
         (get24hourChangeByCurrency(arr[0]) *
           getCurrentValue(user, cryptoCurrencies, arr[0])) /
@@ -180,6 +182,37 @@ const Overview = ({
     }
   });
 
+  const sortOverViewValuesArray = (index, desc) => {
+    // let overViewValuesSorted = [];
+    // desc
+    //   ? (overViewValuesSorted = overviewValues.sort(function (a, b) {
+    //       return b[index] - a[index];
+    //     }))
+    //   : (overViewValuesSorted = overviewValues.sort(function (a, b) {
+    //       return a[index] - b[index];
+    //     }));
+
+    // setOverViewValues(overViewValuesSorted);
+
+    if (desc) {
+      const overViewValuesSorted = overviewValues.sort(function (a, b) {
+        return b[index] - a[index];
+      });
+      setOverViewValues(overViewValuesSorted);
+      console.log(overviewValues);
+    } else {
+      const overViewValuesSorted = overviewValues.sort(function (a, b) {
+        return a[index] - b[index];
+      });
+      setOverViewValues(overViewValuesSorted);
+      console.log(overviewValues);
+    }
+  };
+
+  useEffect(() => {
+    console.log("overviewValues state changed");
+  }, [overviewValues]);
+
   return cryptoCurrencies.data && cryptoCurrencies.data.length === 0 ? (
     <div className="provisional_user_info">
       <div>
@@ -209,7 +242,19 @@ const Overview = ({
         >
           <thead className="thead-dark">
             <tr>
-              <th scope="col">Crypto</th>
+              <th scope="col">
+                Crypto{" "}
+                <div
+                  className="sort_arrow_container"
+                  style={{ display: "flex" }}
+                >
+                  <i
+                    class="fas fa-sort-up"
+                    onClick={() => sortOverViewValuesArray(3, false)}
+                  ></i>
+                  <i class="fas fa-sort-down"></i>
+                </div>
+              </th>
               <th scope="col">Amount</th>
               <th scope="col">Initial Value</th>
               <th scope="col">Current Value</th>
@@ -222,7 +267,7 @@ const Overview = ({
             user={user}
             cryptoCurrencies={cryptoCurrencies}
             exchangeRates={exchangeRates}
-            currencyNamesAndCurrentValues={currencyNamesAndCurrentValues}
+            overviewValues={overviewValues}
             prevCurrentValues={prevCurrentValues}
             logedin={logedin}
             fiat={fiat}

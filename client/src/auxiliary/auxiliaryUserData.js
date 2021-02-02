@@ -4,7 +4,6 @@ import { login, logout } from "../actions/auth";
 
 export const loadUser = async () => {
   if (localStorage.crypto_token) {
-    console.log("localStorage.crypto_token");
     const user = await getUser();
     return user;
   }

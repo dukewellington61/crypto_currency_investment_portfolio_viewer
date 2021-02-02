@@ -327,14 +327,14 @@
   pointer-events: none;
 }
 
-// @media (min-width: 600px) {
-//   #arrow_container {
-//     display: none !important;
-//   }
-// }
-
 .hide_arrow_container {
   display: none !important;
+}
+
+@media (min-width: 768px) {
+  #arrow_container {
+    display: none !important;
+  }
 }
 
 .fa-chevron-left {

@@ -10,22 +10,37 @@ export const getCurrenciesNames = (user) => {
   return [...new Set(currencyArr)];
 };
 
-export const getNamesAndCurrentValues = (user, cryptoCurrencies) => {
-  let namesAndValuesObj = {};
+// creates an array which has [currencyName, amount, initial_value, current_value, profit and roi]
+export const getOverviewValues = (user, cryptoCurrencies, fiat) => {
+  let returnObj = {};
+  let resultArray = [];
 
-  getCurrenciesNames(user).forEach((currencyName) => {
-    namesAndValuesObj[currencyName] = getCurrentValue(
+  getCurrenciesNames(user).forEach((currencyName, index, arr) => {
+    resultArray[index] = [];
+    resultArray[index][0] = currencyName;
+    resultArray[index][1] = getAmount(user, currencyName);
+    resultArray[index][2] = getInitialValue(user, currencyName, fiat);
+    resultArray[index][3] = getCurrentValue(
       user,
       cryptoCurrencies,
       currencyName
     );
+    resultArray[index][4] =
+      getCurrentValue(user, cryptoCurrencies, currencyName) -
+      getInitialValue(user, currencyName, fiat);
+    resultArray[index][5] =
+      (getCurrentValue(user, cryptoCurrencies, currencyName) * 100) /
+        getInitialValue(user, currencyName, fiat) -
+      100;
+
+    let resultArraySorted = resultArray.sort(function (a, b) {
+      return b[3] - a[3];
+    });
+
+    returnObj.arr = resultArraySorted;
   });
 
-  let res = Object.entries(namesAndValuesObj).sort(function (a, b) {
-    return b[1] - a[1];
-  });
-
-  return res;
+  return returnObj.arr;
 };
 
 export const getCurrentValue = (user, cryptoCurrencies, currencyName) => {
