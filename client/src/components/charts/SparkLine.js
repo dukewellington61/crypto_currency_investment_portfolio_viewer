@@ -2,21 +2,22 @@ import React, { useState, useEffect } from "react";
 import SparkLineCharts from "./SparkLineCharts";
 import { getAmount } from "../../auxiliary/auxiliaryCryptoData";
 
-const SparkLine = ({ user, cryptoCurrencies, currencyName }) => {
+const SparkLine = ({
+  user,
+  cryptoCurrencies,
+  currencyName,
+  overviewValues,
+}) => {
   const [sparkLineData, setSparkLineData] = useState([]);
 
   useEffect(() => {
     getSparkLineData();
-  }, [cryptoCurrencies]);
+  }, [cryptoCurrencies, overviewValues]);
 
   const getSparkLineData = () => {
     // not all 7d price arrays as returned by the api have the same length --> this results in the last values of the calculated total price array being too low
-    // this makes sure that all the indivual currency arrays from which totals are beeing calculated have the same length
+    // the following code makes sure that all the indivual currency arrays from which totals are beeing calculated have the same length
     // (which corresponds with the length of the shortest array)
-    // console.log("user");
-    // console.log(user);
-    // console.log("cryptoCurrencies");
-    // console.log(cryptoCurrencies);
 
     if (
       Object.keys(cryptoCurrencies).length > 0 &&

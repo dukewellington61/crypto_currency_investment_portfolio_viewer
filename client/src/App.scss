@@ -303,7 +303,6 @@
 }
 
 /* @components/overview/Overview.js */
-
 #overview_container {
   overflow-x: scroll !important;
 }
@@ -379,6 +378,28 @@ td {
 .crypto_image {
   width: 1.5em;
   margin-right: 0.25rem;
+}
+
+.sort_arrow_big {
+  color: white !important;
+}
+
+// .sort_arrow_normal {
+//   font-size: 1em;
+// }
+
+.name_and_arrows {
+  display: flex;
+}
+
+.name_and_arrows > i {
+  font-size: 1.5em;
+  color: grey;
+}
+
+.fa-sort-up {
+  z-index: 99;
+  margin-left: 0.5rem;
 }
 
 /* @components/overview/TwentyFourHourChange.js */

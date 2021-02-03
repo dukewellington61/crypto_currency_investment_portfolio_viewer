@@ -235,6 +235,7 @@ const OverviewCurrencies = ({
                     user={user}
                     cryptoCurrencies={cryptoCurrencies}
                     currencyName={currencyName}
+                    overviewValues={overviewValues}
                   />
                 </td>
               </tr>

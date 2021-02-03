@@ -5,6 +5,8 @@ import { getOverviewValues } from "../../auxiliary/auxiliaryCryptoData";
 import { getCurrentValue } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValue } from "../../auxiliary/auxiliaryCryptoData";
 import { getInitialValuePurchase } from "../../auxiliary/auxiliaryCryptoData";
+import { sortOverViewValuesArray } from "../../auxiliary/auxiliarySort";
+import { handleUI } from "../../auxiliary/auxiliarySort";
 
 const Overview = ({
   user,
@@ -17,7 +19,7 @@ const Overview = ({
   updateOriginAndCurrencyState,
   toggleView,
 }) => {
-  const [overviewValues, setOverViewValues] = useState([]);
+  const [overviewValues, setOverviewValues] = useState([]);
 
   const [currentValueTotal, setCurrentValueTotal] = useState(0);
 
@@ -32,7 +34,7 @@ const Overview = ({
       );
 
       if (overviewValuesArray) {
-        setOverViewValues(overviewValuesArray);
+        setOverviewValues(overviewValuesArray);
 
         const totalsArray = overviewValuesArray.map(
           ([currencyName, currencyValue]) =>
@@ -182,36 +184,10 @@ const Overview = ({
     }
   });
 
-  const sortOverViewValuesArray = (index, desc) => {
-    // let overViewValuesSorted = [];
-    // desc
-    //   ? (overViewValuesSorted = overviewValues.sort(function (a, b) {
-    //       return b[index] - a[index];
-    //     }))
-    //   : (overViewValuesSorted = overviewValues.sort(function (a, b) {
-    //       return a[index] - b[index];
-    //     }));
-
-    // setOverViewValues(overViewValuesSorted);
-
-    if (desc) {
-      const overViewValuesSorted = overviewValues.sort(function (a, b) {
-        return b[index] - a[index];
-      });
-      setOverViewValues(overViewValuesSorted);
-      console.log(overviewValues);
-    } else {
-      const overViewValuesSorted = overviewValues.sort(function (a, b) {
-        return a[index] - b[index];
-      });
-      setOverViewValues(overViewValuesSorted);
-      console.log(overviewValues);
-    }
+  const handleSort = (index, desc, e) => {
+    setOverviewValues(sortOverViewValuesArray(overviewValues, index, desc));
+    handleUI(e);
   };
-
-  useEffect(() => {
-    console.log("overviewValues state changed");
-  }, [overviewValues]);
 
   return cryptoCurrencies.data && cryptoCurrencies.data.length === 0 ? (
     <div className="provisional_user_info">
@@ -243,23 +219,83 @@ const Overview = ({
           <thead className="thead-dark">
             <tr>
               <th scope="col">
-                Crypto{" "}
-                <div
-                  className="sort_arrow_container"
-                  style={{ display: "flex" }}
-                >
+                <div className="name_and_arrows">
+                  Crypto{" "}
                   <i
-                    class="fas fa-sort-up"
-                    onClick={() => sortOverViewValuesArray(3, false)}
+                    className="fas fa-sort-up"
+                    onClick={(e) => handleSort(0, false, e)}
                   ></i>
-                  <i class="fas fa-sort-down"></i>
+                  <i
+                    className="fas fa-sort-down"
+                    onClick={(e) => handleSort(0, true, e)}
+                  ></i>
                 </div>
               </th>
-              <th scope="col">Amount</th>
-              <th scope="col">Initial Value</th>
-              <th scope="col">Current Value</th>
-              <th scope="col">Profit</th>
-              <th scope="col">ROI</th>
+              <th scope="col">
+                <div className="name_and_arrows">
+                  Amount
+                  <i
+                    className="fas fa-sort-up"
+                    onClick={(e) => handleSort(1, false, e)}
+                  ></i>
+                  <i
+                    className="fas fa-sort-down"
+                    onClick={(e) => handleSort(1, true, e)}
+                  ></i>
+                </div>
+              </th>
+              <th scope="col">
+                <div className="name_and_arrows">
+                  Initial Value
+                  <i
+                    className="fas fa-sort-up"
+                    onClick={(e) => handleSort(2, false, e)}
+                  ></i>
+                  <i
+                    className="fas fa-sort-down"
+                    onClick={(e) => handleSort(2, true, e)}
+                  ></i>
+                </div>
+              </th>
+              <th scope="col">
+                <div className="name_and_arrows">
+                  Current Value
+                  <i
+                    className="fas fa-sort-up"
+                    onClick={(e) => handleSort(3, false, e)}
+                  ></i>
+                  <i
+                    className="fas fa-sort-down"
+                    onClick={(e) => handleSort(3, true, e)}
+                  ></i>
+                </div>
+              </th>
+              <th scope="col">
+                <div className="name_and_arrows">
+                  Profit
+                  <i
+                    className="fas fa-sort-up"
+                    onClick={(e) => handleSort(4, false, e)}
+                  ></i>
+                  <i
+                    className="fas fa-sort-down"
+                    onClick={(e) => handleSort(4, true, e)}
+                  ></i>
+                </div>
+              </th>
+              <th scope="col">
+                <div className="name_and_arrows">
+                  ROI
+                  <i
+                    className="fas fa-sort-up"
+                    onClick={(e) => handleSort(5, false, e)}
+                  ></i>
+                  <i
+                    className="fas fa-sort-down"
+                    onClick={(e) => handleSort(5, true, e)}
+                  ></i>
+                </div>
+              </th>
               <th scope="col">Last 7 Days</th>
             </tr>
           </thead>
