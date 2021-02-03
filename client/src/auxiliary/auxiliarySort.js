@@ -23,7 +23,7 @@ export const sortOverViewValuesArray = (overviewValues, index, desc) => {
   }
 
   // deep clone array, because else no new object is being created (reference to point in memory remains unchanged)
-  // no state update and no re render child component (overviewValues) to reflect updated UI is taking place
+  // so no state update and no re render child component (overviewValues) to reflect updated UI is taking place
   return JSON.parse(JSON.stringify(overViewValuesSorted));
 };
 

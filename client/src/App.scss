@@ -381,7 +381,7 @@ td {
 }
 
 .sort_arrow_big {
-  color: white !important;
+  color: bisque !important;
 }
 
 // .sort_arrow_normal {
@@ -395,6 +395,10 @@ td {
 .name_and_arrows > i {
   font-size: 1.5em;
   color: grey;
+}
+
+.name_and_arrows > i:hover {
+  color: bisque;
 }
 
 .fa-sort-up {
