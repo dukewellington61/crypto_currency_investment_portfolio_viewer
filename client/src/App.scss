@@ -303,22 +303,16 @@
   z-index: 999;
 }
 
-// @media only screen and (max-width: 768px) {
-//   #alert {
-//     position: absolute;
-//   }
-// }
-
 /* @components/overview/Overview.js */
 #overview_container {
   overflow-x: scroll !important;
 }
 
-// @media only screen and (min-width: 768px) {
-//   #overview_container {
-//     top: 2rem;
-//   }
-// }
+@media only screen and (min-width: 600px) {
+  #overview_container {
+    margin-top: 1rem;
+  }
+}
 
 #overview_table {
   scroll-behavior: smooth;
