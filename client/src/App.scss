@@ -296,7 +296,7 @@
 } */
 
 #alert {
-  position: absolute;
+  // position: absolute;
   width: 100%;
   opacity: 0.9;
   z-index: 99;
@@ -383,10 +383,6 @@ td {
 .sort_arrow_big {
   color: bisque !important;
 }
-
-// .sort_arrow_normal {
-//   font-size: 1em;
-// }
 
 .name_and_arrows {
   display: flex;
