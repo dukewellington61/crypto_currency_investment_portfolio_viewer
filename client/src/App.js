@@ -58,7 +58,7 @@ const updateCryptoCurrenciesState = async (
       const crypto = await getLatestCryptoData(currencyNames, fiat.current);
       if (crypto instanceof Error) {
         // triggerAlert("Something went wrong", "danger");
-        triggerAlert(crypto.message, "danger");
+        // triggerAlert(crypto.message, "danger");
       } else {
         setCryptoCurrencies(crypto);
       }
