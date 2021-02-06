@@ -58,7 +58,7 @@ const updateCryptoCurrenciesState = async (
       const crypto = await getLatestCryptoData(currencyNames, fiat.current);
       if (crypto instanceof Error) {
         // triggerAlert("Something went wrong", "danger");
-        // triggerAlert(crypto.message, "danger");
+        triggerAlert(crypto.message, "danger");
       } else {
         setCryptoCurrencies(crypto);
       }
@@ -108,7 +108,8 @@ const App = () => {
     const exchangeObj = await getFiatExchangeRates(date);
 
     if (exchangeObj instanceof Error) {
-      triggerAlert(exchangeObj.message, "danger");
+      // triggerAlert("exchangeObj.message", "danger");
+      // triggerAlert(exchangeObj.message, "danger");
     } else {
       setExchangeRate(exchangeObj);
     }
